@@ -18,17 +18,21 @@ public class JwtProvider {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    public String create(String userEmailId) {
-        Date expiredDate = Date.from(Instant.now().plus(10, ChronoUnit.HOURS));
+    public String create(String userId) {
+
+        Date expiredDate = Date.from(Instant.now().plus(100, ChronoUnit.DAYS));
         String jwt = null;
         try {
+
             Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+
             jwt = Jwts.builder()
                 .signWith(key, SignatureAlgorithm.HS256)
-                .setSubject(userEmailId)
+                .setSubject(userId)
                 .setIssuedAt(new Date())
                 .setExpiration(expiredDate)
                 .compact();
+
         } catch(Exception exception) {
             exception.printStackTrace();
             return null;
@@ -38,9 +42,9 @@ public class JwtProvider {
 
     public String validate(String jwt) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        String userEmailId = null;
+        String userId = null;
         try {
-            userEmailId = Jwts.parserBuilder()
+            userId = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(jwt)
@@ -50,6 +54,6 @@ public class JwtProvider {
             exception.printStackTrace();
             return null;
         }
-        return userEmailId;
+        return userId;
     }
 }

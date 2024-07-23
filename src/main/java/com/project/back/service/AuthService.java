@@ -23,7 +23,7 @@ public interface AuthService {
     ResponseEntity<ResponseDto> idCheck (IdCheckRequestDto dto);
 
     // 닉네임 체크
-    ResponseEntity<ResponseDto> nickNameCheck (NicknameCheckRequestDto dto);
+    ResponseEntity<ResponseDto> nicknameCheck (NicknameCheckRequestDto dto);
 
     // 이메일 인증
     ResponseEntity<ResponseDto> emailAuth (EmailAuthRequestDto dto);

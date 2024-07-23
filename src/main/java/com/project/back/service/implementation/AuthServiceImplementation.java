@@ -85,11 +85,11 @@ public class AuthServiceImplementation implements AuthService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> nickNameCheck(NicknameCheckRequestDto dto) {
+    public ResponseEntity<ResponseDto> nicknameCheck(NicknameCheckRequestDto dto) {
         try {
 
-            String nickName = dto.getNickName();
-            boolean existedUser = userRepository.existsByNickname(nickName); 
+            String Nickname = dto.getNickname();
+            boolean existedUser = userRepository.existsByNickname(Nickname); 
             if (existedUser) return ResponseDto.duplicatedNickname();
 
         } catch (Exception exception) {
@@ -154,15 +154,15 @@ public class AuthServiceImplementation implements AuthService{
 
             String userId = dto.getUserId();
             String password = dto.getPassword();
-            String nickName = dto.getNickname();
+            String Nickname = dto.getNickname();
             String userEmail = dto.getUserEmail();
             String authNumber = dto.getAuthNumber();
 
             boolean existedUser = userRepository.existsByUserId(userId);
             if (existedUser) return ResponseDto.duplicatedId();
 
-            boolean existedNickName = userRepository.existsByNickname(nickName);
-            if (existedNickName) return ResponseDto.duplicatedNickname();
+            boolean existedNickname = userRepository.existsByNickname(Nickname);
+            if (existedNickname) return ResponseDto.duplicatedNickname();
 
             boolean existedEmail = userRepository.existsByUserEmail(userEmail);
             if (existedEmail) return ResponseDto.duplicatedEmail();

@@ -53,10 +53,10 @@ public class AuthController {
 
     // 닉네임 중복 확인
     @PostMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nickNameCheck (
+    public ResponseEntity<ResponseDto> nicknameCheck (
         @RequestBody @Valid NicknameCheckRequestDto requestBody
     ) {
-        ResponseEntity<ResponseDto> response = authService.nickNameCheck(requestBody);
+        ResponseEntity<ResponseDto> response = authService.nicknameCheck(requestBody);
         return response;
     }
 
