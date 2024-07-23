@@ -11,5 +11,5 @@ import lombok.Setter;
 public class NicknameCheckRequestDto {
 
     @NotBlank
-    private String nickName;
+    private String nickname;
 }
