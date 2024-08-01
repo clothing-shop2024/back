@@ -56,7 +56,7 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     } 
 
-    // 존재하지 않는 게시물
+    // 존재하지 않는 게시물(사용)
     public static ResponseEntity<ResponseDto> noExistBoard() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_BOARD, ResponseMessage.NO_EXIST_BOARD);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
