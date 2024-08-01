@@ -137,7 +137,7 @@ public class AuthServiceImplementation implements AuthService{
             String userEmail = dto.getUserEmail();
             String userNumber = dto.getAuthNumber();
 
-            boolean isMatched = emailAuthNumberRepository.existsByEmailAndAuthNumber(userEmail, userNumber);
+            boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, userNumber);
             if (!isMatched) return ResponseDto.authenticationFailed();
 
         } catch (Exception exception) {
@@ -167,7 +167,7 @@ public class AuthServiceImplementation implements AuthService{
             boolean existedEmail = userRepository.existsByUserEmail(userEmail);
             if (existedEmail) return ResponseDto.duplicatedEmail();
 
-            boolean isMatched = emailAuthNumberRepository.existsByEmailAndAuthNumber(userEmail, authNumber);    
+            boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, authNumber);    
             if (!isMatched) return ResponseDto.authenticationFailed();
 
             String encodedPassword = passwordEncoder.encode(password);

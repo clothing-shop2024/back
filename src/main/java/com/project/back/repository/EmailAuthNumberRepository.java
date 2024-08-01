@@ -9,7 +9,7 @@ import com.project.back.entity.EmailAuthNumberEntity;
 @Repository
 public interface EmailAuthNumberRepository extends JpaRepository<EmailAuthNumberEntity, String>{
 
-    boolean existsByEmailAndAuthNumber (String userEmail, String authNumber);
+    boolean existsByUserEmailAndAuthNumber (String userEmail, String authNumber);
 
-    EmailAuthNumberEntity findByEmail (String userEmail);
+    EmailAuthNumberEntity findByUserEmail (String userEmail);
 } 
