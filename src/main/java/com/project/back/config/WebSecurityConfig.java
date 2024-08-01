@@ -49,9 +49,9 @@ public class WebSecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource())
             )
             .authorizeHttpRequests(request -> request
-                .requestMatchers("/", "/api/v1/auth/**", "/api/v1/user/**", "/api/v1/auth/password-update/**", "/oauth2/callback/*", "/api/v1/inquiry-board/**","/api/v1/notice-board/**").permitAll()
+                .requestMatchers("/", "/api/v1/auth/**", "/api/v1/user/**", "/api/v1/auth/password-update/**", "/oauth2/callback/*", "/api/v1/inquiry-board/**","/api/v1/notice-board/**", "/api/v1/faq/list").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/restaurant/review", "/api/v1/inquiry-board/*").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/v1/inquiry-board/*/comment", "/api/v1/notice-board/").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/inquiry-board/*/comment", "/api/v1/notice-board/", "/api/v1/faq/regist", "/api/v1/faq/modify", "/api/v1/faq/delete").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2

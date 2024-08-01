@@ -1,0 +1,989 @@
+<h1 style='background-color: rgba(55, 55, 55, 0.4); text-align: center'>API 명세서 </h1>
+
+해당 API 명세서는 '렌트카 서비스'의 REST API를 명세하고 있습니다.
+
+- Domain : <http://localhost:4000> 
+
+***
+
+<h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> Auth 모듈 </h2>  
+  
+- url : /api/rentcar/auth
+
+***
+
+#### - 로그인  
+  
+##### 설명
+
+클라이언트로부터 사용자 아이디와 평문의 비밀번호를 입력받고 아이디와 비밀번호가 일치한다면 성공처리가되며 access_token과 해당 토큰의 만료 기간을 반환합니다. 만약 아이디 혹은 비밀번호가 하나라도 틀리다면 실패 처리됩니다. 서버 에러, 데이터베이스 에러, 토큰 생성 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/sign-in**  
+
+##### Request
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userId | String | 사용자의 아이디 | O |
+| userPassword | String | 사용자의 비밀번호 | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/sign-in" \
+ -d "userId=service123" \
+ -d "userPassword=P!ssw0rd"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| accessToken | String | 사용자 토큰값 | O |
+| expires | String | 만료기간 | O | 
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "accessToken": "${ACCESS_TOKEN}"
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (로그인 정보 불일치)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "SF",
+  "message": "Sign in Failed."
+}
+```
+
+**응답 : 실패 (토큰 생성 실패)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "TF",
+  "message": "Token creation Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 아이디 중복 확인  
+  
+##### 설명
+
+클라이언트로부터 아이디를 입력받아 해당하는 아이디가 이미 사용중인 아이디인지 확인합니다. 중복되지 않은 아이디이면 성공처리를 합니다. 만약 중복되는 아이디라면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/id-check**  
+
+##### Request
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userId | String | 중복 확인 할 사용자의 아이디 | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/id-check" \
+ -d "userId=service123"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (중복된 아이디)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "DI",
+  "message": "Duplicated Id."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 이메일 인증  
+  
+##### 설명
+
+클라이언트로부터 이메일을 입력받아 해당하는 이메일이 이미 사용중인 이메일인지 확인하고 사용하고 있지 않은 이메일이라면 4자리의 인증코드를 해당 이메일로 전송합니다. 이메일 전송이 성공적으로 종료되었으면 성공처리를 합니다. 만약 중복된 이메일이거나 이메일 전송에 실패했으면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/email-auth**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userEmail | String | 인증 번호를 전송할 사용자 이메일</br>(이메일 형태의 데이터) | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/email-auth" \
+ -d "userEmail=email@email.com"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (중복된 이메일)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "DE",
+  "message": "Duplicated Email."
+}
+```
+
+**응답 : 실패 (이메일 전송 실패)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "MF",
+  "message": "Mail send Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 이메일 인증 확인
+  
+##### 설명
+
+클라이언트로부터 이메일과 인증 번호를 입력받아 해당하는 이메일에 전송한 인증번호와 일치하는지 확인합니다. 일치한다면 성공처리를 합니다. 만약 일치하지 않는다면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/email-auth-check**  
+
+##### Request
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userEmail | String | 인증 번호를 확인할 사용자 이메일 | O |
+| authNumber | String | 인증 확인할 인증 번호 | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/email-auth-check" \
+ -d "userEmail=email@email.com" \
+ -d "authNumber=0123"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (이메일 인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 회원가입
+  
+##### 설명
+
+클라이언트로부터 아이디, 비밀번호, 이메일, 인증번호 입력받아 회원가입 처리를 합니다. 정상적으로 회원가입이 완료되면 성공처리를 합니다. 만약 중복된 아이디, 중복된 이메일, 인증번호 불일치가 발생하면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/sign-up**  
+
+##### Request
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userId | String | 사용자 아이디 | O |
+| userPassword | String | 사용자 비밀번호 (영문+숫자 8~13자) | O |
+| nickName | String | 사용자 닉네임 | O |
+| userEmail | String | 사용자 이메일 (이메일 형태의 데이터) | O |
+| authNumber | String | 인증 확인할 인증 번호 | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/sign-up" \
+ -d "userId=service123" \
+ -d "userPassword=Pa55w0rd" \
+ -d "nickName=nickName" \
+ -d "userEmail=email@email.com" \
+ -d "authNumber=0123"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (중복된 아이디)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "DI",
+  "message": "Duplicated Id."
+}
+```
+
+**응답 : 실패 (중복된 이메일)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "DE",
+  "message": "Duplicated Email."
+}
+```
+
+**응답 : 실패 (이메일 인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+<h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> user 모듈 </h2>
+
+- url : /api/rentcar/user
+
+***
+
+#### - 아이디 찾기  
+  
+##### 설명
+
+클라이언트로부터 이메일을 입력받아 해당하는 이메일이 존재하는 이메일인지 확인하고 존재하는 이메일이면 그에 해당하는 아이디를 반환합니다. 아이디 반환이 성공적으로 반환되면 성공처리를 합니다. 만약 존재하지 않는 이메일일 경우 실패처리를 합니다. 인증 실패, 서버 에러, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/find-id**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userEmail | String | 인증 번호를 전송할 사용자 이메일</br>(이메일 형태의 데이터) | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/find-id" \
+ -d "userEmail=email@email.com"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| userId | String | 사용자의 아이디 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "userId": "service"
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 이메일)**
+```bash
+HTTP/1.1 401 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NE",
+  "message": "No Exist Email."
+}
+```
+
+**응답 : 실패 (아이디 찾기 인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 비밀번호 찾기
+  
+##### 설명
+
+클라이언트로부터 아이디와 이메일을 입력받아 해당하는 아이디와 이메일이 데이터베이스에 존재하는지 확인합니다. 아이디와 이메일이 존재하면 성공처리를 합니다. 만약 아이디 또는 이메일이 존재하지 않으면 실패처리를 합니다. 인증 실패, 서버에러, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/find-password**
+
+##### Request
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userId | String | 사용자의 아이디 | O |
+| userEmail | String | 사용자의 이메일</br>(이메일 형태의 데이터) | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/rentcar/auth/find-password" \
+ -d "userId=service123" 
+ -d "userEmail=service123@naver.com" 
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (비밀번호 찾기 인증 실패)**
+```bash
+HTTP/1.1 401 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 아이디)**
+```bash
+HTTP/1.1 401 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NUI",
+  "message": "No Exist User Id."
+}
+```
+
+**응답 : 실패 (존재하지 않는 이메일)**
+```bash
+HTTP/1.1 401 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NE",
+  "message": "No Exist Email."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+#### - 비밀번호 재설정  
+  
+##### 설명
+
+클라이언트로부터 비밀번호를 입력받아 기존의 비밀번호를 변경합니다. 변경에 성공하면 성공처리를 합니다. 만약 변경에 실패하면 실패처리를 합니다. 인증 실패, 서버에러, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **PUT**  
+- URL : **/find-password/{userId}**  
+
+##### Request
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userPassword | String | 사용자의 비밀번호 | O |
+
+###### Example
+
+```bash
+curl -v -X PUT "http://localhost:4000/api/rentcar/auth/find-password/${userId}" \
+ -d "userPassword={userPassword}" \
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (비밀번호 재설정 인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 로그인 유저 정보 반환  
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 요청을 받으면 해당 토큰의 작성자(subject)에 해당하는 사용자 정보를 반환합니다. 성공시에는 사용자의 아이디와 권한을 반환합니다. 인증 실패 및 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **GET**  
+- URL : **/**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Example
+
+```bash
+curl -v -X GET "http://localhost:4000/api/rentcar/user/" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| userId | String | 사용자의 아이디 | O |
+| userRole | String | 사용자의 권한 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "userId": "${userId}",
+  "userRole": "${userRole}"
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+
+***
+
+<h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> Faq 모듈 </h2>  
+  
+- url : /api/v1/main/faq
+
+#### - 자주하는 질문
+
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 요청을 보내면 로그인한 정보에 대한 내용을 반환합니다. 만약 내 정보 불러오기에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 서버 에러, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **GET**  
+- URL : **/faq**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Example
+
+```bash
+curl -v -X GET "http://localhost:4000/api/v1/main/faq" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+##### Path Variable
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| userId | String | 사용자 아이디 | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| faqNumber | String | 
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "userId": "admin",
+  "userPassword": "qewr1234",
+  "nickName": "nickname",
+  "userEmail": "email@email.com",
+  "userRole": "ROLE_USER"
+  "joinPath": "HOME",
+  "joinDate": "2024-05-14",
+}
+```
+
+**응답 : 실패 (존재하지 않는 내 정보)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NI",
+  "message": "No Exist Information."
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 에러)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+***
