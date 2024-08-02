@@ -21,8 +21,8 @@ public class PatchUserInfoRequestDto {
     @NotBlank
     @Pattern(regexp="^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\\.[a-zA-Z]{2,4}$")
     private String userEmail;
-    @NotBlank
-    @Pattern(regexp="(([가-힣A-Za-z·\\d~\\-\\.]{2,}(로|길)\\.\\d+)|([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)\\d+)")
-    private String userAddress;
+    // @NotBlank
+    // @Pattern(regexp="(([가-힣A-Za-z·\\d~\\-\\.]{2,}(로|길)\\.\\d+)|([가-힣A-Za-z·\\d~\\-\\.]+(읍|동)\\s)\\d+)")
+    // private String userAddress;
     private String userBirthDay;
 }
