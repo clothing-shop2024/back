@@ -30,7 +30,7 @@ public class UserEntity {
     private String userName;
     private String nickname;
     private String userEmail;
-    private String userAddress;
+    // private String userAddress;
     private String userBirthDay;
     private String joinPath;
     private String joinDate;  
@@ -47,7 +47,7 @@ public class UserEntity {
         this.userName = dto.getUserName();
         this.nickname = dto.getNickname();
         this.userEmail = dto.getUserEmail();
-        this.userAddress = dto.getUserAddress();
+        // this.userAddress = dto.getUserAddress();
         this.userBirthDay = dto.getUserBirthDay();
         this.joinPath = "HOME";
         this.snsId = dto.getSnsId();
@@ -59,7 +59,7 @@ public class UserEntity {
         this.userName = dto.getUserName();
         this.nickname = dto.getNickname();
         this.userEmail = dto.getUserEmail();
-        this.userAddress = dto.getUserAddress();
+        // this.userAddress = dto.getUserAddress();
         this.userBirthDay = dto.getUserBirthDay();
     }
 

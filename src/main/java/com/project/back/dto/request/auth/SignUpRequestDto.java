@@ -35,9 +35,9 @@ public class SignUpRequestDto {
     private String authNumber;
 
     // 주소
-    @NotBlank
-    @Pattern(regexp=PatternUtil.ADDRESS_PATTERN)
-    private String userAddress;
+    // @NotBlank
+    // @Pattern(regexp=PatternUtil.ADDRESS_PATTERN)
+    // private String userAddress;
 
     // 생일 
     private String userBirthDay;
