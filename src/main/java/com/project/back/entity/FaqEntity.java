@@ -27,12 +27,14 @@ public class FaqEntity {
     private String faqQuestion;
     private String faqAnswer;
     private String faqCategory;
+    private String faqDate;
     
     public FaqEntity(PostFaqRequestDto dto) {
 
         this.faqQuestion = dto.getFaqQuestion();
         this.faqAnswer = dto.getFaqAnswer();
         this.faqCategory = dto.getFaqCategory();
+        this.faqDate = dto.getFaqDate();
     }
 
     public void update(PutFaqRequestDto dto) {

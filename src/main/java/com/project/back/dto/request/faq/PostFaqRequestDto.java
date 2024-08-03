@@ -16,5 +16,7 @@ public class PostFaqRequestDto {
     private String faqAnswer;
     @NotBlank
     private String faqCategory;
+    @NotBlank
+    private String faqDate;
     
 }

@@ -14,6 +14,7 @@ public class FaqListItem {
     private String faqQuestion;
     private String faqAnswer;
     private String faqCategory;
+    private String faqDate;
 
     private FaqListItem(FaqEntity faqEntity) throws Exception {
 
@@ -21,6 +22,7 @@ public class FaqListItem {
         this.faqQuestion = faqEntity.getFaqQuestion();
         this.faqAnswer = faqEntity.getFaqAnswer();
         this.faqCategory = faqEntity.getFaqCategory();
+        this.faqDate = faqEntity.getFaqDate();
     }
 
     public static List<FaqListItem> getFaqList(List<FaqEntity> FaqEntities) throws Exception {

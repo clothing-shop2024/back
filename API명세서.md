@@ -880,27 +880,21 @@ contentType: application/json;charset=UTF-8
   
 - url : /api/v1/main/faq
 
-#### - 자주하는 질문
+#### - 자주하는 질문 리스트 보기
 
 ##### 설명
 
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 요청을 보내면 로그인한 정보에 대한 내용을 반환합니다. 만약 내 정보 불러오기에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 서버 에러, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+자주하는 질문 페이지에서 작성일 기준 내림차순으로 공지사항 리스트를 반환합니다. 만약 불러오기에 실패하면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
 
 - method : **GET**  
-- URL : **/faq**  
+- URL : **/list**  
 
 ##### Request
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| Authorization | 인증에 사용될 Bearer 토큰 | O |
 
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/api/v1/main/faq" \
+curl -v -X GET "http://localhost:4000/api/v1/main/faq/list" \
  -H "Authorization: Bearer {JWT}"
 ```
 
@@ -912,18 +906,22 @@ curl -v -X GET "http://localhost:4000/api/v1/main/faq" \
 |---|:---:|:---:|
 | contentType | 반환하는 Response Body의 Content Type (application/json) | O |
 
-##### Path Variable
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| userId | String | 사용자 아이디 | O |
-
 ###### Response Body
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
 | code | String | 결과 코드 | O |
 | message | String | 결과 메세지 | O |
-| faqNumber | String | 
+| faqList | faqListItem[] | 자주하는 질문 리스트 | O |
+
+**faqListItem**
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| faqNumber | int | 자주하는 질문 고유 번호 | O |
+| faqQuestion | String | 자주하는 질문 제목 | O |
+| faqAnswer | String | 자주하는 질문 대답 | O |
+| faqCategory | String | 자주하는 질문 유형 | O |
+| faqDate | String | 작성일</br>(yy.mm.dd 형태) | O |
 
 ###### Example
 
@@ -934,23 +932,89 @@ contentType: application/json;charset=UTF-8
 {
   "code": "SU",
   "message": "Success.",
-  "userId": "admin",
-  "userPassword": "qewr1234",
-  "nickName": "nickname",
-  "userEmail": "email@email.com",
-  "userRole": "ROLE_USER"
-  "joinPath": "HOME",
-  "joinDate": "2024-05-14",
+  "faqList": [
+    {
+      "faqNumber": 1,
+      "faqQuestion": "제목",
+      "faqAnswer": "내용",
+      "faqCategory": "주문|배송",
+      "faqDate": "2024.08.04"
+    }, ...
+  ]
 }
 ```
 
-**응답 : 실패 (존재하지 않는 내 정보)**
+**응답 : 실패 (데이터베이스 오류)**
 ```bash
-HTTP/1.1 400 Bad Request
+HTTP/1.1 500 Internal Server Error
 contentType: application/json;charset=UTF-8
 {
-  "code": "NI",
-  "message": "No Exist Information."
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 자주하는 질문 작성하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용, 카테고리를 입력받고 작성에 성공하면 성공처리 합니다. 만약 작성에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/regist**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| faqQuestion | String | 제목 | O |
+| faqAnswer | String | 내용 | O |
+| faqCategory | String | 자주하는 질문 유형 | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/v1/main/faq/regist" \
+ -H "Authorization: Bearer {JWT}" \
+ -d "faqQuestion={faqQuestion}" \
+ -d "faqAnswer={faqAnswer}" \
+ -d "faqCategory={faqCategory}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
 }
 ```
 
@@ -974,7 +1038,7 @@ contentType: application/json;charset=UTF-8
 }
 ```
 
-**응답 : 실패 (데이터베이스 에러)**
+**응답 : 실패 (데이터베이스 오류)**
 ```bash
 HTTP/1.1 500 Internal Server Error
 contentType: application/json;charset=UTF-8
@@ -985,5 +1049,124 @@ contentType: application/json;charset=UTF-8
 ```
 
 ***
+
+#### - 자주하는 질문 수정하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용, 질문 유형을 입력받고 수정에 성공하면 성공처리 합니다. 만약 수정에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **PUT**  
+- URL : **/{faqNumber}/modify**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| faqNumber | int | 자주하는 질문 고유 번호 | O |
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| faqQuestion | String | 제목 | O |
+| faqAnswer | String | 내용 | O |
+| faqCategory | String | 자주하는 질문 유형 | O |
+
+
+###### Example
+
+```bash
+curl -v -X PUT "http://localhost:4000/api/v1/main/faq/${registNumber}/modify" \
+ -H "Authorization: Bearer {JWT}" \
+ -d "faqQuestion={faqQuestion}" \
+ -d "faqAnswer={faqAnswer}" \
+ -d "faqCategory={faqCategory}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
 
 ***
