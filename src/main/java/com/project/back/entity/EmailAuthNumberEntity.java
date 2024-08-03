@@ -17,8 +17,6 @@ import lombok.Setter;
 public class EmailAuthNumberEntity {
     
     @Id
-    // 컬럼이름 불일치로 생기는 문제
-    // email이라고 적지 않으면 에러나고 user_email이라고 적어도 에러나고...
     private String userEmail;
     private String authNumber;
 }

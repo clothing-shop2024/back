@@ -34,7 +34,6 @@ public class UserEntity {
     private String userBirthDay;
     private String joinPath;
     private String joinDate;  
-    private String snsId;
 
     public UserEntity(SignUpRequestDto dto) {
         
@@ -50,7 +49,6 @@ public class UserEntity {
         // this.userAddress = dto.getUserAddress();
         this.userBirthDay = dto.getUserBirthDay();
         this.joinPath = "HOME";
-        this.snsId = dto.getSnsId();
         this.joinDate = joinDate;
     }
 

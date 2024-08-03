@@ -30,9 +30,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String token = jwtProvider.create(userId);
             response.sendRedirect("http://localhost:3000/sns/" + token + "/36000");
         } else {
-            String snsId = oAuth2User.getName();
+            String userId = oAuth2User.getName();
             String joinPath = oAuth2User.getJoinPath();
-            String url = "http://localhost:3000/authentication/sign-up?" + "snsId=" + snsId + "&" + "joinPath=" + joinPath;
+            String url = "http://localhost:3000/authentication/sign-up?" + "user_Id=" + userId + "&" + "joinPath=" + joinPath;
             response.sendRedirect(url);
         }
     };

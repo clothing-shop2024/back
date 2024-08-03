@@ -44,6 +44,5 @@ public class SignUpRequestDto {
 
     @NotBlank
     private String joinPath;
-    
-    private String snsId;
+
 }
