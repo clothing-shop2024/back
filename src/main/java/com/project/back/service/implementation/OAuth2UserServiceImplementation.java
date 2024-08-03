@@ -24,11 +24,11 @@ public class OAuth2UserServiceImplementation extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String oauthClientName = userRequest.getClientRegistration().getClientName().toUpperCase();
 
-        String snsId = getId(oAuth2User, oauthClientName);
-        UserEntity userEntity = userRepository.findBySnsId(snsId);
+        String userId = getId(oAuth2User, oauthClientName);
+        UserEntity userEntity = userRepository.findByUserId(userId);
       
         if (userEntity == null) {
-            return new CustomOAuth2User(snsId, oAuth2User.getAttributes(), false, oauthClientName);
+            return new CustomOAuth2User(userId, oAuth2User.getAttributes(), false, oauthClientName);
         } else {
             return new CustomOAuth2User(userEntity.getUserEmail(), oAuth2User.getAttributes(), true, oauthClientName);
         }
