@@ -27,23 +27,6 @@ public class QnaServiceImplementation implements QnaService {
     private final QnaRepository qnaRepository;
     private final UserRepository userRepository;
 
-    // 문의사항 리스트 보기
-    @Override
-    public ResponseEntity<? super GetQnaListResponseDto> getQnaList() {
-
-        try {
-
-            List<QnaEntity> qnaEntities = qnaRepository.findByOrderByQnaNumberDesc();
-            
-            return GetQnaListResponseDto.success(qnaEntities);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-        
-    }
-
     // 문의사항 작성하기
     @Override
     public ResponseEntity<ResponseDto> postQna(PostQnaRequestDto dto, String userId) {
@@ -88,6 +71,23 @@ public class QnaServiceImplementation implements QnaService {
         }
 
         return ResponseDto.success();
+    }
+
+    // 문의사항 리스트 보기
+    @Override
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaList() {
+
+        try {
+
+            List<QnaEntity> qnaEntities = qnaRepository.findByOrderByQnaNumberDesc();
+            
+            return GetQnaListResponseDto.success(qnaEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        
     }
 
     // 문의사항 검색 리스트 보기
