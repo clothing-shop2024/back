@@ -15,7 +15,6 @@ import com.project.back.dto.request.faq.PostFaqRequestDto;
 import com.project.back.dto.request.faq.PutFaqRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.faq.GetFaqListResponseDto;
-import com.project.back.entity.FaqEntity;
 import com.project.back.service.FaqService;
 
 import jakarta.validation.Valid;
@@ -28,19 +27,19 @@ public class FaqController {
 
     private final FaqService faqService;
 
+    // 자주하는 질문 전체 리스트 불러오기
+    @GetMapping("/list")
+    public ResponseEntity<? super GetFaqListResponseDto> getFaqList () {
+        ResponseEntity<? super GetFaqListResponseDto> response = faqService.getFaqList();
+        return response;
+    }
+
     // 자주하는 질문 작성하기
     @PostMapping("/regist")
     ResponseEntity<ResponseDto> postFaq (
         @RequestBody @Valid PostFaqRequestDto requestBody, @AuthenticationPrincipal String userId
     ) {
         ResponseEntity<ResponseDto> response = faqService.postFaq(requestBody, userId);
-        return response;
-    }
-
-    // 자주하는 질문 전체 리스트 불러오기
-    @GetMapping("/list")
-    public ResponseEntity<? super GetFaqListResponseDto> getFaqList () {
-        ResponseEntity<? super GetFaqListResponseDto> response = faqService.getFaqList();
         return response;
     }
 

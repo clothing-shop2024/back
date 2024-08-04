@@ -1030,89 +1030,6 @@ contentType: application/json;charset=UTF-8
 
 ***
 
-#### - 공지사항 게시물 조회수 증가  
-  
-##### 설명
-
- 공지사항 고유번호를 입력받아 해당하는 공지사항 게시물의 조회수를 증가합니다. 만약 증가에 실패하면 실패처리를 합니다. 인가 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
-
-- method : **PATCH**  
-- URL : **/{noticeNumber}/increase-view-count**  
-
-##### Request
-
-###### Path Variable
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| noticeNumber | int | 공지사항 고유번호 | O |
-
-###### Example
-
-```bash
-curl -v -X PATCH "http://localhost:4000/api/shop/notice/${noticeNumber}/increase-view-count" \
- -H "Authorization: Bearer {JWT}"
-```
-
-##### Response
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
-
-###### Response Body
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| code | String | 결과 코드 | O |
-| message | String | 결과 메세지 | O |
-
-###### Example
-
-**응답 성공**
-```bash
-HTTP/1.1 200 OK
-contentType: application/json;charset=UTF-8
-{
-  "code": "SU",
-  "message": "Success."
-}
-```
-
-**응답 : 실패 (데이터 유효성 검사 실패)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "VF",
-  "message": "Validation Failed."
-}
-```
-
-**응답 : 실패 (존재하지 않는 게시물)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "NB",
-  "message": "No Exist Board."
-}
-```
-
-**응답 : 실패 (데이터베이스 오류)**
-```bash
-HTTP/1.1 500 Internal Server Error
-contentType: application/json;charset=UTF-8
-{
-  "code": "DBE",
-  "message": "Database Error."
-}
-```
-
-***
-
 #### - 공지사항 작성하기
   
 ##### 설명
@@ -1328,6 +1245,89 @@ contentType: application/json;charset=UTF-8
 
 ***
 
+#### - 공지사항 게시물 조회수 증가  
+  
+##### 설명
+
+ 공지사항 고유번호를 입력받아 해당하는 공지사항 게시물의 조회수를 증가합니다. 만약 증가에 실패하면 실패처리를 합니다. 인가 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **PATCH**  
+- URL : **/{noticeNumber}/increase-view-count**  
+
+##### Request
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeNumber | int | 공지사항 고유번호 | O |
+
+###### Example
+
+```bash
+curl -v -X PATCH "http://localhost:4000/api/shop/notice/${noticeNumber}/increase-view-count" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
 #### - 공지사항 게시물 삭제하기
   
 ##### 설명
@@ -1430,124 +1430,6 @@ contentType: application/json;charset=UTF-8
 <h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> qna 모듈 </h2>
 
 - url : /api/shop/qna 
-
-***
-
-#### - 문의사항 마이페이지에서 해당 사용자의 문의 내역 불러오기 
-
-##### 설명
-
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 사용자의 아이디를 입력받고 요청을 보내면 작성일 기준 내림차순으로 나의 문의내역을 반환합니다. 만약 불러오기에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
-
-- method : **GET**
-- URL : **/mylist**
-
-##### Request
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| Authorization | 인증에 사용될 Bearer 토큰 | O |
-
-###### Example
-
-```bash
-curl -v -X GET "http://localhost:4000/api/shop/qna/mylist" \
- -H "Authorization: Bearer {JWT}"
-```
-
-##### Response
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
-
-###### Response Body
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| code | String | 결과 코드 | O |
-| message | String | 결과 메세지 | O |
-| qnaList | qnaListItem[] | 문의사항 리스트 | O |
-
-**qnaListItem**
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유번호 | O |
-| status | boolean | 답변 여부 | O |
-| qnaTitle | String | 제목 | O |
-| qnaWriterId | String | 작성자 아이디</br>(앞에 세글자를 제외한 나머지 문자는 *) | O |
-| qnaDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
-| qnaCategory | String | 유형 | O |
-| viewCount | int | 조회수 | O |
-| qnaPublic | boolean | 공개 여부 | O |
-
-###### Example
-
-**응답 성공**
-```bash
-HTTP/1.1 200 OK
-contentType: application/json;charset=UTF-8
-{
-  "code": "SU",
-  "message": "Success.",
-  "qnaList": [
-    {
-      "qnaNumber": 1,
-      "status": "미답변",
-      "qnaTitle": "테스트1",
-      "qnaWriterId": "ser****",
-      "qnaDate": "2024.05.02",
-      "qnaCategory": "상품문의",
-      "viewCount": 0,
-      "qnaPublic": "공개"
-    }, ...
-  ]
-}
-```
-
-**응답 : 실패 (인가 실패)**
-```bash
-HTTP/1.1 403 Forbidden
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authorization Failed."
-}
-```
-
-**응답 : 실패 (인증 실패)**
-```bash
-HTTP/1.1 401 Unauthorized
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authentication Failed."
-}
-```
-
-**응답 : 실패 (데이터 유효성 검사 실패)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "VF",
-  "message": "Validation Failed."
-}
-```
-
-**응답 : 실패 (데이터베이스 오류)**
-```bash
-HTTP/1.1 500 Internal Server Error
-contentType: application/json;charset=UTF-8
-{
-  "code": "DBE",
-  "message": "Database Error."
-}
-```
 
 ***
 
@@ -1704,6 +1586,124 @@ contentType: application/json;charset=UTF-8
       "qnaPublic": "공개"
     }, ...
   ]
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 문의사항 마이페이지에서 해당 사용자의 문의 내역 불러오기 
+
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 사용자의 아이디를 입력받고 요청을 보내면 작성일 기준 내림차순으로 나의 문의내역을 반환합니다. 만약 불러오기에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **GET**
+- URL : **/mylist**
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Example
+
+```bash
+curl -v -X GET "http://localhost:4000/api/shop/qna/mylist" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| qnaList | qnaListItem[] | 문의사항 리스트 | O |
+
+**qnaListItem**
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| qnaNumber | int | 문의사항 고유번호 | O |
+| status | boolean | 답변 여부 | O |
+| qnaTitle | String | 제목 | O |
+| qnaWriterId | String | 작성자 아이디</br>(앞에 세글자를 제외한 나머지 문자는 *) | O |
+| qnaDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
+| qnaCategory | String | 유형 | O |
+| viewCount | int | 조회수 | O |
+| qnaPublic | boolean | 공개 여부 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "qnaList": [
+    {
+      "qnaNumber": 1,
+      "status": "미답변",
+      "qnaTitle": "테스트1",
+      "qnaWriterId": "ser****",
+      "qnaDate": "2024.05.02",
+      "qnaCategory": "상품문의",
+      "viewCount": 0,
+      "qnaPublic": "공개"
+    }, ...
+  ]
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
 }
 ```
 
@@ -1926,6 +1926,275 @@ contentType: application/json;charset=UTF-8
 
 ***
 
+#### - 문의사항 게시물 답글 작성  
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호와 답글 내용을 입력받고 요청을 보내면 해당하는 문의 게시물의 답글이 작성됩니다. 만약 증가에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/{qnaNumber}/comment**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| qnaNumber | int | 문의사항 고유번호 | O |
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| qnaComment | String | 답글 내용 | O |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/shop/qna/${qnaNumber}/comment" \
+ -H "Authorization: Bearer {JWT}" \
+ -d "qnaComment={qnaComment}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (이미 작성된 답글)**
+```bash
+HTTP/1.1 400 Bad Request
+{
+  "code": "WC",
+  "message": "Written Comment."
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (권한 없음)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 문의사항 게시물 수정하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호, 제목, 내용을 입력받고 수정에 성공하면 성공처리를 합니다. 만약 수정에 실패하면 실패처리 됩니다. 인가 실패, 인증실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **PUT**  
+- URL : **/{qnaNumber}/modify**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| qnaNumber | int | 문의사항 고유번호 | O |
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| qnaTitle | String | 제목 | O |
+| qnaContents | String | 내용 | O |
+| qnaCategory | String | 유형 | O |
+| qnaPublic | Boolean | 공개여부 | O |
+| qnaImageUrl | String | 이미지 | X |
+
+###### Example
+
+```bash
+curl -v -X PUT "http://localhost:4000/api/shop/qna/${qnaNumber}/modify" \
+ -H "Authorization: Bearer {JWT}" \
+ -d "qnaTitle={qnaTitle}" \
+ -d "qnaContents={qnaContents} \
+ -d "qnaCategory={qnaCategory} \
+ -d "qnaPublic={qnaPublic} \
+ -d "qnaImageUrl={qnaImageUrl} 
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (답변 완료된 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "WC",
+  "message": "Written Comment."
+}
+```
+
+**응답 : 실패 (권한 없음)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
 #### - 문의사항 게시물 조회수 증가  
   
 ##### 설명
@@ -2120,275 +2389,6 @@ contentType: application/json;charset=UTF-8
 HTTP/1.1 500 Internal Server Error
 contentType: application/json;charset=UTF-8
 { 
-  "code": "DBE",
-  "message": "Database Error."
-}
-```
-
-***
-
-#### - 문의사항 게시물 수정하기
-  
-##### 설명
-
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호, 제목, 내용을 입력받고 수정에 성공하면 성공처리를 합니다. 만약 수정에 실패하면 실패처리 됩니다. 인가 실패, 인증실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
-
-- method : **PUT**  
-- URL : **/{qnaNumber}/modify**  
-
-##### Request
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| Authorization | 인증에 사용될 Bearer 토큰 | O |
-
-###### Path Variable
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유번호 | O |
-
-###### Request Body
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| qnaTitle | String | 제목 | O |
-| qnaContents | String | 내용 | O |
-| qnaCategory | String | 유형 | O |
-| qnaPublic | Boolean | 공개여부 | O |
-| qnaImageUrl | String | 이미지 | X |
-
-###### Example
-
-```bash
-curl -v -X PUT "http://localhost:4000/api/shop/qna/${qnaNumber}/modify" \
- -H "Authorization: Bearer {JWT}" \
- -d "qnaTitle={qnaTitle}" \
- -d "qnaContents={qnaContents} \
- -d "qnaCategory={qnaCategory} \
- -d "qnaPublic={qnaPublic} \
- -d "qnaImageUrl={qnaImageUrl} 
-```
-
-##### Response
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
-
-###### Response Body
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| code | String | 결과 코드 | O |
-| message | String | 결과 메세지 | O |
-
-###### Example
-
-**응답 성공**
-```bash
-HTTP/1.1 200 OK
-contentType: application/json;charset=UTF-8
-{
-  "code": "SU",
-  "message": "Success.",
-}
-```
-
-**응답 : 실패 (데이터 유효성 검사 실패)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "VF",
-  "message": "Validation Failed."
-}
-```
-
-**응답 : 실패 (인가 실패)**
-```bash
-HTTP/1.1 403 Forbidden
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authorization Failed."
-}
-```
-
-**응답 : 실패 (존재하지 않는 게시물)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "NB",
-  "message": "No Exist Board."
-}
-```
-
-**응답 : 실패 (답변 완료된 게시물)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "WC",
-  "message": "Written Comment."
-}
-```
-
-**응답 : 실패 (권한 없음)**
-```bash
-HTTP/1.1 403 Forbidden
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authorization Failed."
-}
-```
-
-**응답 : 실패 (데이터베이스 오류)**
-```bash
-HTTP/1.1 500 Internal Server Error
-contentType: application/json;charset=UTF-8
-{
-  "code": "DBE",
-  "message": "Database Error."
-}
-```
-
-***
-
-#### - 문의사항 게시물 답글 작성  
-  
-##### 설명
-
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호와 답글 내용을 입력받고 요청을 보내면 해당하는 문의 게시물의 답글이 작성됩니다. 만약 증가에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
-
-- method : **POST**  
-- URL : **/{qnaNumber}/comment**  
-
-##### Request
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| Authorization | 인증에 사용될 Bearer 토큰 | O |
-
-###### Path Variable
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유번호 | O |
-
-###### Request Body
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| qnaComment | String | 답글 내용 | O |
-
-###### Example
-
-```bash
-curl -v -X POST "http://localhost:4000/api/shop/qna/${qnaNumber}/comment" \
- -H "Authorization: Bearer {JWT}" \
- -d "qnaComment={qnaComment}"
-```
-
-##### Response
-
-###### Header
-
-| name | description | required |
-|---|:---:|:---:|
-| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
-
-###### Response Body
-
-| name | type | description | required |
-|---|:---:|:---:|:---:|
-| code | String | 결과 코드 | O |
-| message | String | 결과 메세지 | O |
-
-###### Example
-
-**응답 성공**
-```bash
-HTTP/1.1 200 OK
-contentType: application/json;charset=UTF-8
-{
-  "code": "SU",
-  "message": "Success."
-}
-```
-
-**응답 : 실패 (데이터 유효성 검사 실패)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "VF",
-  "message": "Validation Failed."
-}
-```
-
-**응답 : 실패 (존재하지 않는 게시물)**
-```bash
-HTTP/1.1 400 Bad Request
-contentType: application/json;charset=UTF-8
-{
-  "code": "NB",
-  "message": "No Exist Board."
-}
-```
-
-**응답 : 실패 (이미 작성된 답글)**
-```bash
-HTTP/1.1 400 Bad Request
-{
-  "code": "WC",
-  "message": "Written Comment."
-}
-```
-
-**응답 : 실패 (인증 실패)**
-```bash
-HTTP/1.1 401 Unauthorized
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authentication Failed."
-}
-```
-
-**응답 : 실패 (인가 실패)**
-```bash
-HTTP/1.1 403 Forbidden
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authorization Failed."
-}
-```
-
-**응답 : 실패 (권한 없음)**
-```bash
-HTTP/1.1 403 Forbidden
-contentType: application/json;charset=UTF-8
-{
-  "code": "AF",
-  "message": "Authorization Failed."
-}
-```
-
-**응답 : 실패 (데이터베이스 오류)**
-```bash
-HTTP/1.1 500 Internal Server Error
-contentType: application/json;charset=UTF-8
-{
   "code": "DBE",
   "message": "Database Error."
 }

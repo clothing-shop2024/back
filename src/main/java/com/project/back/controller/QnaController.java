@@ -35,32 +35,6 @@ public class QnaController {
 
     private final QnaService qnaService;
 
-    // 문의사항 작성하기
-    @PostMapping("/regist")
-    ResponseEntity<ResponseDto> postQna (
-        @RequestBody @Valid PostQnaRequestDto requestDto,
-        @AuthenticationPrincipal String userId
-    ) {
-
-        ResponseEntity<ResponseDto> response = qnaService.postQna(requestDto, userId);
-
-        return response;
-
-    }
-
-    // 문의사항 답글 작성
-    @PostMapping("/{qnaNumber}/comment")
-    public ResponseEntity<ResponseDto> postQnaComment (
-        @RequestBody @Valid PostQnaCommentRequestDto requestBody,
-        @PathVariable("qnaNumber") int qnaNumber
-    ) {
-
-        ResponseEntity<ResponseDto> response = qnaService.postQnaComment(requestBody, qnaNumber);
-        
-        return response;
-
-    }
-
     // 문의사항 전체 게시물 리스트 불러오기
     @GetMapping("/list")
     public ResponseEntity<? super GetQnaListResponseDto> getQnaList () {
@@ -103,6 +77,32 @@ public class QnaController {
 
         ResponseEntity<? super GetQnaMyListResponseDto> response = qnaService.getQnaMyList(userId);
 
+        return response;
+
+    }
+
+    // 문의사항 작성하기
+    @PostMapping("/regist")
+    ResponseEntity<ResponseDto> postQna (
+        @RequestBody @Valid PostQnaRequestDto requestDto,
+        @AuthenticationPrincipal String userId
+    ) {
+
+        ResponseEntity<ResponseDto> response = qnaService.postQna(requestDto, userId);
+
+        return response;
+
+    }
+
+    // 문의사항 답글 작성
+    @PostMapping("/{qnaNumber}/comment")
+    public ResponseEntity<ResponseDto> postQnaComment (
+        @RequestBody @Valid PostQnaCommentRequestDto requestBody,
+        @PathVariable("qnaNumber") int qnaNumber
+    ) {
+
+        ResponseEntity<ResponseDto> response = qnaService.postQnaComment(requestBody, qnaNumber);
+        
         return response;
 
     }

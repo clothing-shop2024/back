@@ -13,16 +13,16 @@ import com.project.back.dto.response.qna.GetQnaSearchResponseDto;
 
 public interface QnaService {
 
-    // 문의사항 리스트 보기
+    // 문의사항 전체 리스트 보기
     ResponseEntity<? super GetQnaListResponseDto> getQnaList();
 
     // 문의사항 리스트 검색하기
     ResponseEntity<? super GetQnaSearchResponseDto> getQnaSearchList(String searchWord);
 
-    // 문의사항 보기
+    // 문의사항 상세 보기
     ResponseEntity<? super GetQnaDetailResponseDto> getQnaDetail(int qnaNumber);
 
-    // 나의 문의내역
+    // 나의 문의내역 리스트 보기
     ResponseEntity<? super GetQnaMyListResponseDto> getQnaMyList(String userId);
      
     // 문의사항 작성하기
