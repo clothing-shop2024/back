@@ -27,52 +27,6 @@ public class QnaServiceImplementation implements QnaService {
     private final QnaRepository qnaRepository;
     private final UserRepository userRepository;
 
-    // 문의사항 작성하기
-    @Override
-    public ResponseEntity<ResponseDto> postQna(PostQnaRequestDto dto, String userId) {
-        
-        try {
-
-            boolean isExistUser = userRepository.existsById(userId);
-            if (!isExistUser) return ResponseDto.authenticationFailed();
-
-            QnaEntity qnaEntity = new QnaEntity(dto, userId);
-            qnaRepository.save(qnaEntity);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-
-        return ResponseDto.success();
-    }
-
-    // 문의사항 답글 작성하기
-    @Override
-    public ResponseEntity<ResponseDto> postQnaComment(PostQnaCommentRequestDto dto, int qnaNumber) {
-        
-        try {
-
-            QnaEntity qnaEntities = qnaRepository.findByQnaNumber(qnaNumber);
-            if (qnaEntities == null) return ResponseDto.noExistBoard();
-
-            boolean status = qnaEntities.getStatus();
-            if (status) return ResponseDto.writtenComment();
-
-            String qnaComment = dto.getQnaComment();
-            qnaEntities.setStatus(true);
-            qnaEntities.setQnaComment(qnaComment);
-
-            qnaRepository.save(qnaEntities);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-
-        return ResponseDto.success();
-    }
-
     // 문의사항 리스트 보기
     @Override
     public ResponseEntity<? super GetQnaListResponseDto> getQnaList() {
@@ -121,6 +75,68 @@ public class QnaServiceImplementation implements QnaService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+    }
+
+    // 나의 문의내역 보기
+    @Override
+    public ResponseEntity<? super GetQnaMyListResponseDto> getQnaMyList(String userId) {
+        
+        try {
+
+            List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdOrderByQnaNumberDesc(userId);
+            
+            return GetQnaMyListResponseDto.success(qnaEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 문의사항 작성하기
+    @Override
+    public ResponseEntity<ResponseDto> postQna(PostQnaRequestDto dto, String userId) {
+        
+        try {
+
+            boolean isExistUser = userRepository.existsById(userId);
+            if (!isExistUser) return ResponseDto.authenticationFailed();
+
+            QnaEntity qnaEntity = new QnaEntity(dto, userId);
+            qnaRepository.save(qnaEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    // 문의사항 답글 작성하기
+    @Override
+    public ResponseEntity<ResponseDto> postQnaComment(PostQnaCommentRequestDto dto, int qnaNumber) {
+        
+        try {
+
+            QnaEntity qnaEntities = qnaRepository.findByQnaNumber(qnaNumber);
+            if (qnaEntities == null) return ResponseDto.noExistBoard();
+
+            boolean status = qnaEntities.getStatus();
+            if (status) return ResponseDto.writtenComment();
+
+            String qnaComment = dto.getQnaComment();
+            qnaEntities.setStatus(true);
+            qnaEntities.setQnaComment(qnaComment);
+
+            qnaRepository.save(qnaEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
     }
 
     // 문의사항 수정하기
@@ -193,22 +209,6 @@ public class QnaServiceImplementation implements QnaService {
         }
 
         return ResponseDto.success();
-    }
-
-    // 나의 문의내역 보기
-    @Override
-    public ResponseEntity<? super GetQnaMyListResponseDto> getQnaMyList(String userId) {
-        
-        try {
-
-            List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdOrderByQnaNumberDesc(userId);
-            
-            return GetQnaMyListResponseDto.success(qnaEntities);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
     }
 
 }

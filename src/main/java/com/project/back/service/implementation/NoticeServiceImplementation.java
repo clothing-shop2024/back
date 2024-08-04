@@ -25,6 +25,7 @@ public class NoticeServiceImplementation implements NoticeService {
     private final NoticeRepository noticeRepository;
     private final UserRepository userRepository;
 
+    // 공지사항 전체 리스트 보기
     @Override
     public ResponseEntity<? super GetNoticeListResponseDto> getNoticeList() {
 
@@ -41,6 +42,7 @@ public class NoticeServiceImplementation implements NoticeService {
 
     }
 
+    // 공지사항 상세 보기
     @Override
     public ResponseEntity<? super GetNoticeDetailResponseDto> getNoticeDetail(int noticeNumber) {
 
@@ -59,6 +61,7 @@ public class NoticeServiceImplementation implements NoticeService {
 
     }
 
+    // 공지사항 작성하기
     @Override
     public ResponseEntity<ResponseDto> postNotice(PostNoticeRequestDto dto, String userId) {
 
@@ -79,6 +82,7 @@ public class NoticeServiceImplementation implements NoticeService {
         return ResponseDto.success();
     }
 
+    // 공지사항 수정하기
     @Override
     public ResponseEntity<ResponseDto> putNotice(PutNoticeRequestDto dto, int noticeNumber, String userId) {
 
@@ -100,6 +104,7 @@ public class NoticeServiceImplementation implements NoticeService {
         return ResponseDto.success();
     }
 
+    // 조회수
     @Override
     public ResponseEntity<ResponseDto> increaseViewCount(int noticeNumber) {
 
@@ -119,6 +124,7 @@ public class NoticeServiceImplementation implements NoticeService {
         return ResponseDto.success();
     }
 
+    // 공지사항 삭제하기
     @Override
     public ResponseEntity<ResponseDto> deleteNotice(int noticeNumber, String userId) {
 
