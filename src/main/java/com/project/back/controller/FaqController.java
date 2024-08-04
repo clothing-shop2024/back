@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/faq")
+@RequestMapping("/api/shop/faq")
 public class FaqController {
 
     private final FaqService faqService;

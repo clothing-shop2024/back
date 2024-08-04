@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/v1/main/qna")
+@RequestMapping("/api/shop/qna")
 @RequiredArgsConstructor
 public class QnaController {
 
