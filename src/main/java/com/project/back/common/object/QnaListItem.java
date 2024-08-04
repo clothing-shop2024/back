@@ -19,7 +19,6 @@ public class QnaListItem {
     private Integer viewCount;
     private String qnaCategory;
     private boolean qnaPublic;
-    private String qnaImageUrl;
 
     private QnaListItem(QnaEntity qnaEntity) throws Exception {
 
@@ -33,7 +32,6 @@ public class QnaListItem {
         this.viewCount = qnaEntity.getViewCount();
         this.qnaCategory = qnaEntity.getQnaCategory();
         this.qnaPublic = qnaEntity.getQnaPublic();
-        this.qnaImageUrl = qnaEntity.getQnaImageUrl();
 
     }
 

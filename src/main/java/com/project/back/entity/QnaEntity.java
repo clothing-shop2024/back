@@ -52,7 +52,6 @@ public class QnaEntity {
         this.qnaCategory = dto.getQnaCategory();
         this.qnaPublic = false;
         this.qnaImageUrl = dto.getQnaImageUrl();
-        this.status = dto.getStatus();
 
     }
 

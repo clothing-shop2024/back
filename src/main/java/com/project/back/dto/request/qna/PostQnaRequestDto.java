@@ -20,7 +20,5 @@ public class PostQnaRequestDto {
     private String qnaImageUrl;
     @NotBlank
     private boolean qnaPublic;
-    @NotNull
-    private Boolean status;
     
 }
