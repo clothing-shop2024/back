@@ -24,6 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserEntity {
 
+    public static String userRole;
     @Id
     private String userId;
     private String password;
