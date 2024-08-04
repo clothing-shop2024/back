@@ -874,9 +874,562 @@ contentType: application/json;charset=UTF-8
 ```
 ***
 
+<h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> notice 모듈 </h2>
+
+- url : /api/shop/notice 
+
+***
+
+#### - 공지사항 전체 게시물 리스트 불러오기
+
+##### 설명
+
+공지사항 페이지에서 작성일 기준 내림차순으로 공지사항 리스트를 반환합니다. 만약 불러오기에 실패하면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **GET**  
+- URL : **/list**  
+
+##### Request
+
+###### Example
+
+```bash
+curl -v -X GET "http://localhost:4000/api/shop/notice/list" \
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| noticeList | noticeListItem[] | 공지사항 리스트 | O |
+
+**noticeListItem**
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeNumber | int | 공지사항 고유번호 | O |
+| noticeTitle | String | 제목 | O |
+| noticeWriterId | String | 작성자 | O |
+| noticeDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
+| viewCount | int | 조회수 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "noticeList": [
+    {
+      "noticeNumber": 1,
+      "noticeTitle": "제목",
+      "noticeWriterId" : "관리자",
+      "noticeDate": "2024.08.04",
+      "viewCount": 1
+    }, ...
+  ]
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 공지사항 상세 게시물 불러오기
+  
+##### 설명
+
+공지사항 페이지에서 공지사항 고유번호를 입력받고 요청을 보내면 해당하는 공지사항 데이터를 반환합니다. 만약 불러오기에 실패하면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **GET**  
+- URL : **/list/{noticeNumber}**  
+
+##### Request
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeNumber | int | 공지사항 고유번호 | O |
+
+###### Example
+
+```bash
+curl -v -X GET "http://localhost:4000/api/shop/notice/list/${noticeNumber}" 
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+| noticeNumber | Integer | 공지사항 고유번호 | O |
+| noticeTitle | String | 제목 | O |
+| noticeContents | String | 내용 | O |
+| noticeWriterId | String | 작성자 | O |
+| noticeDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
+| viewCount | int | 조회수 | O |
+| noticeImageUrl | String | 이미지 | X |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+  "noticeNumber": ${noticeNumber},
+  "noticeTitle": "${noticeTitle}",
+  "noticeContents": "${noticeContents}",
+  "noticeWriterId": "${noticeWriterId}",
+  "noticeDate": "${noticeDate}",
+  "viewCount": ${viewCount},
+  "noticeImageUrl": ${noticeImageUrl}
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 공지사항 게시물 조회수 증가  
+  
+##### 설명
+
+ 공지사항 고유번호를 입력받아 해당하는 공지사항 게시물의 조회수를 증가합니다. 만약 증가에 실패하면 실패처리를 합니다. 인가 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **PATCH**  
+- URL : **/{noticeNumber}/increase-view-count**  
+
+##### Request
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeNumber | int | 공지사항 고유번호 | O |
+
+###### Example
+
+```bash
+curl -v -X PATCH "http://localhost:4000/api/shop/notice/${noticeNumber}/increase-view-count" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 공지사항 작성하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용, 사진을 입력받고 작성에 성공하면 성공처리 합니다. 만약 작성에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **POST**  
+- URL : **/regist**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeTitle | String | 제목 | O |
+| noticeContents | String | 내용 | O |
+| noticeImageUrl | String | 이미지 | X |
+
+###### Example
+
+```bash
+curl -v -X POST "http://localhost:4000/api/shop/notice/regist \
+ -H "Authorization: Bearer {JWT}" \
+ -d "noticeTitle={noticeTitle}" \
+ -d "noticeContents={noticeContents}" \
+ -d "noticeImageUrl={noticeImageUrl}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 공지사항 수정하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 공지사항 고유번호와 제목, 내용, 사진을 입력받고 수정에 성공하면 성공처리 합니다. 만약 수정에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+
+- method : **PUT**  
+- URL : **/{noticeNumber}/modify**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeNumber | int | 공지사항 고유번호 | O |
+
+###### Request Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeTitle | String | 제목 | O |
+| noticeContents | String | 내용 | O |
+| noticeImageUrl | String | 이미지 | X |
+
+
+###### Example
+
+```bash
+curl -v -X PUT "http://localhost:4000/api/shop/notice/list/${noticeNumber}/modify" \
+ -H "Authorization: Bearer {JWT}" \
+ -d "noticeTitle={noticeTitle}" \
+ -d "noticeContents={noticeContents}" \
+ -d "noticeImageUrl={noticeImageUrl}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success.",
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 공지사항 게시물 삭제하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 공지사항 고유번호를 입력받고 요청을 보내면 해당하는 게시물이 삭제됩니다. 만약 삭제에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **DELETE**  
+- URL : **/{noticeNumber}/delete**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| noticeNumber | int | 공지사항 등록번호 | O |
+
+###### Example
+
+```bash
+curl -v -X DELETE "http://localhost:4000/api/shop/notice/${noticeNumber}/delete" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
 <h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> qna 모듈 </h2>
 
-- url : /v1/main/qna 
+- url : /api/shop/qna 
 
 ***
 
@@ -900,7 +1453,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/v1/main/qna/mylist" \
+curl -v -X GET "http://localhost:4000/api/shop/qna/mylist" \
  -H "Authorization: Bearer {JWT}"
 ```
 
@@ -923,8 +1476,8 @@ curl -v -X GET "http://localhost:4000/v1/main/qna/mylist" \
 **qnaListItem**
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
-| status | boolean | 공개여부 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
+| status | boolean | 답변 여부 | O |
 | qnaTitle | String | 제목 | O |
 | qnaWriterId | String | 작성자 아이디</br>(앞에 세글자를 제외한 나머지 문자는 *) | O |
 | qnaDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
@@ -1012,7 +1565,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/v1/main/qna/list" \
+curl -v -X GET "http://localhost:4000/api/shop/qna/list" \
 ```
 
 ##### Response
@@ -1034,8 +1587,8 @@ curl -v -X GET "http://localhost:4000/v1/main/qna/list" \
 **qnaListItem**
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
-| status | boolean | 공개여부 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
+| status | boolean | 답변 여부 | O |
 | qnaTitle | String | 제목 | O |
 | qnaWriterId | String | 작성자 아이디</br>(앞에 세글자를 제외한 나머지 문자는 *) | O |
 | qnaDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
@@ -1099,7 +1652,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/v1/main/qna/list/search?word=${searchWord}" \
+curl -v -X GET "http://localhost:4000/api/shop/qna/list/search?word=${searchWord}" \
 ```
 
 ##### Response
@@ -1121,8 +1674,8 @@ curl -v -X GET "http://localhost:4000/v1/main/qna/list/search?word=${searchWord}
 **qnaListItem**
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
-| status | boolean | 공개여부 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
+| status | boolean | 답변여부 | O |
 | qnaTitle | String | 제목 | O |
 | qnaWriterId | String | 작성자 아이디</br>(앞에 세글자를 제외한 나머지 문자는 *) | O |
 | qnaDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
@@ -1191,12 +1744,12 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
 
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/v1/main/qna/list/${qnaNumber}" \
+curl -v -X GET "http://localhost:4000/api/shop/qna/list/${qnaNumber}" \
 ```
 
 ##### Response
@@ -1213,10 +1766,9 @@ curl -v -X GET "http://localhost:4000/v1/main/qna/list/${qnaNumber}" \
 |---|:---:|:---:|:---:|
 | code | String | 결과 코드 | O |
 | message | String | 결과 메세지 | O |
-| qnaNumber | int | 문의사항 고유 번호 | O |
 | qnaTitle | String | 제목 | O |
 | qnaContents | String | 내용 | O |
-| qnaWriterId | String | 작성자 아이디 | O |
+| qnaWriterId | String | 작성자 아이디</br>(앞에 세글자를 제외한 나머지 문자는 *) | O |
 | qnaDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
 | viewCount | int | 조회수 | O |
 | qnaCategory | String | 유형 | O |
@@ -1233,15 +1785,14 @@ contentType: application/json;charset=UTF-8
 {
   "code": "SU",
   "message": "Success.",
-  "qnaNumber": ${qnaNumber},
   "qnaTitle": "${qnaTitle}",
   "qnaWriterId": "${userId}",
   "qnaDate": "${qnaDate}",
   "viewCount": ${viewCount},
   "qnaCategory": "${qnaCategory}",
   "qnaPublic": "${qnaPublic}",
-  "comment": "${comment}",
-  "imageUrl": "${imageUrl}"
+  "qnaComment": "${qnaComment}",
+  "qnaImageUrl": "${qnaImageUrl}"
 }
 ```
 
@@ -1281,7 +1832,7 @@ contentType: application/json;charset=UTF-8
 
 ##### 설명
 
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용을 입력받고 작성에 성공하면 성공처리를 합니다. 만약 작성에 실패하면 실패처리 됩니다. 인가 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용, 유형, 이미지 공개여부를 입력받고 작성에 성공하면 성공처리를 합니다. 만약 작성에 실패하면 실패처리 됩니다. 인가 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
 
 - method : **POST**
 - URL : **/regist**
@@ -1307,7 +1858,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X POST "http://localhost:4000/v1/main/qna/regist" \
+curl -v -X POST "http://localhost:4000/api/shop/qna/regist" \
  -H "Authorization: Bearer {JWT}" \
  -d "qnaTitle={qnaTitle}" \
  -d "qnaContents={qnaContents}"\
@@ -1379,7 +1930,7 @@ contentType: application/json;charset=UTF-8
   
 ##### 설명
 
-문의사항 게시물의 조회수를 증가합니다. 만약 증가에 실패하면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
+문의사항 고유번호를 입력받아 해당하는 문의사항 게시물의 조회수를 증가합니다. 만약 증가에 실패하면 실패처리를 합니다. 데이터베이스 에러가 발생할 수 있습니다.
 
 - method : **PATCH**  
 - URL : **/{qnaNumber}/increase-view-count**  
@@ -1390,12 +1941,12 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
 
 ###### Example
 
 ```bash
-curl -v -X PATCH "http://localhost:4000/v1/main/qna/${qnaNumber}/increase-view-count" \
+curl -v -X PATCH "http://localhost:4000/api/shop/qna/${qnaNumber}/increase-view-count" \
 ```
 
 ##### Response
@@ -1457,11 +2008,11 @@ contentType: application/json;charset=UTF-8
 
 ***
 
-#### - 문의사항 게시물 삭제  
+#### - 문의사항 게시물 삭제하기
   
 ##### 설명
 
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호를 입력받고 요청을 보내면 해당하는 문의 게시물이 삭제됩니다. 만약 삭제에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호를 입력받고 요청을 보내면 해당하는 게시물이 삭제됩니다. 만약 삭제에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
 
 - method : **DELETE**  
 - URL : **/{qnaNumber}/delete**  
@@ -1478,12 +2029,12 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
 
 ###### Example
 
 ```bash
-curl -v -X DELETE "http://localhost:4000/api/rentcar/qna/${receptionNumber}/delete" \
+curl -v -X DELETE "http://localhost:4000/api/shop/qna/${qnaNumber}/delete" \
  -H "Authorization: Bearer {JWT}"
 ```
 
@@ -1576,11 +2127,11 @@ contentType: application/json;charset=UTF-8
 
 ***
 
-#### - 문의사항 게시물 수정  
+#### - 문의사항 게시물 수정하기
   
 ##### 설명
 
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유 번호, 제목, 내용을 입력받고 수정에 성공하면 성공처리를 합니다. 만약 수정에 실패하면 실패처리 됩니다. 인가 실패, 인증실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 문의사항 고유번호, 제목, 내용을 입력받고 수정에 성공하면 성공처리를 합니다. 만약 수정에 실패하면 실패처리 됩니다. 인가 실패, 인증실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
 
 - method : **PUT**  
 - URL : **/{qnaNumber}/modify**  
@@ -1597,7 +2148,7 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
 
 ###### Request Body
 
@@ -1612,7 +2163,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X PUT "http://localhost:4000/v1/main/qna/${qnaNumber}/modify" \
+curl -v -X PUT "http://localhost:4000/api/shop/qna/${qnaNumber}/modify" \
  -H "Authorization: Bearer {JWT}" \
  -d "qnaTitle={qnaTitle}" \
  -d "qnaContents={qnaContents} \
@@ -1731,7 +2282,7 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| qnaNumber | int | 문의사항 고유 번호 | O |
+| qnaNumber | int | 문의사항 고유번호 | O |
 
 ###### Request Body
 
@@ -1742,7 +2293,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X POST "http://localhost:4000/v1/main/qna/${qnaNumber}/comment" \
+curl -v -X POST "http://localhost:4000/api/shop/qna/${qnaNumber}/comment" \
  -H "Authorization: Bearer {JWT}" \
  -d "qnaComment={qnaComment}"
 ```
@@ -1847,7 +2398,7 @@ contentType: application/json;charset=UTF-8
 
 <h2 style='background-color: rgba(55, 55, 55, 0.2); text-align: center'> Faq 모듈 </h2>  
   
-- url : /api/v1/main/faq
+- url : /api/shop/faq
 
 #### - 자주하는 질문 리스트 보기
 
@@ -1863,7 +2414,7 @@ contentType: application/json;charset=UTF-8
 ###### Example
 
 ```bash
-curl -v -X GET "http://localhost:4000/api/v1/main/faq/list" \
+curl -v -X GET "http://localhost:4000/api/shop/faq/list" \
  -H "Authorization: Bearer {JWT}"
 ```
 
@@ -1886,11 +2437,11 @@ curl -v -X GET "http://localhost:4000/api/v1/main/faq/list" \
 **faqListItem**
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| faqNumber | int | 자주하는 질문 고유 번호 | O |
-| faqQuestion | String | 자주하는 질문 제목 | O |
-| faqAnswer | String | 자주하는 질문 대답 | O |
-| faqCategory | String | 자주하는 질문 유형 | O |
-| faqDate | String | 작성일</br>(yy.mm.dd 형태) | O |
+| faqNumber | int | 자주하는 질문 고유번호 | O |
+| faqQuestion | String | 제목 | O |
+| faqAnswer | String | 대답 | O |
+| faqCategory | String | 유형 | O |
+| faqDate | String | 작성일</br>(yyyy.mm.dd 형태) | O |
 
 ###### Example
 
@@ -1948,12 +2499,12 @@ contentType: application/json;charset=UTF-8
 |---|:---:|:---:|:---:|
 | faqQuestion | String | 제목 | O |
 | faqAnswer | String | 내용 | O |
-| faqCategory | String | 자주하는 질문 유형 | O |
+| faqCategory | String | 유형 | O |
 
 ###### Example
 
 ```bash
-curl -v -X POST "http://localhost:4000/api/v1/main/faq/regist" \
+curl -v -X POST "http://localhost:4000/api/shop/faq/regist" \
  -H "Authorization: Bearer {JWT}" \
  -d "faqQuestion={faqQuestion}" \
  -d "faqAnswer={faqAnswer}" \
@@ -2023,7 +2574,7 @@ contentType: application/json;charset=UTF-8
   
 ##### 설명
 
-클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용, 질문 유형을 입력받고 수정에 성공하면 성공처리 합니다. 만약 수정에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 제목, 내용,  유형을 입력받고 수정에 성공하면 성공처리 합니다. 만약 수정에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러, 데이터 유효성 검사 실패가 발생할 수 있습니다.
 
 - method : **PUT**  
 - URL : **/{faqNumber}/modify**  
@@ -2040,7 +2591,7 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| faqNumber | int | 자주하는 질문 고유 번호 | O |
+| faqNumber | int | 자주하는 질문 고유번호 | O |
 
 ###### Request Body
 
@@ -2048,13 +2599,13 @@ contentType: application/json;charset=UTF-8
 |---|:---:|:---:|:---:|
 | faqQuestion | String | 제목 | O |
 | faqAnswer | String | 내용 | O |
-| faqCategory | String | 자주하는 질문 유형 | O |
+| faqCategory | String | 유형 | O |
 
 
 ###### Example
 
 ```bash
-curl -v -X PUT "http://localhost:4000/api/v1/main/faq/${registNumber}/modify" \
+curl -v -X PUT "http://localhost:4000/api/shop/faq/${faqNumber}/modify" \
  -H "Authorization: Bearer {JWT}" \
  -d "faqQuestion={faqQuestion}" \
  -d "faqAnswer={faqAnswer}" \
@@ -2133,6 +2684,125 @@ contentType: application/json;charset=UTF-8
 HTTP/1.1 500 Internal Server Error
 contentType: application/json;charset=UTF-8
 {
+  "code": "DBE",
+  "message": "Database Error."
+}
+```
+
+***
+
+#### - 자주하는 질문 삭제하기
+  
+##### 설명
+
+클라이언트로부터 Request Header의 Authorization 필드로 Bearer 토큰을 포함하여 자주하는 질문 고유번호를 입력받고 요청을 보내면 해당하는 게시물이 삭제됩니다. 만약 삭제에 실패하면 실패처리를 합니다. 인가 실패, 인증 실패, 데이터베이스 에러가 발생할 수 있습니다.
+
+- method : **DELETE**  
+- URL : **/{faqNumber}/delete**  
+
+##### Request
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| Authorization | 인증에 사용될 Bearer 토큰 | O |
+
+###### Path Variable
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| faqNumber | int | 자주하는 질문 고유번호 | O |
+
+###### Example
+
+```bash
+curl -v -X DELETE "http://localhost:4000/api/shop/qna/${faqNumber}/delete" \
+ -H "Authorization: Bearer {JWT}"
+```
+
+##### Response
+
+###### Header
+
+| name | description | required |
+|---|:---:|:---:|
+| contentType | 반환하는 Response Body의 Content Type (application/json) | O |
+
+###### Response Body
+
+| name | type | description | required |
+|---|:---:|:---:|:---:|
+| code | String | 결과 코드 | O |
+| message | String | 결과 메세지 | O |
+
+###### Example
+
+**응답 성공**
+```bash
+HTTP/1.1 200 OK
+contentType: application/json;charset=UTF-8
+{
+  "code": "SU",
+  "message": "Success."
+}
+```
+
+**응답 : 실패 (데이터 유효성 검사 실패)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "VF",
+  "message": "Validation Failed."
+}
+```
+
+**응답 : 실패 (존재하지 않는 게시물)**
+```bash
+HTTP/1.1 400 Bad Request
+contentType: application/json;charset=UTF-8
+{
+  "code": "NB",
+  "message": "No Exist Board."
+}
+```
+
+**응답 : 실패 (인증 실패)**
+```bash
+HTTP/1.1 401 Unauthorized
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authentication Failed."
+}
+```
+
+**응답 : 실패 (인가 실패)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (권한 없음)**
+```bash
+HTTP/1.1 403 Forbidden
+contentType: application/json;charset=UTF-8
+{
+  "code": "AF",
+  "message": "Authorization Failed."
+}
+```
+
+**응답 : 실패 (데이터베이스 오류)**
+```bash
+HTTP/1.1 500 Internal Server Error
+contentType: application/json;charset=UTF-8
+{ 
   "code": "DBE",
   "message": "Database Error."
 }
