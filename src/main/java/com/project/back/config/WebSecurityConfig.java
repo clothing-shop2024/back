@@ -99,4 +99,3 @@ class AuthorizationFailEntryPoint implements AuthenticationEntryPoint{
         response.getWriter().write("{ \"code\": \"AF\", \"message\": \"Authorization Failed\" }");
     }
 }
-
