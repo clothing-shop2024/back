@@ -89,8 +89,4 @@ exit /b %EXIT_CODE%
 :mainEnd
 if "%OS%"=="Windows_NT" endlocal
 
-<<<<<<< HEAD
 :omega
-=======
-:omega
->>>>>>> 4850289fb6b696cc7b1ba9509c8ef8747f81bbf7

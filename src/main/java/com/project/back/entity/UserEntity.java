@@ -24,15 +24,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserEntity {
 
-    public static String userRole;
     @Id
     private String userId;
     private String password;
     private String userName;
     private String nickname;
     private String userEmail;
-    // private String userAddress;
     private String userBirthDay;
+    private String userRole;  
     private String joinPath;
     private String joinDate;  
 
