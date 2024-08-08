@@ -67,19 +67,24 @@ public class NoticeServiceImplementation implements NoticeService {
 
         try {
 
-            UserEntity userRole = userRepository.findUserRoleByUserId(userId);
-            if (UserEntity.userRole != "ROLE_ADMIN") return ResponseDto.authenticationFailed();
+            // boolean isExistUser = userRepository.existsById(userId);
+            // if (!isExistUser) return ResponseDto.authenticationFailed();
+
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
 
             NoticeEntity noticeEntity = new NoticeEntity(dto, userId);
 
             noticeRepository.save(noticeEntity);
+            
+            return ResponseDto.success();
 
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return ResponseDto.success();
     }
 
     // 공지사항 수정하기
@@ -91,8 +96,9 @@ public class NoticeServiceImplementation implements NoticeService {
             NoticeEntity noticeEntity = noticeRepository.findByNoticeNumber(noticeNumber);
             if (noticeEntity == null) return ResponseDto.noExistBoard();
 
-            UserEntity userRole = userRepository.findUserRoleByUserId(userId);
-            if (UserEntity.userRole != "ROLE_ADMIN") return ResponseDto.authenticationFailed();
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
 
             noticeRepository.save(noticeEntity);
 
@@ -133,8 +139,9 @@ public class NoticeServiceImplementation implements NoticeService {
             NoticeEntity noticeEntity = noticeRepository.findByNoticeNumber(noticeNumber);
             if (noticeEntity == null) return ResponseDto.noExistBoard();
 
-            UserEntity userRole = userRepository.findUserRoleByUserId(userId);
-            if (UserEntity.userRole != "ROLE_ADMIN") return ResponseDto.authenticationFailed();
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
 
             noticeRepository.delete(noticeEntity);
 
