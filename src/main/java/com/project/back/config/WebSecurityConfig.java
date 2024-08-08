@@ -50,11 +50,11 @@ public class WebSecurityConfig {
             )
             .authorizeHttpRequests(request -> request
                 // 모두 접근 가능
-                .requestMatchers("/", "/api/shop/auth/**", "/api/shop/user/**", "/api/shop/auth/password-update/**", "/oauth2/callback/*", "/api/shop/*/list", "/api/shop/*/list/*", "/api/shop/*/*/increase-view-count").permitAll()
+                .requestMatchers("/", "/api/shop/auth/*", "/api/shop/user/**", "/api/shop/auth/password-update/**", "/oauth2/callback/*", "/api/shop/*/list", "/api/shop/*/list/*", "/api/shop/*/*/increase-view-count").permitAll()
                 // user 접근 가능
                 .requestMatchers(HttpMethod.POST, "/api/shop/qna/regist", "/api/shop/qna/*/modify", "/api/shop/qna/*/delete", "api/shop/qna/mylist").hasRole("USER")
                 // admin 접근 가능
-                .requestMatchers(HttpMethod.POST, "/api/shop/qna/*/comment", "/api/shop/notice/regist", "/api/shop/notice/{noticeNumber}/modify", "/api/shop/notice/{noticeNumber}/delete", "/api/shop/qna/{qnaNumber}/comment", "/api/shop/faq/regist", "/api/shop/faq/{faqNumber}/modify", "/api/shop/faq/{faqNumber}/delete").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/shop/qna/*/comment", "/api/shop/notice/regist", "/api/shop/notice/*/modify", "/api/shop/notice/*/delete", "/api/shop/qna/*/comment", "/api/shop/faq/regist", "/api/shop/faq/*/modify", "/api/shop/faq/*/delete").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2

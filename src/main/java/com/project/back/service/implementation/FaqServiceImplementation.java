@@ -48,8 +48,9 @@ public class FaqServiceImplementation implements FaqService {
 
         try {
 
-            UserEntity userRole = userRepository.findUserRoleByUserId(userId);
-            if (UserEntity.userRole != "ROLE_ADMIN") return ResponseDto.authenticationFailed();
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
 
             FaqEntity faqEntity = new FaqEntity(dto);
             faqRepository.save(faqEntity);
@@ -69,8 +70,9 @@ public class FaqServiceImplementation implements FaqService {
 
         try {
 
-            UserEntity userRole = userRepository.findUserRoleByUserId(userId);
-            if (UserEntity.userRole != "ROLE_ADMIN") return ResponseDto.authenticationFailed();
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
 
             FaqEntity faqEntity = faqRepository.findByFaqNumber(faqNumber);
             if (faqEntity == null) return ResponseDto.noExistBoard();
