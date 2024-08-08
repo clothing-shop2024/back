@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -32,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final UserRepository userRepository;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
     throws ServletException, IOException {
     try {
       String token = parseBearerToken(request);
@@ -52,9 +53,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
         return;
       }
+      String role = userEntity.getUserRole();
 
       List<GrantedAuthority> authorities = new ArrayList<>();
-      // authorities.add(new SimpleGrantedAuthority(role));
+      authorities.add(new SimpleGrantedAuthority(role));
 
       AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null, authorities);
       authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

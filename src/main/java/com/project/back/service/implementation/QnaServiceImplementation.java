@@ -99,7 +99,7 @@ public class QnaServiceImplementation implements QnaService {
         
         try {
 
-            boolean isExistUser = userRepository.existsById(userId);
+            boolean isExistUser = userRepository.existsByUserId(userId);
             if (!isExistUser) return ResponseDto.authenticationFailed();
 
             QnaEntity qnaEntity = new QnaEntity(dto, userId);
