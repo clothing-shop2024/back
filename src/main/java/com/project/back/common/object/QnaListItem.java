@@ -12,26 +12,26 @@ import lombok.Getter;
 public class QnaListItem {
     
     private Integer qnaNumber;
-    private Boolean status;
     private String qnaTitle;
     private String qnaWriterId;
+    private String qnaCategory;
     private String qnaDate;
     private Integer viewCount;
-    private String qnaCategory;
     private boolean qnaPublic;
+    private boolean status;
 
     private QnaListItem(QnaEntity qnaEntity) throws Exception {
 
         String qnaDate = ChangeDateFormatUtil.changeYYYYMMDD(qnaEntity.getQnaDate());
 
         this.qnaNumber = qnaEntity.getQnaNumber();
-        this.status = qnaEntity.getStatus();
+        this.status = qnaEntity.isStatus();
         this.qnaTitle = qnaEntity.getQnaTitle();
         this.qnaWriterId = qnaEntity.getQnaWriterId();
         this.qnaDate = qnaDate;
         this.viewCount = qnaEntity.getViewCount();
         this.qnaCategory = qnaEntity.getQnaCategory();
-        this.qnaPublic = qnaEntity.getQnaPublic();
+        this.qnaPublic = qnaEntity.isQnaPublic();
 
     }
 

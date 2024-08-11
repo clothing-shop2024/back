@@ -122,8 +122,7 @@ public class QnaServiceImplementation implements QnaService {
             QnaEntity qnaEntities = qnaRepository.findByQnaNumber(qnaNumber);
             if (qnaEntities == null) return ResponseDto.noExistBoard();
 
-            boolean status = qnaEntities.getStatus();
-            if (status) return ResponseDto.writtenComment();
+            if (!qnaEntities.isStatus()) return ResponseDto.authenticationFailed();
 
             String qnaComment = dto.getQnaComment();
             qnaEntities.setStatus(true);
@@ -152,8 +151,7 @@ public class QnaServiceImplementation implements QnaService {
             boolean isWriter = userId.equals(writerId);
             if (!isWriter) return ResponseDto.authorizationFailed();
 
-            boolean status = qnaEntities.getStatus();       // 답글 작성되있는지 확인
-            if (status) return ResponseDto.writtenComment();
+            if (!qnaEntities.isStatus()) return ResponseDto.authorizationFailed();
 
             qnaEntities.update(dto);
 

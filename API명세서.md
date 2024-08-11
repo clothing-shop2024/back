@@ -1852,7 +1852,7 @@ contentType: application/json;charset=UTF-8
 | qnaTitle | String | 제목 | O |
 | qnaContents | String | 내용 | O |
 | qnaCategory | String | 유형 | O |
-| qnaPublic | Boolean | 공개여부 | O |
+| qnaPublic | boolean | 공개여부 | O |
 | qnaImageUrl | String | 이미지 | X |
 
 ###### Example
@@ -2091,7 +2091,7 @@ contentType: application/json;charset=UTF-8
 | qnaTitle | String | 제목 | O |
 | qnaContents | String | 내용 | O |
 | qnaCategory | String | 유형 | O |
-| qnaPublic | Boolean | 공개여부 | O |
+| qnaPublic | boolean | 공개여부 | O |
 | qnaImageUrl | String | 이미지 | X |
 
 ###### Example

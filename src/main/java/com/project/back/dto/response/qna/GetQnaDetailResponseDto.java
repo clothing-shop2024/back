@@ -38,7 +38,7 @@ public class GetQnaDetailResponseDto extends ResponseDto {
         this.qnaDate = qnaDate;
         this.viewCount = qnaEntities.getViewCount();
         this.qnaImageUrl = qnaEntities.getQnaImageUrl();
-        this.qnaPublic = qnaEntities.getQnaPublic();
+        this.qnaPublic = qnaEntities.isQnaPublic();
         this.qnaCategory = qnaEntities.getQnaCategory();
         this.qnaComment = qnaEntities.getQnaComment();
 

@@ -19,6 +19,6 @@ public class PutQnaRequestDto {
     private String qnaCategory;
     private String qnaImageUrl;
     @NotNull
-    private Boolean qnaPublic;
+    private boolean qnaPublic;
     
 }

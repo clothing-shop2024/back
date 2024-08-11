@@ -28,8 +28,8 @@ public class QnaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer qnaNumber;
     private String qnaWriterId;
-    private Boolean status;
-    private Boolean qnaPublic;
+    private boolean status;
+    private boolean qnaPublic = true;
     private String qnaTitle;
     private String qnaContents;
     private String qnaDate;
@@ -50,7 +50,7 @@ public class QnaEntity {
         this.qnaDate = qnaDate;
         this.viewCount = 0;
         this.qnaCategory = dto.getQnaCategory();
-        this.qnaPublic = false;
+        this.qnaPublic = dto.isQnaPublic();
         this.qnaImageUrl = dto.getQnaImageUrl();
 
     }
@@ -67,7 +67,7 @@ public class QnaEntity {
         this.qnaContents = dto.getQnaContents();
         this.qnaCategory = dto.getQnaCategory();
         this.qnaImageUrl = dto.getQnaImageUrl();
-        this.qnaPublic = false;
+        this.qnaPublic = dto.isQnaPublic();
 
     }
 }
