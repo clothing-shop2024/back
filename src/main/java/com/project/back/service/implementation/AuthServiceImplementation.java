@@ -190,15 +190,17 @@ public class AuthServiceImplementation implements AuthService{
         try {
             String userName = dto.getUserName();
             String userEmail = dto.getUserEmail();
+            String authNumber = dto.getAuthNumber();
 
-           boolean isMatched = userRepository.existsByUserNameAndUserEmail(userName, userEmail);
-           if (!isMatched) return ResponseDto.authenticationFailed();
+            // boolean isMatched = userRepository.existsByUserNameAndUserEmailAndAuthNumber(userName, userEmail, authNumber);
+            // if (!isMatched) return ResponseDto.authenticationFailed();
             
-            UserEntity userEntity = userRepository.findByUserNameAndUserEmail(userName ,userEmail);
+            UserEntity userEntity = userRepository.findByUserNameAndUserEmailAndAuthNumber(userName ,userEmail, authNumber);
+            if (userEntity == null) return ResponseDto.noExistUser();
+
+            String userId = userEntity.getUserId();
             
-            userRepository.save(userEntity);
-            
-            return FindIdResponseDto.success(userEntity);
+            return FindIdResponseDto.success(userId);
 
         } catch(Exception exception) {
             exception.printStackTrace();

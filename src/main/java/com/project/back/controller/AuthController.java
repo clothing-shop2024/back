@@ -96,7 +96,7 @@ public class AuthController {
         return response;
     }
 
-    // 아이디 찾기
+    // 비밀번호 찾기
     @PostMapping("/find-password")
     public ResponseEntity<ResponseDto> findPassword (
         @RequestBody @Valid FindPasswordRequestDto requestBody

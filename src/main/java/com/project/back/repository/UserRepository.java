@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     boolean existsByNickname(String nickname);
     boolean existsByUserEmail(String userEmail);
     boolean existsByUserIdAndUserEmail(String userId, String userEmail);
-    boolean existsByUserNameAndUserEmail(String userName, String userEmail);
+    boolean existsByUserNameAndUserEmailAndAuthNumber(String userName, String userEmail, String authNumber);
     boolean existsByUserIdAndUserNameAndUserEmail(String userId, String userName, String userEmail);
 
     UserEntity findByUserId(String userId);
@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     UserEntity findByUserEmail(String userEmail);
     UserEntity findByPassword(String Password);
     UserEntity findUserIdByUserEmail(String userEmail);
-    UserEntity findByUserNameAndUserEmail(String userName, String userEmail);
+    UserEntity findByUserNameAndUserEmailAndAuthNumber(String userName, String userEmail, String authNumber);
 
     // board에 사용하려고
     UserEntity findUserRoleByUserId(String userId);
