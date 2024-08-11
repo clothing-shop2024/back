@@ -23,7 +23,6 @@ public class SignUpRequestDto {
     @NotBlank
     private String nickname;
 
-    // 이름
     @NotBlank
     private String userName;
 
@@ -34,12 +33,6 @@ public class SignUpRequestDto {
     @NotBlank
     private String authNumber;
 
-    // 주소
-    // @NotBlank
-    // @Pattern(regexp=PatternUtil.ADDRESS_PATTERN)
-    // private String userAddress;
-
-    // 생일 
     private String userBirthDay;
 
     @NotBlank
