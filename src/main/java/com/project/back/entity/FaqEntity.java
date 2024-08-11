@@ -1,5 +1,9 @@
 package com.project.back.entity;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+
 import com.project.back.dto.request.faq.PostFaqRequestDto;
 import com.project.back.dto.request.faq.PutFaqRequestDto;
 
@@ -28,13 +32,20 @@ public class FaqEntity {
     private String faqAnswer;
     private String faqCategory;
     private String faqDate;
+    private String faqWriterId;
     
-    public FaqEntity(PostFaqRequestDto dto) {
+    public FaqEntity(PostFaqRequestDto dto, String userId) {
+
+        Date now = Date.from(Instant.now());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String faqDate = simpleDateFormat.format(now);
 
         this.faqQuestion = dto.getFaqQuestion();
         this.faqAnswer = dto.getFaqAnswer();
         this.faqCategory = dto.getFaqCategory();
-        this.faqDate = dto.getFaqDate();
+        this.faqDate = faqDate;
+        this.faqWriterId = userId;
+
     }
 
     public void update(PutFaqRequestDto dto) {

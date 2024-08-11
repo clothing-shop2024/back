@@ -52,7 +52,7 @@ public class FaqServiceImplementation implements FaqService {
             boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
             if (!isAdmin) return ResponseDto.authenticationFailed();
 
-            FaqEntity faqEntity = new FaqEntity(dto);
+            FaqEntity faqEntity = new FaqEntity(dto, userId);
             faqRepository.save(faqEntity);
 
         } catch (Exception exception) {
