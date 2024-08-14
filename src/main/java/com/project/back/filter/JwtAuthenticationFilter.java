@@ -33,8 +33,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final UserRepository userRepository;
 
   @Override
-  protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-    throws ServletException, IOException {
+  protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request, HttpServletResponse response,
+      FilterChain filterChain)
+      throws ServletException, IOException {
     try {
       String token = parseBearerToken(request);
       if (token == null) {
@@ -48,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return;
       }
 
-      UserEntity userEntity  = userRepository.findByUserId(userId);
+      UserEntity userEntity = userRepository.findByUserId(userId);
       if (userEntity == null) {
         filterChain.doFilter(request, response);
         return;
@@ -58,27 +59,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       List<GrantedAuthority> authorities = new ArrayList<>();
       authorities.add(new SimpleGrantedAuthority(role));
 
-      AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null, authorities);
+      AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null,
+          authorities);
       authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
       SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
       securityContext.setAuthentication(authenticationToken);
 
       SecurityContextHolder.setContext(securityContext);
-    } catch(Exception exception) {
+    } catch (Exception exception) {
       exception.printStackTrace();
     }
     filterChain.doFilter(request, response);
   }
-  
+
   private String parseBearerToken(HttpServletRequest request) {
     String authorization = request.getHeader("Authorization");
 
     boolean hasAuthorization = StringUtils.hasText(authorization);
-    if (!hasAuthorization) return null;
+    if (!hasAuthorization)
+      return null;
 
     boolean isBearer = authorization.startsWith("Bearer ");
-    if (!isBearer) return null;
+    if (!isBearer)
+      return null;
 
     String token = authorization.substring(7);
     return token;

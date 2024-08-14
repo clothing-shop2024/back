@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ResponseDto {
-    
+
     private String code;
     private String message;
 
@@ -34,7 +34,8 @@ public class ResponseDto {
 
     // 중복된 닉네임
     public static ResponseEntity<ResponseDto> duplicatedNickname() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_NICKNAME, ResponseMessage.DUPLICATED_NICKNAME);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_NICKNAME,
+                ResponseMessage.DUPLICATED_NICKNAME);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
@@ -43,7 +44,7 @@ public class ResponseDto {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_EMAIL, ResponseMessage.DUPLICATED_EMAIL);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-    
+
     // 존재하지 않는 이메일
     public static ResponseEntity<ResponseDto> noExistEmail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_EMAIL, ResponseMessage.NO_EXIST_EMAIL);
@@ -54,7 +55,7 @@ public class ResponseDto {
     public static ResponseEntity<ResponseDto> noExistUserId() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID, ResponseMessage.NO_EXIST_USER_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
-    } 
+    }
 
     // 존재하지 않는 게시물(사용)
     public static ResponseEntity<ResponseDto> noExistBoard() {
@@ -64,10 +65,11 @@ public class ResponseDto {
 
     // 존재하지 않는 예약내역
     public static ResponseEntity<ResponseDto> noExistReservation() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RESERVATION, ResponseMessage.NO_EXIST_RESERVATION);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RESERVATION,
+                ResponseMessage.NO_EXIST_RESERVATION);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-    
+
     // 예약 취소 상태가 아님
     public static ResponseEntity<ResponseDto> noCancelState() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_CANCEL_STATE, ResponseMessage.NO_CANCEL_STATE);
@@ -97,16 +99,18 @@ public class ResponseDto {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ADDRESS, ResponseMessage.NO_EXIST_ADDRESS);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-    
+
     // 이미 등록된 업체
     public static ResponseEntity<ResponseDto> registrationCompany() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.REGISTRATION_COMPANY, ResponseMessage.REGISTRATION_COMPANY);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.REGISTRATION_COMPANY,
+                ResponseMessage.REGISTRATION_COMPANY);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-    
+
     // 존재하지 않는 내 정보
     public static ResponseEntity<ResponseDto> noExistInfo() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_INFORMATION, ResponseMessage.NO_EXIST_INFORMATION);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_INFORMATION,
+                ResponseMessage.NO_EXIST_INFORMATION);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
@@ -130,13 +134,15 @@ public class ResponseDto {
 
     // 인증 실패
     public static ResponseEntity<ResponseDto> authenticationFailed() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.AUTHENTICATION_FAILED, ResponseMessage.AUTHENTICATION_FAILED);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.AUTHENTICATION_FAILED,
+                ResponseMessage.AUTHENTICATION_FAILED);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
     }
 
     // 인가 실패
     public static ResponseEntity<ResponseDto> authorizationFailed() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.AUTHORIZATION_FAILED, ResponseMessage.AUTHORIZATION_FAILED);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.AUTHORIZATION_FAILED,
+                ResponseMessage.AUTHORIZATION_FAILED);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseBody);
     }
 
@@ -148,7 +154,8 @@ public class ResponseDto {
 
     // 토큰 생성 실패
     public static ResponseEntity<ResponseDto> tokenCreationFailed() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.TOKEN_CREATION_FAILED, ResponseMessage.TOKEN_CREATION_FAILED);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.TOKEN_CREATION_FAILED,
+                ResponseMessage.TOKEN_CREATION_FAILED);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
 

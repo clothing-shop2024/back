@@ -33,40 +33,43 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-    
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2UserServiceImplementation oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
-       protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+    protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .httpBasic(HttpBasicConfigurer::disable)
-            .csrf(CsrfConfigurer::disable)
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())
-            )
-            .authorizeHttpRequests(request -> request
-                // 모두 접근 가능
-                .requestMatchers("/", "/api/shop/auth/*", "/api/shop/user/**", "/api/shop/auth/password-update/**", "/oauth2/callback/*", "/api/shop/*/list", "/api/shop/*/list/*", "/api/shop/*/*/increase-view-count").permitAll()
-                // user 접근 가능
-                .requestMatchers(HttpMethod.POST, "/api/shop/qna/regist", "/api/shop/qna/*/modify", "/api/shop/qna/*/delete", "api/shop/qna/mylist").hasRole("USER")
-                // admin 접근 가능
-                .requestMatchers(HttpMethod.POST, "/api/shop/qna/*/comment", "/api/shop/notice/regist", "/api/shop/notice/*/modify", "/api/shop/notice/*/delete", "/api/shop/qna/*/comment", "/api/shop/faq/regist", "/api/shop/faq/*/modify", "/api/shop/faq/*/delete").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/shop/auth/oauth2"))
-                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
-                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
-                .successHandler(oAuth2SuccessHandler)
-            )
-            .exceptionHandling(exception -> exception
-                .authenticationEntryPoint(new AuthorizationFailEntryPoint())
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .httpBasic(HttpBasicConfigurer::disable)
+                .csrf(CsrfConfigurer::disable)
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(request -> request
+                        // 모두 접근 가능
+                        .requestMatchers("/", "/api/shop/auth/*", "/api/shop/user/**",
+                                "/api/shop/auth/password-update/**", "/oauth2/callback/*", "/api/shop/*/list",
+                                "/api/shop/*/list/*", "/api/shop/*/*/increase-view-count")
+                        .permitAll()
+                        // user 접근 가능
+                        .requestMatchers(HttpMethod.POST, "/api/shop/qna/regist", "/api/shop/qna/*/modify",
+                                "/api/shop/qna/*/delete", "api/shop/qna/mylist")
+                        .hasRole("USER")
+                        // admin 접근 가능
+                        .requestMatchers(HttpMethod.POST, "/api/shop/qna/*/comment", "/api/shop/notice/regist",
+                                "/api/shop/notice/*/modify", "/api/shop/notice/*/delete", "/api/shop/qna/*/comment",
+                                "/api/shop/faq/regist", "/api/shop/faq/*/modify", "/api/shop/faq/*/delete")
+                        .hasRole("ADMIN")
+                        .anyRequest().authenticated())
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/shop/auth/oauth2"))
+                        .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
+                        .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler))
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new AuthorizationFailEntryPoint()))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
@@ -86,13 +89,14 @@ public class WebSecurityConfig {
     }
 }
 
-class AuthorizationFailEntryPoint implements AuthenticationEntryPoint{
+class AuthorizationFailEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) 
-        throws IOException, ServletException {
-      
-          authException.printStackTrace();
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException)
+            throws IOException, ServletException {
+
+        authException.printStackTrace();
 
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);

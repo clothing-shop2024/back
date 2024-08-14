@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 public class FindIdResponseDto extends ResponseDto {
-    
+
     private String userId;
 
     private FindIdResponseDto(String userId) {

@@ -12,7 +12,7 @@ import lombok.Getter;
 
 @Getter
 public class GetMyInfoResponseDto extends ResponseDto {
-    
+
     private String userId;
     private String userName;
     private String nickname;
@@ -21,7 +21,7 @@ public class GetMyInfoResponseDto extends ResponseDto {
     private String joinPath;
     private String joinDate;
 
-     private GetMyInfoResponseDto(UserEntity userEntity) {
+    private GetMyInfoResponseDto(UserEntity userEntity) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
         this.userId = userEntity.getUserId();
@@ -37,5 +37,5 @@ public class GetMyInfoResponseDto extends ResponseDto {
         GetMyInfoResponseDto responseBody = new GetMyInfoResponseDto(userEntity);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
-    
+
 }
