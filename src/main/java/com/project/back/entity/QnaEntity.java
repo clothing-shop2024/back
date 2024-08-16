@@ -3,6 +3,7 @@ package com.project.back.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.project.back.dto.request.qna.PostQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 
@@ -29,12 +30,9 @@ public class QnaEntity {
     private Integer qnaNumber;
     private String qnaWriterId;
     private boolean status;
-    private boolean qnaPublic = true;
-    private String qnaTitle;
     private String qnaContents;
     private String qnaDate;
     private String qnaComment;
-    private Integer viewCount;
     private String qnaCategory;
     private String qnaImageUrl;
 
@@ -44,30 +42,27 @@ public class QnaEntity {
         String qnaDate = now.format(formatter);
 
         this.status = false;
-        this.qnaTitle = dto.getQnaTitle();
         this.qnaContents = dto.getQnaContents();
         this.qnaWriterId = userId;
         this.qnaDate = qnaDate;
-        this.viewCount = 0;
         this.qnaCategory = dto.getQnaCategory();
-        this.qnaPublic = dto.isQnaPublic();
         this.qnaImageUrl = dto.getQnaImageUrl();
 
-    }
-
-    // 조회수 증가
-    public void increaseViewCount() {
-        this.viewCount++;
     }
 
     // 게시물 수정
     public void update(PutQnaRequestDto dto) {
 
-        this.qnaTitle = dto.getQnaTitle();
         this.qnaContents = dto.getQnaContents();
         this.qnaCategory = dto.getQnaCategory();
         this.qnaImageUrl = dto.getQnaImageUrl();
-        this.qnaPublic = dto.isQnaPublic();
+
+    }
+
+    // 게시물 수정
+    public void postQnaComment(PostQnaCommentRequestDto dto) {
+
+        this.qnaComment = dto.getQnaComment();
 
     }
 }

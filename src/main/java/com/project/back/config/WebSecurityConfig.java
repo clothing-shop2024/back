@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                         .hasRole("USER")
                         // admin 접근 가능
                         .requestMatchers(HttpMethod.POST, "/api/shop/qna/*/comment", "/api/shop/notice/regist",
-                                "/api/shop/notice/*/modify", "/api/shop/notice/*/delete", "/api/shop/qna/*/comment",
+                                "/api/shop/notice/*/modify", "/api/shop/notice/*/delete",
                                 "/api/shop/faq/regist", "/api/shop/faq/*/modify", "/api/shop/faq/*/delete")
                         .hasRole("ADMIN")
                         .anyRequest().authenticated())

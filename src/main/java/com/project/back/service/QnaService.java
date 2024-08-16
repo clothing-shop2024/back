@@ -34,9 +34,6 @@ public interface QnaService {
     // 문의사항 수정하기
     ResponseEntity<ResponseDto> putQna(PutQnaRequestDto dto, int qnaNumber, String userId);
 
-    // 문의사항 조회수 증가
-    ResponseEntity<ResponseDto> increaseViewCount(int qnaNumber);
-
     // 문의사항 삭제하기
     ResponseEntity<ResponseDto> deleteQna(int qnaNumber, String userId);
 

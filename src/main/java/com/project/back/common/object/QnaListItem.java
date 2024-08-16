@@ -12,12 +12,9 @@ import lombok.Getter;
 public class QnaListItem {
     
     private Integer qnaNumber;
-    private String qnaTitle;
     private String qnaWriterId;
     private String qnaCategory;
     private String qnaDate;
-    private Integer viewCount;
-    private boolean qnaPublic;
     private boolean status;
 
     private QnaListItem(QnaEntity qnaEntity) throws Exception {
@@ -26,12 +23,9 @@ public class QnaListItem {
 
         this.qnaNumber = qnaEntity.getQnaNumber();
         this.status = qnaEntity.isStatus();
-        this.qnaTitle = qnaEntity.getQnaTitle();
         this.qnaWriterId = qnaEntity.getQnaWriterId();
         this.qnaDate = qnaDate;
-        this.viewCount = qnaEntity.getViewCount();
         this.qnaCategory = qnaEntity.getQnaCategory();
-        this.qnaPublic = qnaEntity.isQnaPublic();
 
     }
 

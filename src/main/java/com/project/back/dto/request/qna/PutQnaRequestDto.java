@@ -12,13 +12,9 @@ import lombok.Setter;
 public class PutQnaRequestDto {
 
     @NotBlank
-    private String qnaTitle;
-    @NotBlank
     private String qnaContents;
     @NotBlank
     private String qnaCategory;
     private String qnaImageUrl;
-    @NotNull
-    private boolean qnaPublic;
     
 }

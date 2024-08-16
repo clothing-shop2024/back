@@ -50,7 +50,7 @@ public class QnaServiceImplementation implements QnaService {
         
         try {
 
-            List<QnaEntity> qnaEntities = qnaRepository.findByQnaTitleContainsOrderByQnaNumberDesc(searchWord);
+            List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdContainsOrderByQnaNumberDesc(searchWord);
 
             return GetQnaSearchResponseDto.success(qnaEntities);
 
@@ -120,14 +120,13 @@ public class QnaServiceImplementation implements QnaService {
         try {
 
             QnaEntity qnaEntities = qnaRepository.findByQnaNumber(qnaNumber);
+            
             if (qnaEntities == null) return ResponseDto.noExistBoard();
 
             if (!qnaEntities.isStatus()) return ResponseDto.authenticationFailed();
 
-            String qnaComment = dto.getQnaComment();
             qnaEntities.setStatus(true);
-            qnaEntities.setQnaComment(qnaComment);
-
+            qnaEntities.postQnaComment(dto);
             qnaRepository.save(qnaEntities);
 
         } catch (Exception exception) {
@@ -157,26 +156,6 @@ public class QnaServiceImplementation implements QnaService {
 
             qnaRepository.save(qnaEntities);
 
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-
-        return ResponseDto.success();
-    }
-
-    // 문의사항 조회수 증가
-    @Override
-    public ResponseEntity<ResponseDto> increaseViewCount(int qnaNumber) {
-        
-        try {
-
-            QnaEntity qnaEntities = qnaRepository.findByQnaNumber(qnaNumber);
-            if (qnaEntities == null) return ResponseDto.noExistBoard();
-
-            qnaEntities.increaseViewCount();
-            qnaRepository.save(qnaEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();
