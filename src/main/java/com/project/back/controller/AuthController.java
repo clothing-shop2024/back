@@ -35,82 +35,73 @@ public class AuthController {
 
     // 로그인
     @PostMapping("/sign-in")
-    public ResponseEntity<? super SignInResponseDto> signIn (
-        @RequestBody @Valid SignInRequestDto requestBody
-    ) {
+    public ResponseEntity<? super SignInResponseDto> signIn(
+            @RequestBody @Valid SignInRequestDto requestBody) {
         ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody);
         return response;
     }
-    
+
     // 아이디 중복 확인
     @PostMapping("/id-check")
-    public ResponseEntity<ResponseDto> idCheck (
-        @RequestBody @Valid IdCheckRequestDto requestBody
-    ) {
+    public ResponseEntity<ResponseDto> idCheck(
+            @RequestBody @Valid IdCheckRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.idCheck(requestBody);
         return response;
     }
 
     // 닉네임 중복 확인
     @PostMapping("/nickname-check")
-    public ResponseEntity<ResponseDto> nicknameCheck (
-        @RequestBody @Valid NicknameCheckRequestDto requestBody
-    ) {
+    public ResponseEntity<ResponseDto> nicknameCheck(
+            @RequestBody @Valid NicknameCheckRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.nicknameCheck(requestBody);
         return response;
     }
 
     // 이메일 인증
     @PostMapping("/email-auth")
-    public ResponseEntity<ResponseDto> emailAuth (
-        @RequestBody @Valid EmailAuthRequestDto requestBody
-    ) {
+    public ResponseEntity<ResponseDto> emailAuth(
+            @RequestBody @Valid EmailAuthRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.emailAuth(requestBody);
         return response;
     }
 
     // 이메일 인증 확인
     @PostMapping("/email-auth-check")
-    public ResponseEntity<ResponseDto> emailAuthCheck (
-        @RequestBody @Valid EmailAuthCheckRequestDto requestBody
-    ) {
+    public ResponseEntity<ResponseDto> emailAuthCheck(
+            @RequestBody @Valid EmailAuthCheckRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.emailAuthCheck(requestBody);
         return response;
     }
 
     // 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity<ResponseDto> signUp (
-        @RequestBody @Valid SignUpRequestDto requestBody
-    ) {
+    public ResponseEntity<ResponseDto> signUp(
+            @RequestBody @Valid SignUpRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.signUp(requestBody);
         return response;
     }
 
     // 아이디 찾기
     @PostMapping("/find-id")
-    public ResponseEntity<? super FindIdResponseDto> findId (
-        @RequestBody @Valid FindIdRequestDto requestBody
-    ) {
+    public ResponseEntity<? super FindIdResponseDto> findId(
+            @RequestBody @Valid FindIdRequestDto requestBody) {
         ResponseEntity<? super FindIdResponseDto> response = authService.findId(requestBody);
         return response;
     }
 
     // 비밀번호 찾기
     @PostMapping("/find-password")
-    public ResponseEntity<ResponseDto> findPassword (
-        @RequestBody @Valid FindPasswordRequestDto requestBody
-    ) {
+    public ResponseEntity<ResponseDto> findPassword(
+            @RequestBody @Valid FindPasswordRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.findPassword(requestBody);
         return response;
     }
 
     // 비밀번호 찾기
     @PutMapping("/find-password/{userId}")
-    public ResponseEntity<ResponseDto> findPasswordReset (
-        @RequestBody @Valid FindPasswordResetRequestDto requestBody,
-        @PathVariable("userId") String userId
-    ) {
+    public ResponseEntity<ResponseDto> findPasswordReset(
+            @RequestBody @Valid FindPasswordResetRequestDto requestBody,
+            @PathVariable("userId") String userId) {
         ResponseEntity<ResponseDto> response = authService.findPasswordReset(requestBody, userId);
         return response;
     }
