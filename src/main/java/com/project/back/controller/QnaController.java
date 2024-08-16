@@ -121,18 +121,6 @@ public class QnaController {
 
     }
     
-    // 문의사항 게시물 조회수 증가
-    @PatchMapping("/{qnaNumber}/increase-view-count")
-    public ResponseEntity<ResponseDto> increaseViewCount (
-        @PathVariable("qnaNumber") int qnaNumber
-    ) {
-
-        ResponseEntity<ResponseDto> response = qnaService.increaseViewCount(qnaNumber);
-
-        return response;
-
-    }
-
     // 문의사항 게시물 삭제하기
     @DeleteMapping("/{qnaNumber}/delete")
     public ResponseEntity<ResponseDto> deleteQnaBoard (

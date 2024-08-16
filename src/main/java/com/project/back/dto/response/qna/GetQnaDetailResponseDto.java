@@ -15,13 +15,10 @@ import lombok.Getter;
 public class GetQnaDetailResponseDto extends ResponseDto {
 
     private Integer qnaNumber;
-    private String qnaTitle;
     private String qnaContents;
     private String qnaWriterId;
     private String qnaDate;
-    private Integer viewCount;
     private String qnaCategory;
-    private boolean qnaPublic;
     private String qnaImageUrl;
     private String qnaComment;
 
@@ -32,13 +29,10 @@ public class GetQnaDetailResponseDto extends ResponseDto {
         String qnaDate = ChangeDateFormatUtil.changeYYYYMMDD(qnaEntities.getQnaDate());
         
         this.qnaNumber = qnaEntities.getQnaNumber();
-        this.qnaTitle = qnaEntities.getQnaTitle();
         this.qnaContents = qnaEntities.getQnaContents();
         this.qnaWriterId = qnaEntities.getQnaWriterId();
         this.qnaDate = qnaDate;
-        this.viewCount = qnaEntities.getViewCount();
         this.qnaImageUrl = qnaEntities.getQnaImageUrl();
-        this.qnaPublic = qnaEntities.isQnaPublic();
         this.qnaCategory = qnaEntities.getQnaCategory();
         this.qnaComment = qnaEntities.getQnaComment();
 
