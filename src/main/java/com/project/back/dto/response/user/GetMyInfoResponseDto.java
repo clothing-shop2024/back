@@ -17,6 +17,7 @@ public class GetMyInfoResponseDto extends ResponseDto {
     private String userName;
     private String nickname;
     private String userEmail;
+    private String userBirthDay;
     private String userRole;
     private String joinPath;
     private String joinDate;
@@ -28,6 +29,7 @@ public class GetMyInfoResponseDto extends ResponseDto {
         this.userName = userEntity.getUserName();
         this.nickname = userEntity.getNickname();
         this.userEmail = userEntity.getUserEmail();
+        this.userBirthDay = userEntity.getUserBirthDay();
         this.userRole = userEntity.getUserRole();
         this.joinPath = userEntity.getJoinPath();
         this.joinDate = userEntity.getJoinDate();
