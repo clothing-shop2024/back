@@ -67,12 +67,12 @@ public class NoticeController {
     // 공지사항 수정하기
     @PutMapping("/{noticeNumber}/modify")
     public ResponseEntity<ResponseDto> putNotice (
-        @RequestBody @Valid PutNoticeRequestDto requestBody,
+        @RequestBody @Valid PutNoticeRequestDto requestDto,
         @PathVariable("noticeNumber") int noticeNumber,
         @AuthenticationPrincipal String userId
     ) {
         
-        ResponseEntity<ResponseDto> response = noticeService.putNotice(requestBody, noticeNumber, userId);
+        ResponseEntity<ResponseDto> response = noticeService.putNotice(requestDto, noticeNumber, userId);
 
         return response;
 
