@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.back.dto.request.user.DeleteUserRequestDto;
+import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserInfoRequestDto;
+import com.project.back.dto.request.user.PostUserPointRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
@@ -59,5 +62,30 @@ public class UserController {
             @PathVariable("userId") String userId) {
         ResponseEntity<ResponseDto> response = userService.deleteUserInfo(requestBody, userId);
         return response;
+    }
+
+    // 사용자 등급 업데이트하기
+    @PatchMapping("/update-grade/{userId}")
+    public ResponseEntity<ResponseDto> updateUserGrade(
+            @RequestBody @Valid PatchUserGradeRequestDto requestBody,
+            @PathVariable("userId") String userId) {
+        ResponseEntity<ResponseDto> response = userService.updateUserGrade(requestBody, userId);
+        return response;
+    }
+
+    // 사용자 포인트 추가하기
+    @PostMapping("/add-points/{userId}")
+    public ResponseEntity<ResponseDto> addUserPoints(
+            @RequestBody @Valid PostUserPointRequestDto requestBody,
+            @PathVariable("userId") String userId) {
+        return userService.addUserPoints(requestBody, userId);
+    }
+
+    // 사용자 포인트 설정하기
+    @PostMapping("/set-points/{userId}")
+    public ResponseEntity<ResponseDto> setUserPoints(
+            @RequestBody @Valid PostUserPointRequestDto requestBody,
+            @PathVariable("userId") String userId) {
+        return userService.setUserPoints(requestBody, userId);
     }
 }
