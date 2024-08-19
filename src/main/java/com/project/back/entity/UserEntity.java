@@ -34,6 +34,8 @@ public class UserEntity {
     private String userRole;
     private String joinPath;
     private String joinDate;
+    private String grade;
+    private int points;
 
     public UserEntity(SignUpRequestDto dto) {
 
@@ -50,11 +52,15 @@ public class UserEntity {
         this.userRole = "ROLE_USER";
         this.joinPath = "HOME";
         this.joinDate = joinDate;
+        // 기본등급
+        this.grade = "White";
+        // 기본 포인트
+        this.points = 0;
+
     }
 
     public UserEntity(String userId, String password, String userName, String nickname, String userEmail,
-            String userRole,
-            String joinPath) {
+            String userRole, String joinPath, String grade, int points) {
 
         Date now = Date.from(Instant.now());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
@@ -68,6 +74,8 @@ public class UserEntity {
         this.userRole = userRole;
         this.joinPath = joinPath;
         this.joinDate = joinDate;
+        this.grade = grade;
+        this.points = points;
     }
 
     public void update(PatchUserInfoRequestDto dto) {
@@ -79,6 +87,27 @@ public class UserEntity {
 
     public void findPassword(FindPasswordResetRequestDto dto) {
         this.password = dto.getPassword();
+    }
+
+    // 등급 업데이트 메서드
+    public void updateGrade(String newGrade) {
+        this.grade = newGrade;
+    }
+
+    // 포인트 증가 메서드
+    public void addPoints(int addPoints) {
+        if (addPoints < 0) {
+            throw new IllegalArgumentException("포인트는 0보다 작을 수 없습니다.");
+        }
+        this.points += addPoints;
+    }
+
+    // 포인트 설정 메서드
+    public void setPoints(int points) {
+        if (points < 0) {
+            throw new IllegalArgumentException("포인트는 0보다 작을 수 없습니다.");
+        }
+        this.points = points;
     }
 
 }

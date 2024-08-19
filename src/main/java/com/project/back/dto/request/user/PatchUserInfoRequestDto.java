@@ -15,15 +15,15 @@ public class PatchUserInfoRequestDto {
     @NotBlank
     @Pattern(regexp = PatternUtil.PW_PATTERN)
     private String password;
-    @NotBlank
-    private String userName;
+    // @NotBlank
+    // private String userName;
     @NotBlank
     private String nickname;
     @NotBlank
     @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
     private String userEmail;
-    @NotBlank
-    @Pattern(regexp = PatternUtil.ADDRESS_PATTERN)
-    private String userAddress;
+    // @NotBlank
+    // @Pattern(regexp = PatternUtil.ADDRESS_PATTERN)
+    // private String userAddress;
     private String userBirthDay;
 }
