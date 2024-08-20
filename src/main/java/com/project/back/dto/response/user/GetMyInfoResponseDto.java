@@ -21,6 +21,8 @@ public class GetMyInfoResponseDto extends ResponseDto {
     private String userRole;
     private String joinPath;
     private String joinDate;
+    private String grade;
+    private int points;
 
     private GetMyInfoResponseDto(UserEntity userEntity) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
@@ -33,6 +35,8 @@ public class GetMyInfoResponseDto extends ResponseDto {
         this.userRole = userEntity.getUserRole();
         this.joinPath = userEntity.getJoinPath();
         this.joinDate = userEntity.getJoinDate();
+        this.grade = userEntity.getGrade();
+        this.points = userEntity.getPoints();
     }
 
     public static ResponseEntity<GetMyInfoResponseDto> success(UserEntity userEntity) {
