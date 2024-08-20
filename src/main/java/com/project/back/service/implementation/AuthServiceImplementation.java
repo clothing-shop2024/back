@@ -203,16 +203,19 @@ public class AuthServiceImplementation implements AuthService {
             String userEmail = dto.getUserEmail();
             String authNumber = dto.getAuthNumber();
 
+            // 인증번호 검증
             boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, authNumber);
-            if (!isMatched)
-                return ResponseDto.authenticationFailed();
+            if (!isMatched) {
+                return ResponseDto.authenticationFailed(); // 인증번호 불일치
+            }
 
+            // 인증번호가 유효하다면 사용자 아이디를 조회
             UserEntity userEntity = userRepository.findByUserNameAndUserEmail(userName, userEmail);
-            if (userEntity == null)
-                return ResponseDto.noExistUser();
+            if (userEntity == null) {
+                return ResponseDto.authenticationFailed();
+            }
 
             String userId = userEntity.getUserId();
-
             return FindIdResponseDto.success(userId);
 
         } catch (Exception exception) {

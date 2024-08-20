@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SignUpRequestDto {
+
     @NotBlank
     private String userId;
 
@@ -27,7 +28,7 @@ public class SignUpRequestDto {
     private String userName;
 
     @NotBlank
-    @Pattern(regexp=PatternUtil.EMAIL_PATTERN)
+    @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
     private String userEmail;
 
     @NotBlank
