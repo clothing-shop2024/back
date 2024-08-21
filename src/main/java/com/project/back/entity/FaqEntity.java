@@ -37,7 +37,7 @@ public class FaqEntity {
     public FaqEntity(PostFaqRequestDto dto, String userId) {
 
         Date now = Date.from(Instant.now());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
         String faqDate = simpleDateFormat.format(now);
 
         this.faqQuestion = dto.getFaqQuestion();
