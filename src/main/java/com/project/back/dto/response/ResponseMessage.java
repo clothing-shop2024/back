@@ -30,7 +30,6 @@ public interface ResponseMessage {
     String REGISTRATION_COMPANY = "Registration Company.";
     String NO_EXIST_INFORMATION = "No Exist Information.";
     String NO_EXIST_USER = "No Exist User.";
-    String WRITTEN_COMMENT = "Written Comment.";
     String SIGN_IN_FAILED = "Sign in Failed.";
     String AUTHENTICATION_FAILED = "Authentication Failed.";
     String AUTHORIZATION_FAILED = "Authorization Failed.";

@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.back.dto.request.qna.PostQnaCommentRequestDto;
+import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
@@ -95,13 +95,13 @@ public class QnaController {
     }
 
     // 문의사항 답글 작성
-    @PostMapping("/{qnaNumber}/comment")
-    public ResponseEntity<ResponseDto> postQnaComment (
-        @RequestBody @Valid PostQnaCommentRequestDto requestBody,
+    @PutMapping("/{qnaNumber}/comment")
+    public ResponseEntity<ResponseDto> putQnaComment (
+        @RequestBody @Valid PutQnaCommentRequestDto requestBody,
         @PathVariable("qnaNumber") int qnaNumber
     ) {
 
-        ResponseEntity<ResponseDto> response = qnaService.postQnaComment(requestBody, qnaNumber);
+        ResponseEntity<ResponseDto> response = qnaService.putQnaComment(requestBody, qnaNumber);
         
         return response;
 

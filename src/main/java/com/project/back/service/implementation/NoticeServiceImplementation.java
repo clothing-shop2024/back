@@ -67,9 +67,6 @@ public class NoticeServiceImplementation implements NoticeService {
 
         try {
 
-            // boolean isExistUser = userRepository.existsById(userId);
-            // if (!isExistUser) return ResponseDto.authenticationFailed();
-
             UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
             boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
             if (!isAdmin) return ResponseDto.authenticationFailed();
@@ -78,12 +75,12 @@ public class NoticeServiceImplementation implements NoticeService {
 
             noticeRepository.save(noticeEntity);
             
-            return ResponseDto.success();
-
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+
+        return ResponseDto.success();
 
     }
 

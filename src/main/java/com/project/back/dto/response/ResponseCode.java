@@ -18,7 +18,6 @@ public interface ResponseCode {
     String REGISTRATION_COMPANY = "RC";
     String NO_EXIST_INFORMATION = "NI";
     String NO_EXIST_USER = "NU";
-    String WRITTEN_COMMENT = "WC";
     String SIGN_IN_FAILED = "SF";
     String AUTHENTICATION_FAILED = "AF";
     String AUTHORIZATION_FAILED = "AF";

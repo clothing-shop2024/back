@@ -3,7 +3,7 @@ package com.project.back.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.project.back.dto.request.qna.PostQnaCommentRequestDto;
+import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 
@@ -29,7 +29,7 @@ public class QnaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer qnaNumber;
     private String qnaWriterId;
-    private boolean status;
+    private Boolean status;
     private String qnaContents;
     private String qnaDate;
     private String qnaComment;
@@ -59,8 +59,8 @@ public class QnaEntity {
 
     }
 
-    // 게시물 수정
-    public void postQnaComment(PostQnaCommentRequestDto dto) {
+    // 댓글 달기
+    public void putQnaComment(PutQnaCommentRequestDto dto) {
 
         this.qnaComment = dto.getQnaComment();
 
