@@ -2,7 +2,7 @@ package com.project.back.service;
 
 import org.springframework.http.ResponseEntity;
 
-import com.project.back.dto.request.qna.PostQnaCommentRequestDto;
+import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
@@ -29,7 +29,7 @@ public interface QnaService {
     ResponseEntity<ResponseDto> postQna(PostQnaRequestDto dto, String userId);
 
     // 문의사항 댓글 달기
-    ResponseEntity<ResponseDto> postQnaComment(PostQnaCommentRequestDto dto, int qnaNumber);
+    ResponseEntity<ResponseDto> putQnaComment(PutQnaCommentRequestDto dto, int qnaNumber);
 
     // 문의사항 수정하기
     ResponseEntity<ResponseDto> putQna(PutQnaRequestDto dto, int qnaNumber, String userId);

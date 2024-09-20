@@ -22,7 +22,7 @@ public class QnaListItem {
         String qnaDate = ChangeDateFormatUtil.changeYYYYMMDD(qnaEntity.getQnaDate());
 
         this.qnaNumber = qnaEntity.getQnaNumber();
-        this.status = qnaEntity.isStatus();
+        this.status = qnaEntity.getStatus();
         this.qnaWriterId = qnaEntity.getQnaWriterId();
         this.qnaDate = qnaDate;
         this.qnaCategory = qnaEntity.getQnaCategory();

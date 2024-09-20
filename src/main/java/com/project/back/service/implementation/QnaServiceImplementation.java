@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.back.dto.request.qna.PostQnaCommentRequestDto;
+import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
@@ -115,18 +115,17 @@ public class QnaServiceImplementation implements QnaService {
 
     // 문의사항 답글 작성하기
     @Override
-    public ResponseEntity<ResponseDto> postQnaComment(PostQnaCommentRequestDto dto, int qnaNumber) {
+    public ResponseEntity<ResponseDto> putQnaComment(PutQnaCommentRequestDto dto, int qnaNumber) {
         
         try {
 
             QnaEntity qnaEntities = qnaRepository.findByQnaNumber(qnaNumber);
-            
             if (qnaEntities == null) return ResponseDto.noExistBoard();
 
-            if (!qnaEntities.isStatus()) return ResponseDto.authenticationFailed();
-
+            String qnaComment = dto.getQnaComment();
             qnaEntities.setStatus(true);
-            qnaEntities.postQnaComment(dto);
+            qnaEntities.setQnaComment(qnaComment);
+            
             qnaRepository.save(qnaEntities);
 
         } catch (Exception exception) {
@@ -150,7 +149,7 @@ public class QnaServiceImplementation implements QnaService {
             boolean isWriter = userId.equals(writerId);
             if (!isWriter) return ResponseDto.authorizationFailed();
 
-            if (!qnaEntities.isStatus()) return ResponseDto.authorizationFailed();
+            // if (!qnaEntities.isStatus()) return ResponseDto.authorizationFailed();
 
             qnaEntities.update(dto);
 

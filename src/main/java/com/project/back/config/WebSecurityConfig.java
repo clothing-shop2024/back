@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                         // 모두 접근 가능
                         .requestMatchers("/", "/api/shop/auth/*", "/api/shop/user/**",
                                 "/api/shop/auth/password-update/**", "/oauth2/callback/*", "/api/shop/*/list",
-                                "/api/shop/*/list/*", "/api/shop/*/*/increase-view-count")
+                                "/api/shop/*/list/*", "/api/shop/*/*/increase-view-count", "/upload", "/file/**")
                         .permitAll()
                         // user 접근 가능
                         .requestMatchers(HttpMethod.POST, "/api/shop/qna/regist", "/api/shop/qna/*/modify",
