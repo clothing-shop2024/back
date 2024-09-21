@@ -8,6 +8,7 @@ import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.qna.GetQnaCategoryResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
@@ -52,6 +53,18 @@ public class QnaController {
     ) {
 
         ResponseEntity<? super GetQnaSearchResponseDto> response = qnaService.getQnaSearchList(word);
+
+        return response;
+
+    }
+
+    // 문의사항 카테고리 필터 보기
+    @GetMapping("/list/category")
+    public ResponseEntity<? super GetQnaCategoryResponseDto> getQnaCategoryList (
+        @RequestParam("category") String category
+    ) {
+
+        ResponseEntity<? super GetQnaCategoryResponseDto> response = qnaService.getQnaCategoryList(category);
 
         return response;
 

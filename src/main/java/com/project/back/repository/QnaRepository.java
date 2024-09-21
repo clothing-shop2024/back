@@ -14,8 +14,10 @@ public interface QnaRepository extends JpaRepository<QnaEntity, Integer> {
 
     List<QnaEntity> findByOrderByQnaNumberDesc();
 
-    List<QnaEntity>findByQnaWriterIdOrderByQnaNumberDesc(String qnaWriterId);
+    List<QnaEntity> findByQnaWriterIdOrderByQnaNumberDesc(String qnaWriterId);
 
     List<QnaEntity> findByQnaWriterIdContainsOrderByQnaNumberDesc(String qnaWriterId);
+
+    List<QnaEntity> findByQnaCategoryContainsOrderByQnaNumberDesc(String qnaCategory);
     
 }

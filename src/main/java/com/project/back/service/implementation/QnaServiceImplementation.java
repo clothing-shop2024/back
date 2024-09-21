@@ -9,6 +9,7 @@ import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.qna.GetQnaCategoryResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
@@ -53,6 +54,22 @@ public class QnaServiceImplementation implements QnaService {
             List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdContainsOrderByQnaNumberDesc(searchWord);
 
             return GetQnaSearchResponseDto.success(qnaEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 문의사항 카테고리 필터 보기
+    @Override
+    public ResponseEntity<? super GetQnaCategoryResponseDto> getQnaCategoryList(String qnaCategory) {
+
+        try {
+
+            List<QnaEntity> qnaEntities = qnaRepository.findByQnaCategoryContainsOrderByQnaNumberDesc(qnaCategory);
+
+            return GetQnaCategoryResponseDto.success(qnaEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();
