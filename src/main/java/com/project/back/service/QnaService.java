@@ -6,11 +6,9 @@ import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
-import com.project.back.dto.response.qna.GetQnaCategoryResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
-import com.project.back.dto.response.qna.GetQnaSearchResponseDto;
 
 public interface QnaService {
 
@@ -18,10 +16,13 @@ public interface QnaService {
     ResponseEntity<? super GetQnaListResponseDto> getQnaList();
 
     // 문의사항 리스트 검색하기
-    ResponseEntity<? super GetQnaSearchResponseDto> getQnaSearchList(String searchWord);
+    ResponseEntity<? super GetQnaListResponseDto> getQnaSearchList(String searchWord);
 
-    // 문의사항 리스트 카테고리 필터로 보기
-    ResponseEntity<? super GetQnaCategoryResponseDto> getQnaCategoryList(String qnaCategory);
+    // 문의사항 리스트 카테고리 리스트 보기
+    ResponseEntity<? super GetQnaListResponseDto> getQnaCategoryList(String qnaCategory);
+
+    // 문의사항 카테고리 리스트에서 검색하기
+    ResponseEntity<? super GetQnaListResponseDto> getQnaCategorySearchList(String qnaCategory, String searchWord);
 
     // 문의사항 상세 보기
     ResponseEntity<? super GetQnaDetailResponseDto> getQnaDetail(int qnaNumber);
