@@ -9,11 +9,9 @@ import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
-import com.project.back.dto.response.qna.GetQnaCategoryResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
-import com.project.back.dto.response.qna.GetQnaSearchResponseDto;
 import com.project.back.entity.QnaEntity;
 import com.project.back.repository.QnaRepository;
 import com.project.back.repository.UserRepository;
@@ -47,13 +45,13 @@ public class QnaServiceImplementation implements QnaService {
 
     // 문의사항 검색 리스트 보기
     @Override
-    public ResponseEntity<? super GetQnaSearchResponseDto> getQnaSearchList(String searchWord) {
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaSearchList(String searchWord) {
         
         try {
 
             List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdContainsOrderByQnaNumberDesc(searchWord);
 
-            return GetQnaSearchResponseDto.success(qnaEntities);
+            return GetQnaListResponseDto.success(qnaEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -63,13 +61,29 @@ public class QnaServiceImplementation implements QnaService {
 
     // 문의사항 카테고리 필터 보기
     @Override
-    public ResponseEntity<? super GetQnaCategoryResponseDto> getQnaCategoryList(String qnaCategory) {
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaCategoryList(String qnaCategory) {
 
         try {
 
             List<QnaEntity> qnaEntities = qnaRepository.findByQnaCategoryContainsOrderByQnaNumberDesc(qnaCategory);
 
-            return GetQnaCategoryResponseDto.success(qnaEntities);
+            return GetQnaListResponseDto.success(qnaEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 문의사항 카테고리 리스트에서 검색하기
+    @Override
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaCategorySearchList(String qnaCategory, String searchWord) {
+
+        try {
+
+            List<QnaEntity> qnaEntities = qnaRepository.findByQnaCategoryAndQnaWriterIdContainsOrderByQnaNumberDesc(qnaCategory, searchWord);
+
+            return GetQnaListResponseDto.success(qnaEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();

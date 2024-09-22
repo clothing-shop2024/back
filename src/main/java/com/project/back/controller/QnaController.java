@@ -8,11 +8,9 @@ import com.project.back.dto.request.qna.PutQnaCommentRequestDto;
 import com.project.back.dto.request.qna.PostQnaRequestDto;
 import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
-import com.project.back.dto.response.qna.GetQnaCategoryResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
-import com.project.back.dto.response.qna.GetQnaSearchResponseDto;
 import com.project.back.service.QnaService;
 
 import jakarta.validation.Valid;
@@ -22,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,28 +45,41 @@ public class QnaController {
 
     // 문의사항 검색 리스트 불러오기
     @GetMapping("/list/search")
-    public ResponseEntity<? super GetQnaSearchResponseDto> getQnaSearchList (
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaSearchList (
         @RequestParam("word") String word
     ) {
 
-        ResponseEntity<? super GetQnaSearchResponseDto> response = qnaService.getQnaSearchList(word);
+        ResponseEntity<? super GetQnaListResponseDto> response = qnaService.getQnaSearchList(word);
 
         return response;
 
     }
 
     // 문의사항 카테고리 필터 보기
-    @GetMapping("/list/category")
-    public ResponseEntity<? super GetQnaCategoryResponseDto> getQnaCategoryList (
-        @RequestParam("category") String category
+    @GetMapping("/list/category/{qnaCategory}")
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaCategoryList (
+        @PathVariable("qnaCategory") String qnaCategory
     ) {
 
-        ResponseEntity<? super GetQnaCategoryResponseDto> response = qnaService.getQnaCategoryList(category);
+        ResponseEntity<? super GetQnaListResponseDto> response = qnaService.getQnaCategoryList(qnaCategory);
 
         return response;
 
     }
-    
+
+    // 문의사항 카테고리 필터에 검색하기
+    @GetMapping("/list/category/{qnaCategory}/search")
+    public ResponseEntity<? super GetQnaListResponseDto> getQnaSearchList (
+        @PathVariable("qnaCategory") String qnaCategory,
+        @RequestParam("word") String word
+    ) {
+
+        ResponseEntity<? super GetQnaListResponseDto> response = qnaService.getQnaCategorySearchList(qnaCategory, word);
+
+        return response;
+
+    }
+
     // 문의사항 상세 보기
     @GetMapping("/list/{qnaNumber}")
     public ResponseEntity<? super GetQnaDetailResponseDto> getQnaDetail (
