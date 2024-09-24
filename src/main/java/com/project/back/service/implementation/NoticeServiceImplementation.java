@@ -97,6 +97,8 @@ public class NoticeServiceImplementation implements NoticeService {
             boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
             if (!isAdmin) return ResponseDto.authenticationFailed();
 
+            noticeEntity.update(dto);
+
             noticeRepository.save(noticeEntity);
 
         } catch (Exception exception) {
