@@ -15,6 +15,7 @@ import com.project.back.dto.request.faq.PostFaqRequestDto;
 import com.project.back.dto.request.faq.PutFaqRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.faq.GetFaqListResponseDto;
+import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.service.FaqService;
 
 import jakarta.validation.Valid;
@@ -32,6 +33,17 @@ public class FaqController {
     public ResponseEntity<? super GetFaqListResponseDto> getFaqList () {
         ResponseEntity<? super GetFaqListResponseDto> response = faqService.getFaqList();
         return response;
+    }
+
+    // 문의사항 카테고리 필터 보기
+    @GetMapping("/list/category/{faqCategory}")
+    public ResponseEntity<? super GetFaqListResponseDto> getFaqCategoryList (
+        @PathVariable("faqCategory") String faqCategory
+    ) {
+
+        ResponseEntity<? super GetFaqListResponseDto> response = faqService.getFaqCategoryList(faqCategory);
+        return response;
+
     }
 
     // 자주하는 질문 작성하기

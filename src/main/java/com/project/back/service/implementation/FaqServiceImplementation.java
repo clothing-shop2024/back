@@ -9,7 +9,9 @@ import com.project.back.dto.request.faq.PostFaqRequestDto;
 import com.project.back.dto.request.faq.PutFaqRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.faq.GetFaqListResponseDto;
+import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.entity.FaqEntity;
+import com.project.back.entity.QnaEntity;
 import com.project.back.entity.UserEntity;
 import com.project.back.repository.FaqRepository;
 import com.project.back.repository.UserRepository;
@@ -39,6 +41,22 @@ public class FaqServiceImplementation implements FaqService {
         catch(Exception exception) {
         exception.printStackTrace();
         return ResponseDto.databaseError();
+        }
+    }
+
+    // 자주하는 질문 카테고리 리스트에서 검색하기
+    @Override
+    public ResponseEntity<? super GetFaqListResponseDto> getFaqCategoryList(String faqCategory) {
+
+        try {
+
+            List<FaqEntity> faqEntities = faqRepository.findByFaqCategoryContainsOrderByFaqNumberDesc(faqCategory);
+
+            return GetFaqListResponseDto.success(faqEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
         }
     }
 
