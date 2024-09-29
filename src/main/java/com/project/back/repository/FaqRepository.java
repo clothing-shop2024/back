@@ -13,4 +13,5 @@ public interface FaqRepository extends JpaRepository<FaqEntity, Integer> {
     FaqEntity findByFaqNumber(Integer faqNuber);
 
     List<FaqEntity> findByOrderByFaqNumberDesc();
+    List<FaqEntity> findByFaqCategoryContainsOrderByFaqNumberDesc(String faqCategory);
 }

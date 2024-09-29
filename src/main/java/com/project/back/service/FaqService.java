@@ -12,6 +12,9 @@ public interface FaqService {
     // 자주하는 질문 리스트 보기
     ResponseEntity<? super GetFaqListResponseDto> getFaqList();
 
+    // 자주하는 질문 카테고리 리스트 보기
+    ResponseEntity<? super GetFaqListResponseDto> getFaqCategoryList(String faqCategory);
+
     // 자주하는 질문 작성하기
     ResponseEntity<ResponseDto> postFaq(PostFaqRequestDto dto, String userId);
 
