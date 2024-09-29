@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.back.dto.request.faq.PostFaqRequestDto;
 import com.project.back.dto.request.faq.PutFaqRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.faq.GetFaqDetailResponseDto;
 import com.project.back.dto.response.faq.GetFaqListResponseDto;
-import com.project.back.dto.response.qna.GetQnaListResponseDto;
+import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.service.FaqService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -32,8 +35,22 @@ public class FaqController {
     @GetMapping("/list")
     public ResponseEntity<? super GetFaqListResponseDto> getFaqList () {
         ResponseEntity<? super GetFaqListResponseDto> response = faqService.getFaqList();
+
         return response;
     }
+
+    // 자주하는 질문 상세 게시물 불러오기
+    @GetMapping("/list/{faqNumber}")
+    public ResponseEntity<? super GetFaqDetailResponseDto> getFaqDetail (
+        @PathVariable("faqNumber") int faqNumber
+    ) {
+
+        ResponseEntity<? super GetFaqDetailResponseDto> response = faqService.getFaqDetail(faqNumber);
+
+        return response;
+
+    }
+    
 
     // 문의사항 카테고리 필터 보기
     @GetMapping("/list/category/{faqCategory}")
@@ -42,6 +59,7 @@ public class FaqController {
     ) {
 
         ResponseEntity<? super GetFaqListResponseDto> response = faqService.getFaqCategoryList(faqCategory);
+
         return response;
 
     }
@@ -52,6 +70,7 @@ public class FaqController {
         @RequestBody @Valid PostFaqRequestDto requestBody, @AuthenticationPrincipal String userId
     ) {
         ResponseEntity<ResponseDto> response = faqService.postFaq(requestBody, userId);
+
         return response;
     }
 
@@ -63,6 +82,7 @@ public class FaqController {
         @AuthenticationPrincipal String userId
     ) {
         ResponseEntity<ResponseDto> response = faqService.putFaq(requestDto, faqNumber, userId);
+
         return response;
     }
 
@@ -73,6 +93,7 @@ public class FaqController {
         @AuthenticationPrincipal String userId
     ) {
         ResponseEntity<ResponseDto> response = faqService.deleteFaq(faqNumber, userId);
+        
         return response;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.back.dto.request.faq.PostFaqRequestDto;
 import com.project.back.dto.request.faq.PutFaqRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.faq.GetFaqDetailResponseDto;
 import com.project.back.dto.response.faq.GetFaqListResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.entity.FaqEntity;
@@ -44,7 +45,7 @@ public class FaqServiceImplementation implements FaqService {
         }
     }
 
-    // 자주하는 질문 카테고리 리스트에서 검색하기
+    // 자주하는 질문 카테고리 리스트 보기
     @Override
     public ResponseEntity<? super GetFaqListResponseDto> getFaqCategoryList(String faqCategory) {
 
@@ -53,6 +54,24 @@ public class FaqServiceImplementation implements FaqService {
             List<FaqEntity> faqEntities = faqRepository.findByFaqCategoryContainsOrderByFaqNumberDesc(faqCategory);
 
             return GetFaqListResponseDto.success(faqEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 자주하는 질문 상세 게시물 보기
+    @Override
+    public ResponseEntity<? super GetFaqDetailResponseDto> getFaqDetail(int faqNumber) {
+        
+        try {
+
+            FaqEntity faqEntity = faqRepository.findByFaqNumber(faqNumber);
+
+            if (faqEntity == null) return ResponseDto.noExistBoard();
+
+            return GetFaqDetailResponseDto.success(faqEntity);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -113,10 +132,10 @@ public class FaqServiceImplementation implements FaqService {
         
         try {
 
-            FaqEntity faqEntity = faqRepository.findByFaqNumber(faqNumber);
-            if (faqEntity == null) return ResponseDto.noExistBoard();
+            FaqEntity faqEntites = faqRepository.findByFaqNumber(faqNumber);
+            if (faqEntites == null) return ResponseDto.noExistBoard();
 
-            faqRepository.delete(faqEntity);
+            faqRepository.delete(faqEntites);
 
         } catch (Exception exception) {
             exception.printStackTrace();
