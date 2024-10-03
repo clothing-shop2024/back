@@ -13,6 +13,7 @@ import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
 import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
 import com.project.back.entity.QnaEntity;
+import com.project.back.entity.UserEntity;
 import com.project.back.repository.QnaRepository;
 import com.project.back.repository.UserRepository;
 import com.project.back.service.QnaService;
@@ -206,7 +207,9 @@ public class QnaServiceImplementation implements QnaService {
 
             String writerId = qnaEntities.getQnaWriterId();
             boolean isWriter = userId.equals(writerId);
-            if (!isWriter) return ResponseDto.authorizationFailed();
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isWriter && !isAdmin) return ResponseDto.authorizationFailed();
             
             qnaRepository.delete(qnaEntities);
 
