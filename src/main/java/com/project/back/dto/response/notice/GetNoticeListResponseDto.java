@@ -18,17 +18,17 @@ public class GetNoticeListResponseDto extends ResponseDto {
 
     private List<NoticeListItem> noticeList;
 
-    private GetNoticeListResponseDto(List<NoticeEntity> NoticeEntites) throws Exception {
+    private GetNoticeListResponseDto(List<NoticeEntity> NoticeEntities) throws Exception {
 
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
-        this.noticeList = NoticeListItem.getList(NoticeEntites);
+        this.noticeList = NoticeListItem.getList(NoticeEntities);
 
     }
 
-    public static ResponseEntity<GetNoticeListResponseDto> success(List<NoticeEntity> NoticeEntites) throws Exception {
+    public static ResponseEntity<GetNoticeListResponseDto> success(List<NoticeEntity> NoticeEntities) throws Exception {
 
-        GetNoticeListResponseDto responseBody = new GetNoticeListResponseDto(NoticeEntites);
+        GetNoticeListResponseDto responseBody = new GetNoticeListResponseDto(NoticeEntities);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
 
