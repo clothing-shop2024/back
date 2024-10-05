@@ -132,10 +132,10 @@ public class FaqServiceImplementation implements FaqService {
         
         try {
 
-            FaqEntity faqEntites = faqRepository.findByFaqNumber(faqNumber);
-            if (faqEntites == null) return ResponseDto.noExistBoard();
+            FaqEntity faqEntities = faqRepository.findByFaqNumber(faqNumber);
+            if (faqEntities == null) return ResponseDto.noExistBoard();
 
-            faqRepository.delete(faqEntites);
+            faqRepository.delete(faqEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();
