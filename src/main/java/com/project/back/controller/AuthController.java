@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.back.dto.request.auth.EmailAuthCheckRequestDto;
 import com.project.back.dto.request.auth.EmailAuthRequestDto;
+import com.project.back.dto.request.auth.FindIdEmailAuthRequestDto;
 import com.project.back.dto.request.auth.FindIdRequestDto;
 import com.project.back.dto.request.auth.FindPasswordRequestDto;
 import com.project.back.dto.request.auth.FindPasswordResetRequestDto;
@@ -62,6 +63,15 @@ public class AuthController {
     public ResponseEntity<ResponseDto> emailAuth(
             @RequestBody @Valid EmailAuthRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.emailAuth(requestBody);
+        return response;
+    }
+
+    // 아이디 찾기의 이메일 인증
+    @PostMapping("/find-id-email-auth")
+    public ResponseEntity<ResponseDto> findIdEmailAuth (
+            @RequestBody @Valid 
+            FindIdEmailAuthRequestDto requestBody) {
+        ResponseEntity<ResponseDto> response = authService.findIdEmailAuth(requestBody);
         return response;
     }
 

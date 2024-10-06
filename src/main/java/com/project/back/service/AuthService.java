@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.project.back.dto.request.auth.EmailAuthCheckRequestDto;
 import com.project.back.dto.request.auth.EmailAuthRequestDto;
+import com.project.back.dto.request.auth.FindIdEmailAuthRequestDto;
 import com.project.back.dto.request.auth.FindIdRequestDto;
 import com.project.back.dto.request.auth.FindPasswordRequestDto;
 import com.project.back.dto.request.auth.FindPasswordResetRequestDto;
@@ -27,6 +28,9 @@ public interface AuthService {
 
     // 이메일 인증
     ResponseEntity<ResponseDto> emailAuth(EmailAuthRequestDto dto);
+
+    // 아이디 찾기의 이메일 인증
+    ResponseEntity<ResponseDto> findIdEmailAuth(FindIdEmailAuthRequestDto dto);
 
     // 이메일 인증 확인
     ResponseEntity<ResponseDto> emailAuthCheck(EmailAuthCheckRequestDto dto);
