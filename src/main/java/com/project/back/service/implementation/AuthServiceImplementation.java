@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.project.back.common.util.EmailAuthNumberUtil;
 import com.project.back.dto.request.auth.EmailAuthCheckRequestDto;
 import com.project.back.dto.request.auth.EmailAuthRequestDto;
+import com.project.back.dto.request.auth.FindIdEmailAuthRequestDto;
 import com.project.back.dto.request.auth.FindIdRequestDto;
 import com.project.back.dto.request.auth.FindPasswordRequestDto;
 import com.project.back.dto.request.auth.FindPasswordResetRequestDto;
@@ -120,6 +121,48 @@ public class AuthServiceImplementation implements AuthService {
             EmailAuthNumberEntity emailAuthNumberEntity = new EmailAuthNumberEntity(userEmail, authNumber);
 
             emailAuthNumberRepository.save(emailAuthNumberEntity);
+
+            mailProvider.mailAuthSend(userEmail, authNumber);
+
+        } catch (MessagingException exception) {
+            exception.printStackTrace();
+            return ResponseDto.mailSendFailed();
+        }
+
+        catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    public ResponseEntity<ResponseDto> findIdEmailAuth (FindIdEmailAuthRequestDto dto) {
+        
+        try {
+
+            String userName = dto.getUserName();
+            String userEmail = dto.getUserEmail();
+            String authNumber = EmailAuthNumberUtil.createCodeNumber();
+            
+            UserEntity userEntity = userRepository.findByUserNameAndUserEmail(userName, userEmail);
+
+            if (userEntity == null) {
+                return ResponseDto.noExistUser();
+            }
+            
+            // 이메일로 기존 authNumber 엔티티 조회
+            EmailAuthNumberEntity emailAuthNumberEntity = emailAuthNumberRepository.findByUserEmail(userEmail);
+
+            if (emailAuthNumberEntity != null) {
+                // 존재하면 authNumber 업데이트
+                emailAuthNumberEntity.setAuthNumber(authNumber);
+                emailAuthNumberRepository.save(emailAuthNumberEntity);
+            } else {
+                // 존재하지 않으면 새로운 엔티티 생성
+                emailAuthNumberEntity = new EmailAuthNumberEntity(userEmail, authNumber);
+                emailAuthNumberRepository.save(emailAuthNumberEntity);
+            }
 
             mailProvider.mailAuthSend(userEmail, authNumber);
 
