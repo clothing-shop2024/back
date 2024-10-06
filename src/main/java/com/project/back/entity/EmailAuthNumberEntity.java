@@ -17,6 +17,7 @@ import lombok.Setter;
 public class EmailAuthNumberEntity {
 
     @Id
+
     private String userEmail;
     private String authNumber;
 }

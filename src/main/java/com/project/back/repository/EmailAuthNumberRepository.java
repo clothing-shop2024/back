@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.project.back.entity.EmailAuthNumberEntity;
 
-
 @Repository
-public interface EmailAuthNumberRepository extends JpaRepository<EmailAuthNumberEntity, String>{
+public interface EmailAuthNumberRepository extends JpaRepository<EmailAuthNumberEntity, String> {
 
-    boolean existsByUserEmailAndAuthNumber (String userEmail, String authNumber);
+    boolean existsByUserEmailAndAuthNumber(String userEmail, String authNumber);
 
-    EmailAuthNumberEntity findByUserEmail (String userEmail);
-} 
+    EmailAuthNumberEntity findByUserEmail(String userEmail);
+}

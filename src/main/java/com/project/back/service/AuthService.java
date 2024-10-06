@@ -17,29 +17,30 @@ import com.project.back.dto.response.auth.SignInResponseDto;
 
 public interface AuthService {
     // 로그인
-    ResponseEntity<? super SignInResponseDto> signIn (SignInRequestDto dto);
+    ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto);
 
     // 아이디 체크
-    ResponseEntity<ResponseDto> idCheck (IdCheckRequestDto dto);
+    ResponseEntity<ResponseDto> idCheck(IdCheckRequestDto dto);
 
     // 닉네임 체크
-    ResponseEntity<ResponseDto> nicknameCheck (NicknameCheckRequestDto dto);
+    ResponseEntity<ResponseDto> nicknameCheck(NicknameCheckRequestDto dto);
 
     // 이메일 인증
-    ResponseEntity<ResponseDto> emailAuth (EmailAuthRequestDto dto);
+    ResponseEntity<ResponseDto> emailAuth(EmailAuthRequestDto dto);
 
     // 이메일 인증 확인
-    ResponseEntity<ResponseDto> emailAuthCheck (EmailAuthCheckRequestDto dto);
+    ResponseEntity<ResponseDto> emailAuthCheck(EmailAuthCheckRequestDto dto);
 
     // 회원가입
-    ResponseEntity<ResponseDto> signUp (SignUpRequestDto dto);
+    ResponseEntity<ResponseDto> signUp(SignUpRequestDto dto);
 
     // 아이디 찾기
-    ResponseEntity<? super FindIdResponseDto> findId (FindIdRequestDto dto);
+    ResponseEntity<? super FindIdResponseDto> findId(FindIdRequestDto dto);
 
     // 비밀번호 찾기
-    ResponseEntity<ResponseDto> findPassword (FindPasswordRequestDto dto);
+    ResponseEntity<ResponseDto> findPassword(FindPasswordRequestDto dto);
 
     // 비밀번호 변경
-    ResponseEntity<ResponseDto> findPasswordReset (FindPasswordResetRequestDto dto, String userId);
+    ResponseEntity<ResponseDto> findPasswordReset(FindPasswordResetRequestDto dto, String userId);
+
 }
