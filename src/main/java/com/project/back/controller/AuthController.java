@@ -68,9 +68,8 @@ public class AuthController {
 
     // 아이디 찾기의 이메일 인증
     @PostMapping("/find-id-email-auth")
-    public ResponseEntity<ResponseDto> findIdEmailAuth (
-            @RequestBody @Valid 
-            FindIdEmailAuthRequestDto requestBody) {
+    public ResponseEntity<ResponseDto> findIdEmailAuth(
+            @RequestBody @Valid FindIdEmailAuthRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.findIdEmailAuth(requestBody);
         return response;
     }
@@ -91,6 +90,7 @@ public class AuthController {
         return response;
     }
 
+    // 인증번호 전송 덮어씌어지지 않음
     // 아이디 찾기
     @PostMapping("/find-id")
     public ResponseEntity<? super FindIdResponseDto> findId(
@@ -99,6 +99,7 @@ public class AuthController {
         return response;
     }
 
+    // 비밀번호 인증번호 인식 안됨
     // 비밀번호 찾기
     @PostMapping("/find-password")
     public ResponseEntity<ResponseDto> findPassword(
@@ -107,7 +108,7 @@ public class AuthController {
         return response;
     }
 
-    // 비밀번호 찾기
+    // 비밀번호 재설정
     @PutMapping("/find-password/{userId}")
     public ResponseEntity<ResponseDto> findPasswordReset(
             @RequestBody @Valid FindPasswordResetRequestDto requestBody,
