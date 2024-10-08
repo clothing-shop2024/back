@@ -13,14 +13,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class FindPasswordRequestDto {
-    
+
     @NotNull
     private String userId;
 
     @NotBlank
     private String userName;
-    
+
     @NotNull
     @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
     private String userEmail;
+
+    @NotBlank
+    private String authNumber;
 }

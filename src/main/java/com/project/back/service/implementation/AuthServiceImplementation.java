@@ -137,20 +137,20 @@ public class AuthServiceImplementation implements AuthService {
         return ResponseDto.success();
     }
 
-    public ResponseEntity<ResponseDto> findIdEmailAuth (FindIdEmailAuthRequestDto dto) {
-        
+    public ResponseEntity<ResponseDto> findIdEmailAuth(FindIdEmailAuthRequestDto dto) {
+
         try {
 
             String userName = dto.getUserName();
             String userEmail = dto.getUserEmail();
             String authNumber = EmailAuthNumberUtil.createCodeNumber();
-            
+
             UserEntity userEntity = userRepository.findByUserNameAndUserEmail(userName, userEmail);
 
             if (userEntity == null) {
                 return ResponseDto.noExistUser();
             }
-            
+
             // 이메일로 기존 authNumber 엔티티 조회
             EmailAuthNumberEntity emailAuthNumberEntity = emailAuthNumberRepository.findByUserEmail(userEmail);
 
@@ -249,7 +249,7 @@ public class AuthServiceImplementation implements AuthService {
             // 인증번호 검증
             boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, authNumber);
             if (!isMatched) {
-                return ResponseDto.authenticationFailed(); // 인증번호 불일치
+                return ResponseDto.authenticationFailed();
             }
 
             // 인증번호가 유효하다면 사용자 아이디를 조회
@@ -275,10 +275,19 @@ public class AuthServiceImplementation implements AuthService {
             String userId = dto.getUserId();
             String userName = dto.getUserName();
             String userEmail = dto.getUserEmail();
+            String authNumber = dto.getAuthNumber();
 
-            boolean isMatched = userRepository.existsByUserIdAndUserNameAndUserEmail(userId, userName, userEmail);
-            if (!isMatched)
+            // 인증번호 검증
+            boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, authNumber);
+            if (!isMatched) {
                 return ResponseDto.authenticationFailed();
+            }
+
+            // 사용자 정보 검증
+            boolean isUserMatched = userRepository.existsByUserIdAndUserNameAndUserEmail(userId, userName, userEmail);
+            if (!isUserMatched) {
+                return ResponseDto.authenticationFailed();
+            }
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -295,7 +304,7 @@ public class AuthServiceImplementation implements AuthService {
             String password = dto.getPassword();
 
             UserEntity userEntity = userRepository.findByUserId(userId);
-            System.out.println(userId);
+            // System.out.println(userId);
             if (userEntity == null)
                 return ResponseDto.noExistUser();
 
@@ -306,9 +315,7 @@ public class AuthServiceImplementation implements AuthService {
             String encodedPassword = passwordEncoder.encode(password);
 
             dto.setPassword(encodedPassword);
-
             userEntity.findPassword(dto);
-
             userRepository.save(userEntity);
 
         } catch (Exception exception) {

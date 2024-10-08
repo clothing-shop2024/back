@@ -20,9 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     boolean existsByUserIdAndUserNameAndUserEmail(String userId, String userName, String userEmail);
 
-    // 아이디/비밀번호 인증번호
-    // boolean existsByUserEmailAndSendAuthNumber(String userEmail, String sendAuthNumber);
-
     UserEntity findByUserId(String userId);
 
     UserEntity findByNickname(String nickname);
@@ -31,7 +28,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     UserEntity findByUserEmail(String userEmail);
 
-    UserEntity findByPassword(String Password);
+    UserEntity findByPassword(String password);
 
     UserEntity findUserIdByUserEmail(String userEmail);
 
