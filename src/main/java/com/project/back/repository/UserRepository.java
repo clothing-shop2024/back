@@ -33,6 +33,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     UserEntity findByUserNameAndUserEmail(String userName, String userEmail);
 
+    UserEntity findByUserIdAndUserNameAndUserEmail(String userId, String userName, String userEmail);
+
     // board에 사용하려고
     UserEntity findUserRoleByUserId(String userId);
 }

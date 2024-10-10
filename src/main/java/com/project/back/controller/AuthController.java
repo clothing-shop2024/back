@@ -66,14 +66,6 @@ public class AuthController {
         return response;
     }
 
-    // 아이디 찾기의 이메일 인증
-    @PostMapping("/find-id-email-auth")
-    public ResponseEntity<ResponseDto> findIdEmailAuth(
-            @RequestBody @Valid FindIdEmailAuthRequestDto requestBody) {
-        ResponseEntity<ResponseDto> response = authService.findIdEmailAuth(requestBody);
-        return response;
-    }
-
     // 이메일 인증 확인
     @PostMapping("/email-auth-check")
     public ResponseEntity<ResponseDto> emailAuthCheck(
@@ -90,7 +82,14 @@ public class AuthController {
         return response;
     }
 
-    // 인증번호 전송 덮어씌어지지 않음
+    // 아이디 찾기의 이메일 인증
+    @PostMapping("/find-id-email-auth")
+    public ResponseEntity<ResponseDto> findIdEmailAuth(
+            @RequestBody @Valid FindIdEmailAuthRequestDto requestBody) {
+        ResponseEntity<ResponseDto> response = authService.findIdEmailAuth(requestBody);
+        return response;
+    }
+
     // 아이디 찾기
     @PostMapping("/find-id")
     public ResponseEntity<? super FindIdResponseDto> findId(
@@ -99,20 +98,20 @@ public class AuthController {
         return response;
     }
 
-    // 비밀번호 찾기
+    // 비밀번호 찾기의 이메일 인증
     @PostMapping("/find-password")
-    public ResponseEntity<ResponseDto> findPassword(
-            @RequestBody @Valid FindPasswordRequestDto requestBody) {
+    public ResponseEntity<ResponseDto> findPasswordEmailAuth (
+            @RequestBody @Valid 
+            FindPasswordRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.findPassword(requestBody);
         return response;
     }
 
     // 비밀번호 재설정
-    @PutMapping("/find-password/{userId}")
+    @PutMapping("/find-password-reset")
     public ResponseEntity<ResponseDto> findPasswordReset(
-            @RequestBody @Valid FindPasswordResetRequestDto requestBody,
-            @PathVariable("userId") String userId) {
-        ResponseEntity<ResponseDto> response = authService.findPasswordReset(requestBody, userId);
+            @RequestBody @Valid FindPasswordResetRequestDto requestBody) {
+        ResponseEntity<ResponseDto> response = authService.findPasswordReset(requestBody);
         return response;
     }
 }

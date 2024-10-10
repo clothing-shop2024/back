@@ -24,6 +24,4 @@ public class FindPasswordRequestDto {
     @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
     private String userEmail;
 
-    @NotBlank
-    private String authNumber;
 }

@@ -29,22 +29,22 @@ public interface AuthService {
     // 이메일 인증
     ResponseEntity<ResponseDto> emailAuth(EmailAuthRequestDto dto);
 
-    // 아이디 찾기의 이메일 인증
-    ResponseEntity<ResponseDto> findIdEmailAuth(FindIdEmailAuthRequestDto dto);
-
     // 이메일 인증 확인
     ResponseEntity<ResponseDto> emailAuthCheck(EmailAuthCheckRequestDto dto);
 
     // 회원가입
     ResponseEntity<ResponseDto> signUp(SignUpRequestDto dto);
 
+    // 아이디 찾기의 이메일 인증
+    ResponseEntity<ResponseDto> findIdEmailAuth(FindIdEmailAuthRequestDto dto);
+
     // 아이디 찾기
     ResponseEntity<? super FindIdResponseDto> findId(FindIdRequestDto dto);
 
-    // 비밀번호 찾기
+    // 비밀번호 찾기의 이메일 인증
     ResponseEntity<ResponseDto> findPassword(FindPasswordRequestDto dto);
 
     // 비밀번호 변경
-    ResponseEntity<ResponseDto> findPasswordReset(FindPasswordResetRequestDto dto, String userId);
+    ResponseEntity<ResponseDto> findPasswordReset(FindPasswordResetRequestDto dto);
 
 }

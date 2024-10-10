@@ -14,6 +14,14 @@ import lombok.Setter;
 public class FindPasswordResetRequestDto {
 
     @NotBlank
+    @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
+    private String userEmail;
+
+    @NotBlank
+    private String authNumber;
+
+    @NotBlank
     @Pattern(regexp = PatternUtil.PW_PATTERN)
     private String password;
+
 }
