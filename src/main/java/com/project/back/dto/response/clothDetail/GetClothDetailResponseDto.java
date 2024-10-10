@@ -21,8 +21,8 @@ public class GetClothDetailResponseDto extends ResponseDto {
     private Integer price;
     private Integer discountPrice;
     private Integer viewCount;
-    private Integer reviewCount;
-    private Integer favoriteCount;
+    private Integer reviewNumber;
+    private Integer favoriteNumber;
     private Double ratingAvg;
     private String clothImage1;
     private String clothImage2;
@@ -38,8 +38,8 @@ public class GetClothDetailResponseDto extends ResponseDto {
         this.price = clothDetailEntities.getPrice();
         this.discountPrice = clothDetailEntities.getDiscountPrice();
         this.viewCount = clothDetailEntities.getViewCount();
-        this.reviewCount = clothDetailEntities.getReviewCount();
-        this.favoriteCount = clothDetailEntities.getFavoriteCount();
+        this.reviewNumber = clothDetailEntities.getReviewNumber();
+        this.favoriteNumber = clothDetailEntities.getFavoriteNumber();
         this.ratingAvg = clothDetailEntities.getRatingAvg();
         this.clothImage1 = clothDetailEntities.getClothImage1();
         this.clothImage2 = clothDetailEntities.getClothImage2();
