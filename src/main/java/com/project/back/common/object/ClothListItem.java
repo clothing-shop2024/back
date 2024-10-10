@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.back.entity.ClothEntity;
+import com.project.back.entity.ClothDetailEntity;
 
 import lombok.Getter;
 
@@ -22,7 +23,7 @@ public class ClothListItem {
         this.clothName = clothEntity.getClothName();
         this.clothDate = clothEntity.getClothDate();
         this.stock = clothEntity.getStock();
-        this.clothDetailNumber = clothEntity.getClothDetailNumber();
+        // this.clothDetailNumber = ClothDetailEntity.getClothDetailNumber();
 
     }
 
