@@ -25,6 +25,8 @@ public class ClothDetailListItem {
     private String clothImage1;
     private String clothImage2;
 
+    private Integer clothDetailSequence;
+
     private ClothDetailListItem(ClothDetailEntity clothDetailEntity) throws Exception {
 
         String clothDate = ChangeDateFormatUtil.changeYYYYMMDD(clothDetailEntity.getClothDate());
@@ -42,6 +44,8 @@ public class ClothDetailListItem {
         this.ratingAvg = clothDetailEntity.getRatingAvg();
         this.clothImage1 = clothDetailEntity.getClothImage1();
         this.clothImage2 = clothDetailEntity.getClothImage2();
+
+        this.clothDetailSequence = clothDetailEntity.getClothDetailSequence();
 
     }
 

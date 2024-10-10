@@ -1,6 +1,8 @@
 package com.project.back.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.Setter;
 public class ClothDetailEntity {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String clothDetailNumber;
     private String clothDetailName;
     private String clothCategory1;
@@ -30,5 +33,8 @@ public class ClothDetailEntity {
     private Double ratingAvg;
     private String clothImage1;
     private String clothImage2;
+
+    // 순번
+    private Integer clothDetailSequence;
 
 }
