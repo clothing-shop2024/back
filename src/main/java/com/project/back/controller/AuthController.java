@@ -99,7 +99,6 @@ public class AuthController {
         return response;
     }
 
-    // 비밀번호 인증번호 인식 안됨
     // 비밀번호 찾기
     @PostMapping("/find-password")
     public ResponseEntity<ResponseDto> findPassword(

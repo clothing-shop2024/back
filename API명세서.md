@@ -28,14 +28,14 @@
 | name | type | description | required |
 |---|:---:|:---:|:---:|
 | userId | String | 사용자의 아이디 | O |
-| userPassword | String | 사용자의 비밀번호 | O |
+| password | String | 사용자의 비밀번호 | O |
 
 ###### Example
 
 ```bash
 curl -v -X POST "http://localhost:4000/api/rentcar/auth/sign-in" \
  -d "userId=service123" \
- -d "userPassword=P!ssw0rd"
+ -d "password=P!ssw0rd"
 ```
 
 ##### Response
@@ -392,7 +392,7 @@ contentType: application/json;charset=UTF-8
 | name | type | description | required |
 |---|:---:|:---:|:---:|
 | userId | String | 사용자 아이디 | O |
-| userPassword | String | 사용자 비밀번호 (영문+숫자 8~13자) | O |
+| password | String | 사용자 비밀번호 (영문+숫자 8~13자) | O |
 | nickName | String | 사용자 닉네임 | O |
 | userEmail | String | 사용자 이메일 (이메일 형태의 데이터) | O |
 | authNumber | String | 인증 확인할 인증 번호 | O |
@@ -402,7 +402,7 @@ contentType: application/json;charset=UTF-8
 ```bash
 curl -v -X POST "http://localhost:4000/api/rentcar/auth/sign-up" \
  -d "userId=service123" \
- -d "userPassword=Pa55w0rd" \
+ -d "password=Pa55w0rd" \
  -d "nickName=nickName" \
  -d "userEmail=email@email.com" \
  -d "authNumber=0123"
@@ -720,13 +720,13 @@ contentType: application/json;charset=UTF-8
 
 | name | type | description | required |
 |---|:---:|:---:|:---:|
-| userPassword | String | 사용자의 비밀번호 | O |
+| password | String | 사용자의 비밀번호 | O |
 
 ###### Example
 
 ```bash
 curl -v -X PUT "http://localhost:4000/api/rentcar/auth/find-password/${userId}" \
- -d "userPassword={userPassword}" \
+ -d "password={password}" \
 ```
 
 ##### Response

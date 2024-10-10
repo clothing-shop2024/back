@@ -304,7 +304,7 @@ public class AuthServiceImplementation implements AuthService {
             String password = dto.getPassword();
 
             UserEntity userEntity = userRepository.findByUserId(userId);
-            // System.out.println(userId);
+            System.out.println(userId);
             if (userEntity == null)
                 return ResponseDto.noExistUser();
 
