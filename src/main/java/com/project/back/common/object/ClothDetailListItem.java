@@ -37,8 +37,8 @@ public class ClothDetailListItem {
         this.discountPrice = clothDetailEntity.getDiscountPrice();
         this.clothDate = clothDate;
         this.viewCount = clothDetailEntity.getViewCount();
-        this.reviewCount = clothDetailEntity.getReviewCount();
-        this.favoriteCount = clothDetailEntity.getFavoriteCount();
+        this.reviewCount = clothDetailEntity.getReviewNumber();
+        this.favoriteCount = clothDetailEntity.getFavoriteNumber();
         this.ratingAvg = clothDetailEntity.getRatingAvg();
         this.clothImage1 = clothDetailEntity.getClothImage1();
         this.clothImage2 = clothDetailEntity.getClothImage2();

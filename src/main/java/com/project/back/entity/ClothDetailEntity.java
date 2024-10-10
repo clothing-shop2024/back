@@ -25,8 +25,8 @@ public class ClothDetailEntity {
     private Integer discountPrice;
     private String clothDate;
     private Integer viewCount;
-    private Integer reviewCount;
-    private Integer favoriteCount;
+    private Integer reviewNumber;
+    private Integer favoriteNumber;
     private Double ratingAvg;
     private String clothImage1;
     private String clothImage2;

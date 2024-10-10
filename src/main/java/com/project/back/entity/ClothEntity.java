@@ -20,8 +20,6 @@ public class ClothEntity {
     
     @Id
     private String clothNumber;
-    private String clothName;
-    private String clothDate;
     private Integer stock;
 
     @ManyToOne
