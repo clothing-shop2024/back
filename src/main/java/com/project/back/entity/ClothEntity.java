@@ -26,6 +26,6 @@ public class ClothEntity {
 
     @ManyToOne
     @JoinColumn(name = "cloth_detail_number")
-    private String clothDetailNumber;
+    private ClothDetailEntity clothDetailNumber;
 
 }

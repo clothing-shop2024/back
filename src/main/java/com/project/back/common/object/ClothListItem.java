@@ -3,7 +3,6 @@ package com.project.back.common.object;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.back.common.util.ChangeDateFormatUtil;
 import com.project.back.entity.ClothEntity;
 
 import lombok.Getter;
@@ -15,8 +14,6 @@ public class ClothListItem {
     private String clothName;
     private String clothDate;
     private Integer stock;
-    private Integer colorNumber;
-    private Integer sizeNumber;
     private String clothDetailNumber;
 
     private ClothListItem(ClothEntity clothEntity) throws Exception {
@@ -25,8 +22,6 @@ public class ClothListItem {
         this.clothName = clothEntity.getClothName();
         this.clothDate = clothEntity.getClothDate();
         this.stock = clothEntity.getStock();
-        this.colorNumber = clothEntity.getColorNumber();
-        this.sizeNumber = clothEntity.getSizeNumber();
         this.clothDetailNumber = clothEntity.getClothDetailNumber();
 
     }

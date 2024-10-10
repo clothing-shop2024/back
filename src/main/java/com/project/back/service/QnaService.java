@@ -18,7 +18,7 @@ public interface QnaService {
     // 문의사항 리스트 검색하기
     ResponseEntity<? super GetQnaListResponseDto> getQnaSearchList(String searchWord);
 
-    // 문의사항 리스트 카테고리 리스트 보기
+    // 문의사항 카테고리 리스트 보기
     ResponseEntity<? super GetQnaListResponseDto> getQnaCategoryList(String qnaCategory);
 
     // 문의사항 카테고리 리스트에서 검색하기
