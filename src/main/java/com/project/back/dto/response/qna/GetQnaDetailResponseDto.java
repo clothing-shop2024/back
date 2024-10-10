@@ -38,7 +38,6 @@ public class GetQnaDetailResponseDto extends ResponseDto {
 
     }
 
-
     public static ResponseEntity<GetQnaDetailResponseDto> success(QnaEntity qnaEntities) throws Exception {
         
         GetQnaDetailResponseDto responseBody = new GetQnaDetailResponseDto(qnaEntities);

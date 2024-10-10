@@ -1,5 +1,6 @@
 package com.project.back.entity;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -18,14 +19,17 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClothSizeMapEntity {
     
+    @EmbeddedId
+    private Integer id;
+
     @ManyToOne
     @MapsId("clothNumber")
     @JoinColumn(name = "cloth_number")
-    private String clothNumber;
+    private ClothEntity clothNumber;
 
     @ManyToOne
     @MapsId("sizeNumber")
     @JoinColumn(name = "size_number")
-    private int sizeNumber;
+    private ClothSizeEntity sizeNumber;
 
 }

@@ -16,12 +16,10 @@ import com.project.back.dto.request.faq.PutFaqRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.faq.GetFaqDetailResponseDto;
 import com.project.back.dto.response.faq.GetFaqListResponseDto;
-import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.service.FaqService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
