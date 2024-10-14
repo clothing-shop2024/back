@@ -15,8 +15,8 @@ public class FindIdEmailAuthRequestDto {
 
     @NotBlank
     private String userName;
+
     @NotBlank
     @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
     private String userEmail;
-
 }
