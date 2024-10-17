@@ -91,10 +91,21 @@ public class ClothDetailController {
     }
 
     // 옷 상세 조회순으로 리스트 보기
-    @GetMapping("/list/popular")
+    @GetMapping("/list/best")
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailViewCountList () {
 
         ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailViewCountList();
+
+        return response;
+    }
+
+    // 조회순으로 옷 상세 카테고리1 리스트 보기
+    @GetMapping("/list/category1/{clothCategory1}/best")
+    public ResponseEntity<? super GetClothDetailListResponseDto> getBestClothDetailCategory1List(
+        @PathVariable("clothCategory1") String clothCategory1
+    ) {
+
+        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getBestClothDetailCategory1List(clothCategory1);
 
         return response;
     }
