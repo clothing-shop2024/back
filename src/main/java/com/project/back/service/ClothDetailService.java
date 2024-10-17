@@ -27,6 +27,9 @@ public interface ClothDetailService {
     // 옷 상세 조회순으로 리스트 보기
     ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailViewCountList();
 
+    // 옷 상세 조회순으로 카테고리1 필터 리스트 보기
+    ResponseEntity<? super GetClothDetailListResponseDto> getBestClothDetailCategory1List(String clothCategory1);
+
     // 옷 상세 테이블의 상세페이지 보기
     // ResponseEntity <? super GetClothDetailResponseDto> getClothDetail(String clothDetailNumber);
 

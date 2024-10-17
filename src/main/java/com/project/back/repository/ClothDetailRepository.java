@@ -26,4 +26,6 @@ public interface ClothDetailRepository extends JpaRepository<ClothDetailEntity, 
 
     List<ClothDetailEntity> findByOrderByViewCountDesc();
 
+    List<ClothDetailEntity> findByClothCategory1ContainsOrderByViewCountDesc(String clothCategory1);
+
 }
