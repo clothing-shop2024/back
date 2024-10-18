@@ -110,4 +110,26 @@ public class ClothDetailController {
         return response;
     }
 
+    // 옷 상세 가격 낮은순으로 카테고리1 리스트 보기
+    @GetMapping("/list/category1/{clothCategory1}/price-asc")
+    public ResponseEntity<? super GetClothDetailListResponseDto> getPriceAscClothDetailCategory1List (
+        @PathVariable("clothCategory1") String clothCategory1
+    ) {
+
+        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailPriceAscList(clothCategory1);
+
+        return response;
+    }
+
+    // 옷 상세 가격 높은순으로 카테고리1 리스트 보기
+    @GetMapping("/list/category1/{clothCategory1}/price-desc")
+    public ResponseEntity<? super GetClothDetailListResponseDto> getPriceDescClothDetailCategory1List (
+        @PathVariable("clothCategory1") String clothCategory1
+    ) {
+
+        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailPriceDescList(clothCategory1);
+
+        return response;
+    }
+
 }
