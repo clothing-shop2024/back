@@ -51,7 +51,7 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         }
     }
 
-
+    // 옷 상세 카테고리1 필터 리스트 보기
     @Override
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory1List(String clothCategory1) {
         
@@ -67,7 +67,7 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         }
     }
 
-
+    // 옷 상세 카테고리2 필터 리스트 보기
     @Override
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2List(String clothCategory2) {
         
@@ -83,10 +83,10 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         }
     }
 
-
+    // 옷 상세 카테고리1 리스트에서 검색하기
     @Override
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory1SearchList(
-            String clothCategory1, String searchWord) {
+        String clothCategory1, String searchWord) {
         
         try {
 
@@ -100,10 +100,10 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         }
     }
 
-
+    // 옷 상세 카테고리2 리스트에서 검색하기
     @Override
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2SearchList(
-            String clothCategory2, String searchWord) {
+        String clothCategory2, String searchWord) {
         
         try {
 
@@ -117,6 +117,7 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         }
     }
 
+    // 옷 상세 조회순으로 보기 (best)
     @Override
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailViewCountList() {
         
@@ -131,5 +132,57 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
             return ResponseDto.databaseError();
         }
     }
-    
+
+    // 옷 상세 조회순으로 카테고리1 필터 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothDetailListResponseDto> getBestClothDetailCategory1List(
+        String clothCategory1) {
+        
+        try {
+
+            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory1ContainsOrderByViewCountDesc(clothCategory1);
+
+            return GetClothDetailListResponseDto.success(clothDetailEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 낮은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailPriceAscList(
+        String clothCategory1
+    ) {
+        
+        try {
+
+            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory1ContainsOrderByPriceAsc(clothCategory1);
+
+            return GetClothDetailListResponseDto.success(clothDetailEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 높은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailPriceDescList(
+        String clothCategory1
+    ) {
+        
+        try {
+
+            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory1ContainsOrderByPriceDesc(clothCategory1);
+
+            return GetClothDetailListResponseDto.success(clothDetailEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
 }
