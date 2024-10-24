@@ -2,7 +2,6 @@
 package com.project.back.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -100,9 +99,8 @@ public class AuthController {
 
     // 비밀번호 찾기의 이메일 인증
     @PostMapping("/find-password")
-    public ResponseEntity<ResponseDto> findPasswordEmailAuth (
-            @RequestBody @Valid 
-            FindPasswordRequestDto requestBody) {
+    public ResponseEntity<ResponseDto> findPasswordEmailAuth(
+            @RequestBody @Valid FindPasswordRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.findPassword(requestBody);
         return response;
     }

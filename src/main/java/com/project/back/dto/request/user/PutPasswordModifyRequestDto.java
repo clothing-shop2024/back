@@ -1,4 +1,4 @@
-package com.project.back.dto.request.auth;
+package com.project.back.dto.request.user;
 
 import com.project.back.common.util.PatternUtil;
 
@@ -11,12 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FindIdEmailAuthRequestDto {
+public class PutPasswordModifyRequestDto {
 
     @NotBlank
-    private String userName;
-
-    @NotBlank
-    @Pattern(regexp = PatternUtil.EMAIL_PATTERN)
-    private String userEmail;
+    @Pattern(regexp = PatternUtil.PW_PATTERN)
+    private String password;
 }

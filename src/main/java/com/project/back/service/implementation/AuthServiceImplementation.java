@@ -272,64 +272,69 @@ public class AuthServiceImplementation implements AuthService {
     // @Override
     // public ResponseEntity<ResponseDto> findPassword(FindPasswordRequestDto dto) {
 
-    //     try {
+    // try {
 
-    //         String userId = dto.getUserId();
-    //         String userName = dto.getUserName();
-    //         String userEmail = dto.getUserEmail();
-    //         String authNumber = dto.getAuthNumber();
+    // String userId = dto.getUserId();
+    // String userName = dto.getUserName();
+    // String userEmail = dto.getUserEmail();
+    // String authNumber = dto.getAuthNumber();
 
-    //         // 인증번호 검증
-    //         boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, authNumber);
-    //         if (!isMatched) {
-    //             return ResponseDto.authenticationFailed();
-    //         }
+    // // 인증번호 검증
+    // boolean isMatched =
+    // emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail,
+    // authNumber);
+    // if (!isMatched) {
+    // return ResponseDto.authenticationFailed();
+    // }
 
-    //         // 사용자 정보 검증
-    //         boolean isUserMatched = userRepository.existsByUserIdAndUserNameAndUserEmail(userId, userName, userEmail);
-    //         if (!isUserMatched) {
-    //             return ResponseDto.authenticationFailed();
-    //         }
+    // // 사용자 정보 검증
+    // boolean isUserMatched =
+    // userRepository.existsByUserIdAndUserNameAndUserEmail(userId, userName,
+    // userEmail);
+    // if (!isUserMatched) {
+    // return ResponseDto.authenticationFailed();
+    // }
 
-    //     } catch (Exception exception) {
-    //         exception.printStackTrace();
-    //         return ResponseDto.databaseError();
-    //     }
+    // } catch (Exception exception) {
+    // exception.printStackTrace();
+    // return ResponseDto.databaseError();
+    // }
 
-    //     return ResponseDto.success();
+    // return ResponseDto.success();
     // }
 
     // @Override
-    // public ResponseEntity<ResponseDto> findPasswordReset(FindPasswordResetRequestDto dto, String userId) {
-    //     try {
+    // public ResponseEntity<ResponseDto>
+    // findPasswordReset(FindPasswordResetRequestDto dto, String userId) {
+    // try {
 
-    //         String password = dto.getPassword();
+    // String password = dto.getPassword();
 
-    //         UserEntity userEntity = userRepository.findByUserId(userId);
-    //         System.out.println(userId);
-    //         if (userEntity == null)
-    //             return ResponseDto.noExistUser();
+    // UserEntity userEntity = userRepository.findByUserId(userId);
+    // System.out.println(userId);
+    // if (userEntity == null)
+    // return ResponseDto.noExistUser();
 
-    //         boolean isMatched = userRepository.existsById(userId);
-    //         if (!isMatched)
-    //             return ResponseDto.authenticationFailed();
+    // boolean isMatched = userRepository.existsById(userId);
+    // if (!isMatched)
+    // return ResponseDto.authenticationFailed();
 
-    //         String encodedPassword = passwordEncoder.encode(password);
+    // String encodedPassword = passwordEncoder.encode(password);
 
-    //         dto.setPassword(encodedPassword);
-    //         userEntity.findPassword(dto);
-    //         userRepository.save(userEntity);
+    // dto.setPassword(encodedPassword);
+    // userEntity.findPassword(dto);
+    // userRepository.save(userEntity);
 
-    //     } catch (Exception exception) {
-    //         exception.printStackTrace();
-    //         return ResponseDto.databaseError();
-    //     }
+    // } catch (Exception exception) {
+    // exception.printStackTrace();
+    // return ResponseDto.databaseError();
+    // }
 
-    //     return ResponseDto.success();
+    // return ResponseDto.success();
     // }
 
     // 비밀번호 찾기에서 인증 번호 받기 전
-    public ResponseEntity<ResponseDto> findPassword (FindPasswordRequestDto dto) {
+    public ResponseEntity<ResponseDto> findPassword(FindPasswordRequestDto dto) {
 
         try {
 
@@ -371,7 +376,7 @@ public class AuthServiceImplementation implements AuthService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> findPasswordReset (FindPasswordResetRequestDto dto) {
+    public ResponseEntity<ResponseDto> findPasswordReset(FindPasswordResetRequestDto dto) {
 
         try {
 
@@ -382,14 +387,15 @@ public class AuthServiceImplementation implements AuthService {
             UserEntity userEntity = userRepository.findByUserEmail(userEmail);
 
             boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, authNumber);
-            if (!isMatched) return ResponseDto.authenticationFailed();
+            if (!isMatched)
+                return ResponseDto.authenticationFailed();
 
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
 
             userEntity.findPassword(dto);
             userRepository.save(userEntity);
-            
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();

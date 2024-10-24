@@ -7,6 +7,8 @@ import java.util.Date;
 import com.project.back.dto.request.auth.FindPasswordResetRequestDto;
 import com.project.back.dto.request.auth.SignUpRequestDto;
 import com.project.back.dto.request.user.PatchUserInfoRequestDto;
+import com.project.back.dto.request.user.PutEmailModifyRequestDto;
+import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -79,14 +81,23 @@ public class UserEntity {
     }
 
     public void update(PatchUserInfoRequestDto dto) {
-        this.password = dto.getPassword();
+        // this.password = dto.getPassword();
+        this.userName = dto.getUserName();
         this.nickname = dto.getNickname();
-        this.userEmail = dto.getUserEmail();
+        // this.userEmail = dto.getUserEmail();
         this.userBirthDay = dto.getUserBirthDay();
     }
 
     public void findPassword(FindPasswordResetRequestDto dto) {
         this.password = dto.getPassword();
+    }
+
+    public void findModify(PutPasswordModifyRequestDto dto) {
+        this.password = dto.getPassword();
+    }
+
+    public void emailModify(PutEmailModifyRequestDto dto) {
+        this.userEmail = dto.getUserEmail();
     }
 
     // 등급 업데이트 메서드

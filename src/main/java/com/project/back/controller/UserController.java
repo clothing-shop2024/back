@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,8 @@ import com.project.back.dto.request.user.DeleteUserRequestDto;
 import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserInfoRequestDto;
 import com.project.back.dto.request.user.PostUserPointRequestDto;
+import com.project.back.dto.request.user.PutEmailModifyRequestDto;
+import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
@@ -52,6 +55,24 @@ public class UserController {
             @RequestBody @Valid PatchUserInfoRequestDto requestBody,
             @PathVariable("userId") String userId) {
         ResponseEntity<ResponseDto> response = userService.patchUserInfo(requestBody, userId);
+        return response;
+    }
+
+    // 비밀번호 수정하기
+    @PutMapping("/information/password-modify")
+    public ResponseEntity<ResponseDto> putPasswordModify(
+            @RequestBody @Valid PutPasswordModifyRequestDto requestBody,
+            @AuthenticationPrincipal String userId) {
+        ResponseEntity<ResponseDto> response = userService.putPasswordModify(requestBody, userId);
+        return response;
+    }
+
+    // 이메일 수정하기
+    @PutMapping("/information/email-modify")
+    public ResponseEntity<ResponseDto> putEmailModify(
+            @RequestBody @Valid PutEmailModifyRequestDto requestBody,
+            @AuthenticationPrincipal String userId) {
+        ResponseEntity<ResponseDto> response = userService.putEmailModify(requestBody, userId);
         return response;
     }
 

@@ -27,13 +27,13 @@ public class JwtProvider {
             Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
             jwt = Jwts.builder()
-                .signWith(key, SignatureAlgorithm.HS256)
-                .setSubject(userId)
-                .setIssuedAt(new Date())
-                .setExpiration(expiredDate)
-                .compact();
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .setSubject(userId)
+                    .setIssuedAt(new Date())
+                    .setExpiration(expiredDate)
+                    .compact();
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return null;
         }
@@ -45,12 +45,12 @@ public class JwtProvider {
         String userId = null;
         try {
             userId = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jwt)
-                .getBody()
-                .getSubject();
-        } catch(Exception exception) {
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jwt)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception exception) {
             exception.printStackTrace();
             return null;
         }
