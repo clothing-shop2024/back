@@ -1,19 +1,29 @@
 package com.project.back.service.implementation;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.back.common.util.EmailAuthNumberUtil;
+import com.project.back.dto.request.auth.EmailAuthRequestDto;
 import com.project.back.dto.request.user.DeleteUserRequestDto;
 import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserInfoRequestDto;
 import com.project.back.dto.request.user.PostUserPointRequestDto;
+import com.project.back.dto.request.user.PutEmailModifyRequestDto;
+import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
+import com.project.back.entity.EmailAuthNumberEntity;
 import com.project.back.entity.UserEntity;
+import com.project.back.provider.MailProvider;
+import com.project.back.repository.EmailAuthNumberRepository;
 import com.project.back.repository.UserRepository;
 import com.project.back.service.UserService;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,6 +31,10 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private final MailProvider mailProvider;
+    private final EmailAuthNumberRepository emailAuthNumberRepository;
 
     @Override
     public ResponseEntity<? super GetSignInUserResponseDto> getSignInUser(String userId) {
@@ -164,6 +178,90 @@ public class UserServiceImplementation implements UserService {
             }
 
             userEntity.setPoints(newPoints);
+            userRepository.save(userEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> putPasswordModify(PutPasswordModifyRequestDto dto, String userId) {
+        try {
+
+            String password = dto.getPassword();
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            System.out.println(userId);
+            if (userEntity == null)
+                return ResponseDto.noExistUser();
+
+            boolean isMatched = userRepository.existsById(userId);
+            if (!isMatched)
+                return ResponseDto.authenticationFailed();
+
+            String encodedPassword = passwordEncoder.encode(password);
+
+            dto.setPassword(encodedPassword);
+            userEntity.findModify(dto);
+            userRepository.save(userEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> emailAuth(EmailAuthRequestDto dto) {
+        try {
+
+            String userEmail = dto.getUserEmail();
+            boolean existedEmail = userRepository.existsByUserEmail(userEmail);
+            if (existedEmail)
+                return ResponseDto.duplicatedEmail();
+
+            String authNumber = EmailAuthNumberUtil.createCodeNumber();
+
+            EmailAuthNumberEntity emailAuthNumberEntity = new EmailAuthNumberEntity(userEmail, authNumber);
+
+            emailAuthNumberRepository.save(emailAuthNumberEntity);
+
+            mailProvider.mailAuthSend(userEmail, authNumber);
+
+        } catch (MessagingException exception) {
+            exception.printStackTrace();
+            return ResponseDto.mailSendFailed();
+        }
+
+        catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> putEmailModify(PutEmailModifyRequestDto dto, String userId) {
+        try {
+
+            String userEmail = dto.getUserEmail();
+            String userNumber = dto.getAuthNumber();
+
+            boolean isMatched = emailAuthNumberRepository.existsByUserEmailAndAuthNumber(userEmail, userNumber);
+
+            if (!isMatched)
+                return ResponseDto.authenticationFailed();
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+
+            userEntity.emailModify(dto);
             userRepository.save(userEntity);
 
         } catch (Exception exception) {
