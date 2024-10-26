@@ -2,7 +2,6 @@ package com.project.back.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,7 +58,7 @@ public class UserController {
     }
 
     // 비밀번호 수정하기
-    @PutMapping("/information/password-modify")
+    @PutMapping("/info/password-modify")
     public ResponseEntity<ResponseDto> putPasswordModify(
             @RequestBody @Valid PutPasswordModifyRequestDto requestBody,
             @AuthenticationPrincipal String userId) {
@@ -68,7 +67,7 @@ public class UserController {
     }
 
     // 이메일 수정하기
-    @PutMapping("/information/email-modify")
+    @PutMapping("/info/email-modify")
     public ResponseEntity<ResponseDto> putEmailModify(
             @RequestBody @Valid PutEmailModifyRequestDto requestBody,
             @AuthenticationPrincipal String userId) {
@@ -77,7 +76,7 @@ public class UserController {
     }
 
     // 회원 탈퇴하기
-    @DeleteMapping("/info-delete/{userId}")
+    @PostMapping("/info-delete/{userId}")
     public ResponseEntity<ResponseDto> deleteUser(
             @RequestBody @Valid DeleteUserRequestDto requestBody,
             @PathVariable("userId") String userId) {

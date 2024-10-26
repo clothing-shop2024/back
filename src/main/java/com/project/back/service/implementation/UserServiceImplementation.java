@@ -102,7 +102,14 @@ public class UserServiceImplementation implements UserService {
             if (userEntity == null)
                 return ResponseDto.noExistInfo();
 
-            userRepository.delete(userEntity);
+            String password = dto.getPassword();
+            String encodedPassword = userEntity.getPassword();
+
+            boolean isMatched = passwordEncoder.matches(password, encodedPassword);
+            if (!isMatched)
+                return ResponseDto.noExistUser();
+
+            userRepository.delete(userEntity); // 사용자 삭제
 
         } catch (Exception exception) {
             exception.printStackTrace();
