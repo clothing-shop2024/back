@@ -83,40 +83,6 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         }
     }
 
-    // 옷 상세 카테고리1 리스트에서 검색하기
-    @Override
-    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory1SearchList(
-        String clothCategory1, String searchWord) {
-        
-        try {
-
-            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory1AndClothDetailNameContainsOrderByClothDetailSequenceDesc(clothCategory1, searchWord);
-
-            return GetClothDetailListResponseDto.success(clothDetailEntities);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-    }
-
-    // 옷 상세 카테고리2 리스트에서 검색하기
-    @Override
-    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2SearchList(
-        String clothCategory2, String searchWord) {
-        
-        try {
-
-            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory2AndClothDetailNameContainsOrderByClothDetailSequenceDesc(clothCategory2, searchWord);
-
-            return GetClothDetailListResponseDto.success(clothDetailEntities);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-    }
-
     // 옷 상세 조회순으로 보기 (best)
     @Override
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailViewCountList() {
@@ -177,6 +143,42 @@ public class ClothDetailServiceImplementation implements ClothDetailService {
         try {
 
             List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory1ContainsOrderByPriceDesc(clothCategory1);
+
+            return GetClothDetailListResponseDto.success(clothDetailEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 낮은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2PriceAscList(
+        String clothCategory2
+    ) {
+        
+        try {
+
+            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory2ContainsOrderByPriceAsc(clothCategory2);
+
+            return GetClothDetailListResponseDto.success(clothDetailEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 높은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2PriceDescList(
+        String clothCategory2
+    ) {
+        
+        try {
+
+            List<ClothDetailEntity> clothDetailEntities = clothDetailRepository.findByClothCategory2ContainsOrderByPriceDesc(clothCategory2);
 
             return GetClothDetailListResponseDto.success(clothDetailEntities);
 

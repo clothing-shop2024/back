@@ -18,12 +18,6 @@ public interface ClothDetailService {
     // 옷 상세 카테고리2 리스트 보기
     ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2List(String clothCategory2);
 
-    // 옷 상세 카테고리1 리스트에서 검색하기
-    ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory1SearchList(String clothCategory1, String searchWord);
-
-    // 옷 상세 카테고리2 리스트에서 검색하기
-    ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2SearchList(String clothCategory2, String searchWord);
-
     // 옷 상세 조회순으로 리스트 보기
     ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailViewCountList();
 
@@ -35,6 +29,12 @@ public interface ClothDetailService {
 
     // 옷 상세 가격 높은순으로 카테고리1 필터 리스트 보기
     ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailPriceDescList(String clothCategory1);
+
+    // 옷 상세 가격 낮은순으로 카테고리2 리스트 보기
+    ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2PriceAscList(String clothCategory2);
+
+    // 옷 상세 가격 낮은순으로 카테고리1 필터 리스트 보기
+    ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2PriceDescList(String clothCategory2);
 
     // 옷 상세 테이블의 상세페이지 보기
     // ResponseEntity <? super GetClothDetailResponseDto> getClothDetail(String clothDetailNumber);
