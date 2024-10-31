@@ -64,32 +64,6 @@ public class ClothDetailController {
         
     }
 
-    // 옷 상세 카테고리1 리스트에서 검색하기
-    @GetMapping("/list/category1/{clothCategory1}/search")
-    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory1SearchList (
-        @PathVariable("clothCategory1") String clothCategory1
-        , @RequestParam("word") String word
-    ) {
-        
-        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailCategory1SearchList(clothCategory1, word);
-
-        return response;
-
-    }
-
-    // 옷 상세 카테고리2 리스트에서 검색하기
-    @GetMapping("/list/category2/{clothCategory2}/search")
-    public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailCategory2SearchList (
-        @PathVariable("clothCategory2") String clothCategory2
-        , @RequestParam("word") String word
-    ) {
-        
-        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailCategory2SearchList(clothCategory2, word);
-
-        return response;
-
-    }
-
     // 옷 상세 조회순으로 리스트 보기
     @GetMapping("/list/best")
     public ResponseEntity<? super GetClothDetailListResponseDto> getClothDetailViewCountList () {
@@ -128,6 +102,28 @@ public class ClothDetailController {
     ) {
 
         ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailPriceDescList(clothCategory1);
+
+        return response;
+    }
+
+    // 옷 상세 가격 낮은순으로 카테고리2 리스트 보기
+    @GetMapping("/list/category2/{clothCategory2}/price-asc")
+    public ResponseEntity<? super GetClothDetailListResponseDto> getPriceAscClothDetailCategory2List (
+        @PathVariable("clothCategory2") String clothCategory2
+    ) {
+
+        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailCategory2PriceAscList(clothCategory2);
+
+        return response;
+    }
+
+    // 옷 상세 가격 높은순으로 카테고리2 리스트 보기
+    @GetMapping("/list/category2/{clothCategory2}/price-desc")
+    public ResponseEntity<? super GetClothDetailListResponseDto> getPriceDescClothDetailCategory2List (
+        @PathVariable("clothCategory2") String clothCategory2
+    ) {
+
+        ResponseEntity<? super GetClothDetailListResponseDto> response = clothDetailService.getClothDetailCategory2PriceDescList(clothCategory2);
 
         return response;
     }
