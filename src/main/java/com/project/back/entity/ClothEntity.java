@@ -17,10 +17,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClothEntity {
-    
+
     @Id
     private String clothNumber;
     private Integer stock;
+
+    private Integer sizeNumber;
+    private Integer colorNumber;
 
     @ManyToOne
     @JoinColumn(name = "cloth_detail_number")
