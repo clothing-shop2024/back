@@ -1,5 +1,7 @@
 package com.project.back.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -37,4 +39,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     // board에 사용하려고
     UserEntity findUserRoleByUserId(String userId);
+
+    // 관리자페이지 회원관리 리스트
+    List<UserEntity> findByOrderByJoinDateDesc();
 }

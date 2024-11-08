@@ -66,7 +66,8 @@ public class WebSecurityConfig {
                                                                 "/api/shop/notice/*/modify",
                                                                 "/api/shop/notice/*/delete",
                                                                 "/api/shop/faq/regist", "/api/shop/faq/*/modify",
-                                                                "/api/shop/faq/*/delete")
+                                                                "/api/shop/faq/*/delete", 
+                                                                "/api/shop/admin/**")
                                                 .hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 .oauth2Login(oauth2 -> oauth2
