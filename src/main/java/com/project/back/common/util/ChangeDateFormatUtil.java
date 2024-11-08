@@ -13,4 +13,11 @@ public class ChangeDateFormatUtil {
         return writeDatetime;
     }
     
+    public static String changeYYYYMMDDHHMMSS(String original) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date datetime = simpleDateFormat.parse(original);
+        simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+        String joinDate = simpleDateFormat.format(datetime);
+        return joinDate;
+    }
 }
