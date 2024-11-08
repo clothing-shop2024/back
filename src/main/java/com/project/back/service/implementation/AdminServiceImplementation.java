@@ -21,11 +21,26 @@ public class AdminServiceImplementation implements AdminService {
     private final UserRepository userRepository;
 
     @Override
-    public ResponseEntity<? super GetAdminUserListResponseDto> getUserList(String userId) {
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserDescList(String userId) {
         
         try {
 
             List<UserEntity> userEntities = userRepository.findByOrderByJoinDateDesc();
+
+            return GetAdminUserListResponseDto.success(userEntities);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+    
+    @Override
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserAscList(String userId) {
+        
+        try {
+
+            List<UserEntity> userEntities = userRepository.findByOrderByJoinDateAsc();
 
             return GetAdminUserListResponseDto.success(userEntities);
             
