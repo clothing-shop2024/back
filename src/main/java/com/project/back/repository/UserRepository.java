@@ -42,4 +42,5 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     // 관리자페이지 회원관리 리스트
     List<UserEntity> findByOrderByJoinDateDesc();
+    List<UserEntity> findByOrderByJoinDateAsc();
 }
