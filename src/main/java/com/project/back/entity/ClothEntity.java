@@ -19,7 +19,7 @@ import lombok.Setter;
 public class ClothEntity {
 
     @Id
-    private String clothNumber;
+    private Integer clothNumber;
     private Integer stock;
 
     private Integer sizeNumber;
