@@ -1,4 +1,4 @@
-package com.project.back.dto.response.qna;
+package com.project.back.dto.response.user;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import com.project.back.entity.QnaEntity;
 import lombok.Getter;
 
 @Getter
-public class GetQnaMyListResponseDto extends ResponseDto {
+public class GetMyQnaListResponseDto extends ResponseDto {
 
     private List<QnaListItem> qnaList;
     
-    private GetQnaMyListResponseDto (List<QnaEntity> qnaEntities) throws Exception {
+    private GetMyQnaListResponseDto (List<QnaEntity> qnaEntities) throws Exception {
 
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
@@ -26,9 +26,9 @@ public class GetQnaMyListResponseDto extends ResponseDto {
 
     }
 
-    public static ResponseEntity<GetQnaMyListResponseDto> success (List<QnaEntity> qnaEntities) throws Exception {
+    public static ResponseEntity<GetMyQnaListResponseDto> success (List<QnaEntity> qnaEntities) throws Exception {
 
-        GetQnaMyListResponseDto responseBody = new GetQnaMyListResponseDto(qnaEntities);
+        GetMyQnaListResponseDto responseBody = new GetMyQnaListResponseDto(qnaEntities);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
         
