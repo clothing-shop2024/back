@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.back.entity.ClothEntity;
-import com.project.back.entity.ClothDetailEntity;
+import com.project.back.repository.resultSet.GetClothFavoriteItemResultSet;
 
 import lombok.Getter;
 
 @Getter
 public class ClothListItem {
-    
-    private String clothNumber;
+
+    private Integer clothNumber;
     private Integer stock;
     private String clothDetailNumber;
+    private String clothName;
+    private String clothImage;
+    private String clothCategory;
 
     private ClothListItem(ClothEntity clothEntity) throws Exception {
 
@@ -23,7 +26,7 @@ public class ClothListItem {
 
     }
 
-    public static List<ClothListItem> getList (List<ClothEntity> clothEntities) throws Exception {
+    public static List<ClothListItem> getList(List<ClothEntity> clothEntities) throws Exception {
 
         List<ClothListItem> clothList = new ArrayList<>();
 
@@ -34,6 +37,25 @@ public class ClothListItem {
 
         }
 
+        return clothList;
+    }
+
+    public ClothListItem(GetClothFavoriteItemResultSet getClothFavoriteItemResultSet) throws Exception {
+
+        this.clothNumber = getClothFavoriteItemResultSet.getClothNumber();
+        this.clothName = getClothFavoriteItemResultSet.getClothName();
+        this.clothImage = getClothFavoriteItemResultSet.getClothImage();
+        this.clothCategory = getClothFavoriteItemResultSet.getClothCategory();
+    }
+
+    public static List<ClothListItem> getFavoriteClothList(
+            List<GetClothFavoriteItemResultSet> getClothFavoriteItemResultSetList) throws Exception {
+        List<ClothListItem> clothList = new ArrayList<>();
+
+        for (GetClothFavoriteItemResultSet getClothFavoriteItemResultSet : getClothFavoriteItemResultSetList) {
+            ClothListItem clothFavoriteListItem = new ClothListItem(getClothFavoriteItemResultSet);
+            clothList.add(clothFavoriteListItem);
+        }
         return clothList;
     }
 

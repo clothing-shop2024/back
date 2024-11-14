@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.back.dto.request.cloth.PostClothInfoRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.cloth.GetClothInfoResponseDto;
-import com.project.back.service.ClothInfoService;
+import com.project.back.service.ClothService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/shop/cloth-info")
 @RequiredArgsConstructor
-public class clothInfoController {
+public class ClothInfoController {
 
-    private final ClothInfoService clothInfoService;
+    private final ClothService clothService;
 
     @GetMapping("/{clothNumber}")
     public ResponseEntity<? super GetClothInfoResponseDto> getClothInfo(
-            @PathVariable("clothNumber") String clothNumber) {
-        ResponseEntity<? super GetClothInfoResponseDto> response = clothInfoService.getClothInfo(clothNumber);
+            @PathVariable("clothNumber") Integer clothNumber) {
+        ResponseEntity<? super GetClothInfoResponseDto> response = clothService.getClothInfo(clothNumber);
         return response;
     }
 
@@ -35,7 +35,7 @@ public class clothInfoController {
     public ResponseEntity<ResponseDto> postClothInfo(
             @RequestBody @Valid PostClothInfoRequestDto requestBody,
             @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = clothInfoService.postClothInfo(requestBody, userId);
+        ResponseEntity<ResponseDto> response = clothService.postClothInfo(requestBody, userId);
         return response;
     };
 

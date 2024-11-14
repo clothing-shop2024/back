@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class GetClothInfoResponseDto extends ResponseDto {
 
-    private String clothNumber; // 상품ID (고유식별코드)
+    private Integer clothNumber; // 상품ID (고유식별코드)
     private Integer stock; // 재고 수량
     private Integer sizeNumber; // 사이즈 번호
     private String sizeName; // 사이즈 이름
