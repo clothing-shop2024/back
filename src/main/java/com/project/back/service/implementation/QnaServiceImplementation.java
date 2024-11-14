@@ -11,7 +11,6 @@ import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
-import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
 import com.project.back.entity.QnaEntity;
 import com.project.back.entity.UserEntity;
 import com.project.back.repository.QnaRepository;
@@ -102,22 +101,6 @@ public class QnaServiceImplementation implements QnaService {
             if (qnaEntities == null) return ResponseDto.noExistBoard();
 
             return GetQnaDetailResponseDto.success(qnaEntities);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-    }
-
-    // 나의 문의내역 보기
-    @Override
-    public ResponseEntity<? super GetQnaMyListResponseDto> getQnaMyList(String userId) {
-        
-        try {
-
-            List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdOrderByQnaNumberDesc(userId);
-            
-            return GetQnaMyListResponseDto.success(qnaEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();

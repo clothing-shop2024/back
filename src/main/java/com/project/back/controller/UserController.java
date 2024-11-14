@@ -19,6 +19,7 @@ import com.project.back.dto.request.user.PutEmailModifyRequestDto;
 import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
+import com.project.back.dto.response.user.GetMyQnaListResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
 import com.project.back.service.UserService;
 
@@ -45,6 +46,16 @@ public class UserController {
     public ResponseEntity<? super GetMyInfoResponseDto> getMyInfo(
             @AuthenticationPrincipal String userId) {
         ResponseEntity<? super GetMyInfoResponseDto> response = userService.getMyInfo(userId);
+        return response;
+    }
+
+    // 나의 문의사항 전체 게시물 리스트 불러오기
+    @GetMapping("/qna/list")
+    public ResponseEntity<? super GetMyQnaListResponseDto> getMyQnaList (
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetMyQnaListResponseDto> response = userService.getMyQnaList(userId);
+
         return response;
     }
 

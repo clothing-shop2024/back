@@ -10,7 +10,6 @@ import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
-import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
 import com.project.back.service.QnaService;
 
 import jakarta.validation.Valid;
@@ -87,18 +86,6 @@ public class QnaController {
     ) {
 
         ResponseEntity<? super GetQnaDetailResponseDto> response = qnaService.getQnaDetail(qnaNumber);
-
-        return response;
-
-    }
-
-    // 나의 문의내역 보기
-    @GetMapping("/mylist")
-    public ResponseEntity<? super GetQnaMyListResponseDto> getQnaMylist (
-        @AuthenticationPrincipal String userId
-    ) {
-
-        ResponseEntity<? super GetQnaMyListResponseDto> response = qnaService.getQnaMyList(userId);
 
         return response;
 

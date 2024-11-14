@@ -1,5 +1,7 @@
 package com.project.back.service.implementation;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,12 +17,15 @@ import com.project.back.dto.request.user.PutEmailModifyRequestDto;
 import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
+import com.project.back.dto.response.user.GetMyQnaListResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
 import com.project.back.entity.EmailAuthNumberEntity;
+import com.project.back.entity.QnaEntity;
 import com.project.back.entity.UserEntity;
 import com.project.back.provider.MailProvider;
 import com.project.back.repository.EmailAuthNumberRepository;
 import com.project.back.repository.UserRepository;
+import com.project.back.repository.QnaRepository;
 import com.project.back.service.UserService;
 
 import jakarta.mail.MessagingException;
@@ -31,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
+    private final QnaRepository qnaRepository;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private final MailProvider mailProvider;
@@ -66,6 +72,22 @@ public class UserServiceImplementation implements UserService {
                 return ResponseDto.authenticationFailed();
 
             return GetMyInfoResponseDto.success(userEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 나의 문의내역 보기
+    @Override
+    public ResponseEntity<? super GetMyQnaListResponseDto> getMyQnaList(String userId) {
+        
+        try {
+
+            List<QnaEntity> qnaEntities = qnaRepository.findByQnaWriterIdOrderByQnaNumberDesc(userId);
+            
+            return GetMyQnaListResponseDto.success(qnaEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();

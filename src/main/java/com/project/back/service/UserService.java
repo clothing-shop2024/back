@@ -11,6 +11,7 @@ import com.project.back.dto.request.user.PutEmailModifyRequestDto;
 import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
+import com.project.back.dto.response.user.GetMyQnaListResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
 
 public interface UserService {
@@ -20,6 +21,9 @@ public interface UserService {
 
     // 사용자의 세부 정보 가져오기
     ResponseEntity<? super GetMyInfoResponseDto> getMyInfo(String userId);
+
+    // 나의 문의내역 리스트 보기
+    ResponseEntity<? super GetMyQnaListResponseDto> getMyQnaList(String userId);
 
     // 회원정보 수정하기
     ResponseEntity<ResponseDto> patchUserInfo(PatchUserInfoRequestDto dto, String userId);

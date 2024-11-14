@@ -8,7 +8,6 @@ import com.project.back.dto.request.qna.PutQnaRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.qna.GetQnaDetailResponseDto;
 import com.project.back.dto.response.qna.GetQnaListResponseDto;
-import com.project.back.dto.response.qna.GetQnaMyListResponseDto;
 
 public interface QnaService {
 
@@ -27,9 +26,6 @@ public interface QnaService {
     // 문의사항 상세 보기
     ResponseEntity<? super GetQnaDetailResponseDto> getQnaDetail(int qnaNumber);
 
-    // 나의 문의내역 리스트 보기
-    ResponseEntity<? super GetQnaMyListResponseDto> getQnaMyList(String userId);
-     
     // 문의사항 작성하기
     ResponseEntity<ResponseDto> postQna(PostQnaRequestDto dto, String userId);
 
