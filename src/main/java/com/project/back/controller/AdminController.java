@@ -43,7 +43,7 @@ public class AdminController {
     }
 
     // 회원관리 아이디로 검색하기
-    @GetMapping("/list/userId/search")
+    @GetMapping("/user/list/userId/search")
     public ResponseEntity<? super GetAdminUserListResponseDto> getUserIdSearchList (
         @AuthenticationPrincipal String userId,
         @RequestParam("word") String word
@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     // 회원관리 이름으로 검색하기
-    @GetMapping("/list/userName/search")
+    @GetMapping("/user/list/userName/search")
     public ResponseEntity<? super GetAdminUserListResponseDto> getUserNameSearchList (
         @AuthenticationPrincipal String userId,
         @RequestParam("word") String word
@@ -65,7 +65,7 @@ public class AdminController {
     }
 
     // 회원관리 등급으로 검색하기
-    @GetMapping("/list/grade/search")
+    @GetMapping("/user/list/grade/search")
     public ResponseEntity<? super GetAdminUserListResponseDto> getUserGradeSearchList (
         @AuthenticationPrincipal String userId,
         @RequestParam("word") String word
