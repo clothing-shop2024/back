@@ -25,10 +25,10 @@ public class FavoriteClothEntity {
 
     private String userId;
     private String clothDetailNumber;
-    private Integer clothNumber;
+    private Integer clothId;
 
-    public FavoriteClothEntity(String userId, Integer clothNumber) {
+    public FavoriteClothEntity(String userId, Integer clothId) {
         this.userId = userId;
-        this.clothNumber = clothNumber;
+        this.clothId = clothId;
     }
 }

@@ -46,9 +46,9 @@ public class ClothServiceImplementation implements ClothService {
     }
 
     @Override
-    public ResponseEntity<? super GetClothInfoResponseDto> getClothInfo(Integer clothNumber) {
+    public ResponseEntity<? super GetClothInfoResponseDto> getClothInfo(Integer clothId) {
         try {
-            ClothEntity clothEntity = clothInfoRepository.findByClothNumber(clothNumber);
+            ClothEntity clothEntity = clothInfoRepository.findByClothId(clothId);
 
             return GetClothInfoResponseDto.success(clothEntity, null, null);
 
@@ -75,18 +75,18 @@ public class ClothServiceImplementation implements ClothService {
 
     // 찜 목록
     @Override
-    public ResponseEntity<ResponseDto> postFavorite(String userId, Integer clothNumber) {
+    public ResponseEntity<ResponseDto> postFavorite(String userId, Integer clothId) {
         try {
             boolean isExistUser = userRepository.existsByUserId(userId);
             if (!isExistUser)
                 return ResponseDto.noExistUser();
 
             // 옷이 존재하는지 확인
-            boolean isExistCloth = clothRepository.existsByClothNumber(clothNumber);
+            boolean isExistCloth = clothRepository.existsByClothId(clothId);
             if (!isExistCloth)
                 return ResponseDto.noExistReservation();
 
-            FavoriteClothEntity favoriteClothEntity = new FavoriteClothEntity(userId, clothNumber);
+            FavoriteClothEntity favoriteClothEntity = new FavoriteClothEntity(userId, clothId);
             favoriteClothRepository.save(favoriteClothEntity);
 
         } catch (Exception exception) {
@@ -109,15 +109,15 @@ public class ClothServiceImplementation implements ClothService {
     }
 
     @Override
-    public ResponseEntity<? super GetFavoriteCheckResponseDto> getFavoriteCheck(String userId, Integer clothNumber) {
+    public ResponseEntity<? super GetFavoriteCheckResponseDto> getFavoriteCheck(String userId, Integer clothId) {
         try {
             boolean isFavoriteStatus = favoriteClothRepository
-                    .existsByUserIdAndClothNumber(userId, clothNumber);
+                    .existsByUserIdAndClothId(userId, clothId);
             if (!isFavoriteStatus)
                 return ResponseDto.noExistUser();
 
             FavoriteClothEntity favoriteClothEntity = favoriteClothRepository
-                    .findByUserIdAndClothNumber(userId, clothNumber);
+                    .findByUserIdAndClothId(userId, clothId);
 
             return GetFavoriteCheckResponseDto.success(favoriteClothEntity);
         } catch (Exception exception) {
@@ -127,18 +127,18 @@ public class ClothServiceImplementation implements ClothService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> deleteFavorite(String userId, Integer clothNumber) {
+    public ResponseEntity<ResponseDto> deleteFavorite(String userId, Integer clothId) {
         try {
             boolean isExistUser = userRepository.existsByUserId(userId);
             if (!isExistUser)
                 return ResponseDto.noExistUser();
 
-            boolean isExistCloth = clothRepository.existsByClothNumber(clothNumber);
+            boolean isExistCloth = clothRepository.existsByClothId(clothId);
             if (!isExistCloth)
                 return ResponseDto.noExistReservation();
 
             FavoriteClothEntity favoriteClothEntity = favoriteClothRepository
-                    .findByUserIdAndClothNumber(userId, clothNumber);
+                    .findByUserIdAndClothId(userId, clothId);
             if (favoriteClothEntity == null)
                 return ResponseDto.authorizationFailed();
 

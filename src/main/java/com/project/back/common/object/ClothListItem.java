@@ -11,7 +11,8 @@ import lombok.Getter;
 @Getter
 public class ClothListItem {
 
-    private Integer clothNumber;
+    private Integer clothId;
+    private String clothNumber;
     private Integer stock;
     private String clothDetailNumber;
     private String clothName;
@@ -20,6 +21,8 @@ public class ClothListItem {
 
     private ClothListItem(ClothEntity clothEntity) throws Exception {
 
+        // 상품 아이디 추가
+        this.clothId = clothEntity.getClothId();
         this.clothNumber = clothEntity.getClothNumber();
         this.stock = clothEntity.getStock();
         // this.clothDetailNumber = ClothDetailEntity.getClothDetailNumber();
@@ -42,6 +45,8 @@ public class ClothListItem {
 
     public ClothListItem(GetClothFavoriteItemResultSet getClothFavoriteItemResultSet) throws Exception {
 
+        // 상품 아이디 추가
+        this.clothId = getClothFavoriteItemResultSet.getClothId();
         this.clothNumber = getClothFavoriteItemResultSet.getClothNumber();
         this.clothName = getClothFavoriteItemResultSet.getClothName();
         this.clothImage = getClothFavoriteItemResultSet.getClothImage();

@@ -11,16 +11,18 @@ import com.project.back.entity.ClothEntity;
 import lombok.Getter;
 
 @Getter
-public class GetClothNumberResponseDto extends ResponseDto {
-    private Integer clothNumber;
+public class GetClothIdResponseDto extends ResponseDto {
+    private Integer clothId;
+    // private String clothNumber;
 
-    private GetClothNumberResponseDto(ClothEntity clothEntity) throws Exception {
+    private GetClothIdResponseDto(ClothEntity clothEntity) throws Exception {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.clothNumber = clothEntity.getClothNumber();
+        this.clothId = clothEntity.getClothId();
+        // this.clothNumber = clothEntity.getClothNumber();
     }
 
-    public static ResponseEntity<GetClothNumberResponseDto> success(ClothEntity clothEntity) throws Exception {
-        GetClothNumberResponseDto responseBody = new GetClothNumberResponseDto(clothEntity);
+    public static ResponseEntity<GetClothIdResponseDto> success(ClothEntity clothEntity) throws Exception {
+        GetClothIdResponseDto responseBody = new GetClothIdResponseDto(clothEntity);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 }

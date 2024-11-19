@@ -13,7 +13,10 @@ public class PostFavoriteClothRequestDto {
     private String favoriteUserId;
     // 찜 옷 고유번호
     @NotBlank
-    private Integer favoriteClothNumber;
+    private Integer favoriteClothId;
+    // 찜한 옷 번호
+    // @NotBlank
+    // private Integer favoriteClothNumber;
     // 상품번호
     @NotBlank
     private String clothDetailNumber;
