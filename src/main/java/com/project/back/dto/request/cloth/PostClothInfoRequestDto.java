@@ -10,7 +10,7 @@ import lombok.Setter;
 public class PostClothInfoRequestDto {
     // 상품ID (고유식별코드)
     @NotNull
-    private Integer clothNumber;
+    private String clothNumber;
     @NotBlank
     private Integer sizeNumber;
     @NotBlank

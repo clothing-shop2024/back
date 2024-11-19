@@ -12,12 +12,13 @@ import com.project.back.repository.resultSet.GetClothFavoriteItemResultSet;
 
 @Repository
 public interface ClothRepository extends JpaRepository<ClothEntity, Integer> {
-    boolean existsByClothNumber(Integer clothNumber);
+    boolean existsByClothId(Integer clothId);
 
-    ClothEntity findByClothNumber(Integer ClothNumber);
+    ClothEntity findByClothId(Integer clothId);
 
     @Query(value = "SELECT "
             + "r.cloth_number as clothNumber, "
+            + "r.cloth_id as clothId, "
             + "r.cloth_image as clothImage, "
             + "r.cloth_name as clothName, "
             + "r.cloth_category as clothCategory "

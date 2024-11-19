@@ -14,7 +14,7 @@ import lombok.Getter;
 public class GetFavoriteCheckResponseDto extends ResponseDto {
     // 찜한 옷의 아이디와 유저아이디 상품번호를 저장
     private String userId;
-    private Integer clothNumber;
+    private Integer clothId;
     private String clothDetailNumber;
 
     private GetFavoriteCheckResponseDto(FavoriteClothEntity favoriteClothEntity) throws Exception {
@@ -22,7 +22,7 @@ public class GetFavoriteCheckResponseDto extends ResponseDto {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
         this.userId = favoriteClothEntity.getUserId();
-        this.clothNumber = favoriteClothEntity.getClothNumber();
+        this.clothId = favoriteClothEntity.getClothId();
         this.clothDetailNumber = favoriteClothEntity.getClothDetailNumber();
     }
 

@@ -23,20 +23,20 @@ public class ClothController {
 
     private final ClothService clothService;
 
-    @PostMapping("/favorite/{clothNumber}")
+    @PostMapping("/favorite/{clothId}")
     public ResponseEntity<ResponseDto> postFavorite(
-            @PathVariable("clothNumber") int clothNumber,
+            @PathVariable("clothId") int clothId,
             @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = clothService.postFavorite(userId, clothNumber);
+        ResponseEntity<ResponseDto> response = clothService.postFavorite(userId, clothId);
         return response;
     }
 
-    @GetMapping("/favorite/{clothNumber}")
+    @GetMapping("/favorite/{clothId}")
     public ResponseEntity<? super GetFavoriteCheckResponseDto> getFavoriteCheck(
-            @PathVariable("clothNumber") int clothNumber,
+            @PathVariable("clothId") int clothId,
             @AuthenticationPrincipal String userId) {
         ResponseEntity<? super GetFavoriteCheckResponseDto> response = clothService.getFavoriteCheck(userId,
-                clothNumber);
+                clothId);
         return response;
     }
 
@@ -48,11 +48,11 @@ public class ClothController {
         return response;
     }
 
-    @DeleteMapping("/favorite/{clothNumber}")
+    @DeleteMapping("/favorite/{clothId}")
     public ResponseEntity<ResponseDto> deleteFavorite(
-            @PathVariable("clothNumber") int clothNumber,
+            @PathVariable("clothId") int clothId,
             @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = clothService.deleteFavorite(userId, clothNumber);
+        ResponseEntity<ResponseDto> response = clothService.deleteFavorite(userId, clothId);
         return response;
     }
 }

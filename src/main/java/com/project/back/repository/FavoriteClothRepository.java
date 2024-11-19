@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.project.back.entity.FavoriteClothEntity;
 
 public interface FavoriteClothRepository extends JpaRepository<FavoriteClothEntity, Integer> {
-    boolean existsByUserIdAndClothNumber(String userId, Integer clothNumber);
+    boolean existsByUserIdAndClothId(String userId, Integer clothId);
 
-    FavoriteClothEntity findByUserIdAndClothNumber(String userId, Integer clothNumber);
+    FavoriteClothEntity findByUserIdAndClothId(String userId, Integer clothId);
 
     void deleteByUserId(String userId);
 }

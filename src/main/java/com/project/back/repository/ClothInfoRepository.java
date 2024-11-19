@@ -11,7 +11,7 @@ import com.project.back.entity.ClothEntity;
 public interface ClothInfoRepository extends JpaRepository<ClothEntity, Integer> {
 
     // 상품 ID로 상품 조회
-    ClothEntity findByClothNumber(Integer clothNumber);
+    ClothEntity findByClothId(Integer clothId);
 
     // 재고 수량으로 조회
     List<ClothEntity> findByStockGreaterThan(Integer stock);

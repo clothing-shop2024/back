@@ -17,7 +17,8 @@ import lombok.Setter;
 @Setter
 public class GetClothInfoResponseDto extends ResponseDto {
 
-    private Integer clothNumber; // 상품ID (고유식별코드)
+    private Integer clothId; // 상품ID
+    // private String clothNumber; // 상품ID (고유식별코드)
     private Integer stock; // 재고 수량
     private Integer sizeNumber; // 사이즈 번호
     private String sizeName; // 사이즈 이름
@@ -30,7 +31,8 @@ public class GetClothInfoResponseDto extends ResponseDto {
             ClothColorEntity clothColorEntity) throws Exception {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
-        this.clothNumber = clothEntity.getClothNumber();
+        this.clothId = clothEntity.getClothId();
+        // this.clothNumber = clothEntity.getClothNumber();
         this.stock = clothEntity.getStock();
         // this.couponCode = clothEntity.getCouponCode(); // 쿠폰코드
         // this.quantity = quantity; // 수량
