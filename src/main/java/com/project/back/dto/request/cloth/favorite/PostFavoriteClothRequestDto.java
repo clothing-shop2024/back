@@ -10,10 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostFavoriteClothRequestDto {
     @NotBlank
-    private String favoriteUserId;
+    private String userId;
     // 찜 옷 고유번호
     @NotBlank
-    private Integer favoriteClothId;
+    private Integer clothId;
     // 찜한 옷 번호
     // @NotBlank
     // private Integer favoriteClothNumber;
