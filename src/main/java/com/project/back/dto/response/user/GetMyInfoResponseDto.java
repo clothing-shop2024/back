@@ -17,6 +17,7 @@ public class GetMyInfoResponseDto extends ResponseDto {
     private String userName;
     private String nickname;
     private String userEmail;
+    private Boolean solarLunarCalendar;
     private String userBirthDay;
     private String userRole;
     private String joinPath;
@@ -32,6 +33,7 @@ public class GetMyInfoResponseDto extends ResponseDto {
         this.nickname = userEntity.getNickname();
         this.userEmail = userEntity.getUserEmail();
         this.userBirthDay = userEntity.getUserBirthDay();
+        this.solarLunarCalendar = userEntity.getSolarLunarCalendar();
         this.userRole = userEntity.getUserRole();
         this.joinPath = userEntity.getJoinPath();
         this.joinDate = userEntity.getJoinDate();

@@ -33,6 +33,7 @@ public class UserEntity {
     private String nickname;
     private String userEmail;
     private String userBirthDay;
+    private Boolean solarLunarCalendar;
     private String userRole;
     private String joinPath;
     private String joinDate;
@@ -51,6 +52,7 @@ public class UserEntity {
         this.nickname = dto.getNickname();
         this.userEmail = dto.getUserEmail();
         this.userBirthDay = dto.getUserBirthDay();
+        this.solarLunarCalendar = dto.getSolarLunarCalendar();
         this.userRole = "ROLE_USER";
         this.joinPath = "HOME";
         this.joinDate = joinDate;

@@ -36,6 +36,8 @@ public class SignUpRequestDto {
 
     private String userBirthDay;
 
+    private Boolean solarLunarCalendar;
+
     @NotBlank
     private String joinPath;
 
