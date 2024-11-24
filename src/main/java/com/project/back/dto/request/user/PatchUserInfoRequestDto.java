@@ -24,4 +24,6 @@ public class PatchUserInfoRequestDto {
     // private String userEmail;
 
     private String userBirthDay;
+
+    private Boolean solarLunarCalendar;
 }
