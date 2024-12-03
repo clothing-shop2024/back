@@ -3,11 +3,13 @@ package com.project.back.dto.request.cloth;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PostClothInfoRequestDto {
+@NoArgsConstructor
+public class PatchClothInfoRequestDto {
     @NotBlank
     private String clothImage;
     @NotBlank
@@ -33,9 +35,4 @@ public class PostClothInfoRequestDto {
     @NotBlank
     private Integer price;
     private Integer discountPrice;
-
-    // 수량
-    // @NotNull
-    // private Integer quantity;
-    // private String couponCode;
 }
