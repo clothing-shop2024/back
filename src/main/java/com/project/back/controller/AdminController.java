@@ -2,15 +2,23 @@ package com.project.back.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.back.dto.request.user.PatchUserGradeRequestDto;
+import com.project.back.dto.request.user.PatchUserPointsRequestDto;
+import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.user.GetAdminUserListResponseDto;
+import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.service.AdminService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -72,6 +80,50 @@ public class AdminController {
     ) {
         ResponseEntity<? super GetAdminUserListResponseDto> response = adminService.getUserGradeSearchList(userId, word);
 
+        return response;
+    }
+
+    // 사용자의 세부 정보 가져오기
+    @GetMapping("/user/list/{nickname}")
+    public ResponseEntity<? super GetMyInfoResponseDto> getUserDetail (
+        @AuthenticationPrincipal String userId,
+        @PathVariable("nickname") String nickname
+        ) {
+        ResponseEntity<? super GetMyInfoResponseDto> response = adminService.getUserDetail(nickname);
+
+        return response;
+    }
+
+    // 사용자의 등급 수정하기
+    @PatchMapping("/user/list/grade/{nickname}")
+    public ResponseEntity<ResponseDto> patchUserGrade (
+        @RequestBody @Valid PatchUserGradeRequestDto requestBody,
+        @AuthenticationPrincipal String userId,
+        @PathVariable("nickname") String nickname
+    ) {
+        ResponseEntity<ResponseDto> response = adminService.patchUserGrade(requestBody, nickname);
+        return response;
+    }
+
+    // 사용자의 포인트 수정하기
+    @PatchMapping("/user/list/points/{nickname}")
+    public ResponseEntity<ResponseDto> patchUserPoints (
+        @RequestBody @Valid PatchUserPointsRequestDto requestBody,
+        @AuthenticationPrincipal String userId,
+        @PathVariable("nickname") String nickname
+    ) {
+        ResponseEntity<ResponseDto> response = adminService.patchUserPoints (requestBody, nickname);
+        return response;
+    }
+
+    // 회원 삭제하기
+    @DeleteMapping("/user/list/delete/{nickname}")
+    public ResponseEntity<ResponseDto> deleteUser (
+        @AuthenticationPrincipal String userId,
+        @PathVariable("nickname") String nickname
+    ) {
+        ResponseEntity<ResponseDto> response = adminService.deleteUser(nickname);
+        
         return response;
     }
 
