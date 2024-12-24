@@ -4,32 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.back.entity.ClothEntity;
-import com.project.back.repository.resultSet.GetClothFavoriteItemResultSet;
 
 import lombok.Getter;
 
 @Getter
 public class ClothListItem {
-
-    private Integer clothId;
-    private String clothNumber;
-    private Integer stock;
-    private String clothDetailNumber;
+    
+    private String clothId;
+    private Integer clothNumber;
     private String clothName;
-    private String clothImage;
-    private String clothCategory;
+    private String category1;
+    private String category2;
+    private String clothFeatures;
+    private Integer price;
+    private Integer discountPrice;
+    private Integer clothImageNumber;
+    private String clothDate;
+    private Integer viewCount;
+    private Double ratingAvg;
+    private Integer reviewCount;
+    private Integer favoriteCount;
 
     private ClothListItem(ClothEntity clothEntity) throws Exception {
 
-        // 상품 아이디 추가
         this.clothId = clothEntity.getClothId();
         this.clothNumber = clothEntity.getClothNumber();
-        this.stock = clothEntity.getStock();
-        // this.clothDetailNumber = ClothDetailEntity.getClothDetailNumber();
+        this.clothName = clothEntity.getClothName();
+        this.category1 = clothEntity.getCategory1();
+        this.category2 = clothEntity.getCategory2();
+        this.clothFeatures = clothEntity.getClothFeatures();
+        this.price = clothEntity.getPrice();
+        this.discountPrice = clothEntity.getDiscountPrice();
+        this.clothImageNumber = clothEntity.getClothImageNumber();
+        this.clothDate = clothEntity.getClothDate();
+        // this.viewCount = clothEntity.getViewCount();
+        // this.ratingAvg = clothEntity.getRatingAvg();
+        // this.reviewCount = clothEntity.getReviewCount();
+        // this.favoriteCount = clothEntity.getFavoriteCount();
+        
 
     }
 
-    public static List<ClothListItem> getList(List<ClothEntity> clothEntities) throws Exception {
+    public static List<ClothListItem> getList (List<ClothEntity> clothEntities) throws Exception {
 
         List<ClothListItem> clothList = new ArrayList<>();
 
@@ -42,26 +58,4 @@ public class ClothListItem {
 
         return clothList;
     }
-
-    public ClothListItem(GetClothFavoriteItemResultSet getClothFavoriteItemResultSet) throws Exception {
-
-        // 상품 아이디 추가
-        this.clothId = getClothFavoriteItemResultSet.getClothId();
-        this.clothNumber = getClothFavoriteItemResultSet.getClothNumber();
-        this.clothName = getClothFavoriteItemResultSet.getClothName();
-        this.clothImage = getClothFavoriteItemResultSet.getClothImage();
-        this.clothCategory = getClothFavoriteItemResultSet.getClothCategory();
-    }
-
-    public static List<ClothListItem> getFavoriteClothList(
-            List<GetClothFavoriteItemResultSet> getClothFavoriteItemResultSetList) throws Exception {
-        List<ClothListItem> clothList = new ArrayList<>();
-
-        for (GetClothFavoriteItemResultSet getClothFavoriteItemResultSet : getClothFavoriteItemResultSetList) {
-            ClothListItem clothFavoriteListItem = new ClothListItem(getClothFavoriteItemResultSet);
-            clothList.add(clothFavoriteListItem);
-        }
-        return clothList;
-    }
-
 }

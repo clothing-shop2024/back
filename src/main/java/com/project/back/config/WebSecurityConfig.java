@@ -53,7 +53,7 @@ public class WebSecurityConfig {
                                                                 "/oauth2/callback/*", "/api/shop/*/list",
                                                                 "/api/shop/*/list/*", "/api/shop/*/list/category/**",
                                                                 "/api/shop/*/*/increase-view-count", "/upload",
-                                                                "/file/**", "/api/shop/cloth-detail/**")
+                                                                "/file/**", "/api/shop/cloth/**")
                                                 .permitAll()
                                                 // user 접근 가능
                                                 .requestMatchers(HttpMethod.POST, "/api/shop/qna/regist",

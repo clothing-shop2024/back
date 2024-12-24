@@ -22,8 +22,8 @@ public class ClothSizeMapEntity {
     
     @ManyToOne
     @Id
-    @JoinColumn(name = "cloth_number")
-    private ClothEntity clothNumber;
+    @JoinColumn(name = "cloth_id")
+    private ClothEntity clothId;
 
     @ManyToOne
     @Id
