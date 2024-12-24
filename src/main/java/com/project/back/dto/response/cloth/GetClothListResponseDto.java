@@ -18,19 +18,17 @@ public class GetClothListResponseDto extends ResponseDto {
     
     private List<ClothListItem> clothList;
 
-    private GetClothListResponseDto(List<ClothEntity> ClothEntities) throws Exception {
+    private GetClothListResponseDto(List<ClothEntity> clothEntities) throws Exception {
 
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
-        this.clothList = ClothListItem.getList(ClothEntities);
-
+        this.clothList = ClothListItem.getList(clothEntities);
     }
 
-    public static ResponseEntity<GetClothListResponseDto> success (List<ClothEntity> ClothEntities) throws Exception {
+    public static ResponseEntity<GetClothListResponseDto> success(List<ClothEntity> clothEntities) throws Exception {
 
-        GetClothListResponseDto responseBody = new GetClothListResponseDto(ClothEntities);
+        GetClothListResponseDto responseBody = new GetClothListResponseDto(clothEntities);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-        
     }
 }

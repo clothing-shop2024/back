@@ -5,18 +5,10 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.back.dto.request.cloth.PostClothInfoRequestDto;
 import com.project.back.dto.response.ResponseDto;
-import com.project.back.dto.response.cloth.GetClothInfoResponseDto;
-import com.project.back.dto.response.cloth.favorite.GetFavoriteCheckResponseDto;
-import com.project.back.dto.response.cloth.favorite.GetFavoriteClothListResponseDto;
+import com.project.back.dto.response.cloth.GetClothListResponseDto;
 import com.project.back.entity.ClothEntity;
-import com.project.back.entity.FavoriteClothEntity;
-import com.project.back.repository.ClothInfoRepository;
 import com.project.back.repository.ClothRepository;
-import com.project.back.repository.FavoriteClothRepository;
-import com.project.back.repository.UserRepository;
-import com.project.back.repository.resultSet.GetClothFavoriteItemResultSet;
 import com.project.back.service.ClothService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,32 +17,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClothServiceImplementation implements ClothService {
 
-    private final ClothInfoRepository clothInfoRepository;
     private final ClothRepository clothRepository;
-    private final FavoriteClothRepository favoriteClothRepository;
-    private final UserRepository userRepository;
-
+    
+    // 옷 테이블 전체 리스트 보기
     @Override
-    public ResponseEntity<ResponseDto> postClothInfo(PostClothInfoRequestDto dto, String userId) {
+    public ResponseEntity<? super GetClothListResponseDto> getClothList() {
+        
         try {
 
-            boolean isExistUser = userRepository.existsByUserId(userId);
+            List<ClothEntity> clothEntities = clothRepository.findByOrderByClothNumberDesc();
 
-            // 로그인을 하지 않을 경우 로그인화면으로 이동 기능
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-        return ResponseDto.success();
-    }
-
-    @Override
-    public ResponseEntity<? super GetClothInfoResponseDto> getClothInfo(Integer clothId) {
-        try {
-            ClothEntity clothEntity = clothInfoRepository.findByClothId(clothId);
-
-            return GetClothInfoResponseDto.success(clothEntity, null, null);
+            return GetClothListResponseDto.success(clothEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -58,95 +35,156 @@ public class ClothServiceImplementation implements ClothService {
         }
     }
 
-    // @Override
-    // public ResponseEntity<? super GetClothNumberResponseDto>
-    // getClothNumber(String userId) {
-    // try {
-    // ClothEntity clothEntity = clothRepository.findByClothNumber(userId);
-    // if (clothEntity == null)
-    // return ResponseDto.authorizationFailed();
-
-    // return GetClothNumberResponseDto.success(clothEntity);
-    // } catch (Exception exception) {
-    // exception.printStackTrace();
-    // return ResponseDto.databaseError();
-    // }
-    // }
-
-    // 찜 목록
+    // 옷 상세 전체 검색 리스트 보기
     @Override
-    public ResponseEntity<ResponseDto> postFavorite(String userId, Integer clothId) {
+    public ResponseEntity<? super GetClothListResponseDto> getClothSearchList(String searchWord) {
+        
         try {
-            boolean isExistUser = userRepository.existsByUserId(userId);
-            if (!isExistUser)
-                return ResponseDto.noExistUser();
 
-            // 옷이 존재하는지 확인
-            boolean isExistCloth = clothRepository.existsByClothId(clothId);
-            if (!isExistCloth)
-                return ResponseDto.noExistReservation();
+            List<ClothEntity> clothEntities = clothRepository.findByClothNameContainsOrderByClothNumberDesc(searchWord);
 
-            FavoriteClothEntity favoriteClothEntity = new FavoriteClothEntity(userId, clothId);
-            favoriteClothRepository.save(favoriteClothEntity);
+            return GetClothListResponseDto.success(clothEntities);
 
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-        return ResponseDto.success();
-    }
-
-    @Override
-    public ResponseEntity<? super GetFavoriteClothListResponseDto> getFavoriteList(String userId) {
-        try {
-            List<GetClothFavoriteItemResultSet> resultSets = clothRepository.getFavoriteList(userId);
-
-            return GetFavoriteClothListResponseDto.success(resultSets);
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
     }
 
+    // 옷 상세 카테고리1 필터 리스트 보기
     @Override
-    public ResponseEntity<? super GetFavoriteCheckResponseDto> getFavoriteCheck(String userId, Integer clothId) {
+    public ResponseEntity<? super GetClothListResponseDto> getCategory1List(String category1) {
+        
         try {
-            boolean isFavoriteStatus = favoriteClothRepository
-                    .existsByUserIdAndClothId(userId, clothId);
-            if (!isFavoriteStatus)
-                return ResponseDto.noExistUser();
 
-            FavoriteClothEntity favoriteClothEntity = favoriteClothRepository
-                    .findByUserIdAndClothId(userId, clothId);
+            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByClothNumberDesc(category1);
 
-            return GetFavoriteCheckResponseDto.success(favoriteClothEntity);
+            return GetClothListResponseDto.success(clothEntities);
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
     }
 
+    // 옷 상세 카테고리2 필터 리스트 보기
     @Override
-    public ResponseEntity<ResponseDto> deleteFavorite(String userId, Integer clothId) {
+    public ResponseEntity<? super GetClothListResponseDto> getCategory2List(String category2) {
+        
         try {
-            boolean isExistUser = userRepository.existsByUserId(userId);
-            if (!isExistUser)
-                return ResponseDto.noExistUser();
 
-            boolean isExistCloth = clothRepository.existsByClothId(clothId);
-            if (!isExistCloth)
-                return ResponseDto.noExistReservation();
+            List<ClothEntity> clothEntities = clothRepository.findByCategory2ContainsOrderByClothNumberDesc(category2);
 
-            FavoriteClothEntity favoriteClothEntity = favoriteClothRepository
-                    .findByUserIdAndClothId(userId, clothId);
-            if (favoriteClothEntity == null)
-                return ResponseDto.authorizationFailed();
+            return GetClothListResponseDto.success(clothEntities);
 
-            favoriteClothRepository.delete(favoriteClothEntity);
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
-        return ResponseDto.success();
+    }
+
+    // 옷 상세 조회순으로 보기 (best)
+    @Override
+    public ResponseEntity<? super GetClothListResponseDto> getClothViewCountList() {
+        
+        try {
+
+            List<ClothEntity> clothEntities = clothRepository.findByOrderByViewCountDesc();
+
+            return GetClothListResponseDto.success(clothEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 조회순으로 카테고리1 필터 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothListResponseDto> getBestCategory1List(
+        String category1) {
+        
+        try {
+
+            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByViewCountDesc(category1);
+
+            return GetClothListResponseDto.success(clothEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 낮은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothListResponseDto> getClothPriceAscList(
+        String category1
+    ) {
+        
+        try {
+
+            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByPriceAsc(category1);
+
+            return GetClothListResponseDto.success(clothEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 높은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothListResponseDto> getClothPriceDescList(
+        String category1
+    ) {
+        
+        try {
+
+            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByPriceDesc(category1);
+
+            return GetClothListResponseDto.success(clothEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 낮은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothListResponseDto> getCategory2PriceAscList(
+        String category2
+    ) {
+        
+        try {
+
+            List<ClothEntity> clothEntities = clothRepository.findByCategory2ContainsOrderByPriceAsc(category2);
+
+            return GetClothListResponseDto.success(clothEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 옷 상세 카테고리1 가격 높은순 리스트 보기
+    @Override
+    public ResponseEntity<? super GetClothListResponseDto> getCategory2PriceDescList(
+        String category2
+    ) {
+        
+        try {
+
+            List<ClothEntity> clothEntities = clothRepository.findByCategory2ContainsOrderByPriceDesc(category2);
+
+            return GetClothListResponseDto.success(clothEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
     }
 }
