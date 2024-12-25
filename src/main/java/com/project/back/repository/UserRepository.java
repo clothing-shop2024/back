@@ -9,6 +9,7 @@ import com.project.back.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> {
+
     boolean existsByUserId(String userId);
 
     boolean existsByNickname(String nickname);
@@ -47,4 +48,5 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     List<UserEntity> findByUserIdContainsOrderByJoinDateDesc(String searchWord);
     List<UserEntity> findByUserNameContainsOrderByJoinDateDesc(String searchWord);
     List<UserEntity> findByGradeContainsOrderByJoinDateDesc(String searchWord);
+
 }

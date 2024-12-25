@@ -6,6 +6,7 @@ import com.project.back.dto.request.user.DeleteUserRequestDto;
 import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserPointsRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
 import com.project.back.dto.response.user.GetAdminUserListResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 
@@ -37,5 +38,8 @@ public interface AdminService {
 
     // 회원관리 사용자 삭제하기
     ResponseEntity<ResponseDto> deleteUser(String nickname);
+
+    // 상품관리 전체 보기
+    ResponseEntity<? super GetAdminClothListResponseDto> getAdminClothList(String userId);
 
 }

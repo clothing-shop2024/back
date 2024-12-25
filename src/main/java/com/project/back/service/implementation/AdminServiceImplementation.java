@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserPointsRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
 import com.project.back.dto.response.user.GetAdminUserListResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.entity.UserEntity;
+import com.project.back.repository.ClothRepository;
 import com.project.back.repository.UserRepository;
+import com.project.back.repository.resultSet.AdminClothResultSet;
 import com.project.back.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminServiceImplementation implements AdminService {
     
     private final UserRepository userRepository;
+    private final ClothRepository clothRepository;
 
     @Override
     public ResponseEntity<? super GetAdminUserListResponseDto> getUserDescList(String userId) {
@@ -183,5 +187,29 @@ public class AdminServiceImplementation implements AdminService {
         }
 
         return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super GetAdminClothListResponseDto> getAdminClothList(String userId) {
+        
+        try {
+
+            // UserEntity userRole = userRepository.findUserRoleByUserId(userId);
+            // if (userRole == null || !userRole.equals("ROLE_ADMIN")) {
+            //     return ResponseDto.authenticationFailed();
+            // }
+
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
+
+            List<AdminClothResultSet> clothEntity = clothRepository.getAdminClothList();
+
+            return GetAdminClothListResponseDto.success(clothEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
     }
 }

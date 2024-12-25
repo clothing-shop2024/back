@@ -20,13 +20,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClothSizeMapEntity {
     
-    @ManyToOne
     @Id
+    private Integer clothColorNumber;
+    
+    @ManyToOne
     @JoinColumn(name = "cloth_id")
     private ClothEntity clothId;
 
     @ManyToOne
-    @Id
     @JoinColumn(name = "size_number")
     private ClothSizeEntity sizeNumber;
 
