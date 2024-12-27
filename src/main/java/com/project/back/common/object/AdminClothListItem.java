@@ -40,6 +40,7 @@ public class AdminClothListItem {
     }
 
     public static List<AdminClothListItem> getList(List<AdminClothResultSet> resultSets) throws Exception {
+        
         List<AdminClothListItem> adminClothList = new ArrayList<>();
 
         for (AdminClothResultSet resultSet : resultSets) {

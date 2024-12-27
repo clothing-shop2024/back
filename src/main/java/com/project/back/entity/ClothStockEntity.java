@@ -24,7 +24,7 @@ import lombok.Setter;
 public class ClothStockEntity {
 
     @Id
-    private Integer stockId;
+    private Integer stockNumber;
     private Integer clothSizeNumber;
     private Integer clothColorNumber;
     private Integer quantity;

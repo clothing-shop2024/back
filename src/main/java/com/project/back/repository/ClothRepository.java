@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.back.entity.ClothEntity;
 import com.project.back.repository.resultSet.AdminClothResultSet;
+import com.project.back.repository.resultSet.ClothStockResultSet;
 
 @Repository
 public interface ClothRepository extends JpaRepository<ClothEntity, String> {
@@ -16,7 +17,7 @@ public interface ClothRepository extends JpaRepository<ClothEntity, String> {
 
     List<ClothEntity> findByOrderByClothNumberDesc();
 
-    List<ClothEntity> findByClothNameContainsOrderByClothNumberDesc(String ClothName);
+    List<ClothEntity> findByClothNameContainsOrderByClothNumberDesc(String clothName);
 
     List<ClothEntity> findByCategory1ContainsOrderByClothNumberDesc(String category1);
 

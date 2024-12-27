@@ -7,6 +7,8 @@ import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserPointsRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
+import com.project.back.dto.response.cloth.GetClothResponseDto;
+import com.project.back.dto.response.cloth.GetClothStockListResponseDto;
 import com.project.back.dto.response.user.GetAdminUserListResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 
@@ -42,4 +44,9 @@ public interface AdminService {
     // 상품관리 전체 보기
     ResponseEntity<? super GetAdminClothListResponseDto> getAdminClothList(String userId);
 
+    // 상품관리 상세 보기 (cloth 부분분)
+    ResponseEntity<? super GetClothResponseDto> getAdminClothDetail(String userId, String clothId);
+
+    // 상품관리 상세 보기 (clothStock 부분)
+    ResponseEntity<? super GetClothStockListResponseDto> getClothStockList(String userId, String clothId);
 }

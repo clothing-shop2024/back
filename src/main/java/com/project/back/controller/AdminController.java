@@ -15,6 +15,8 @@ import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserPointsRequestDto;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
+import com.project.back.dto.response.cloth.GetClothResponseDto;
+import com.project.back.dto.response.cloth.GetClothStockListResponseDto;
 import com.project.back.dto.response.user.GetAdminUserListResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.service.AdminService;
@@ -102,6 +104,30 @@ public class AdminController {
     ) {
         ResponseEntity<? super GetAdminClothListResponseDto> response = adminService.getAdminClothList(userId);
         
+        return response;
+    }
+
+    // 상품관리 상세 보기
+    @GetMapping("/cloth/{clothId}")
+    public ResponseEntity<? super GetClothResponseDto> getAdminClothDetail (
+        @AuthenticationPrincipal String userId,
+        @PathVariable("clothId") String clothId
+    ) {
+        
+        ResponseEntity<? super GetClothResponseDto> response = adminService.getAdminClothDetail(userId, clothId);
+
+        return response;
+    }
+
+    // 상품관리 상세 재고 보기
+    @GetMapping("/cloth/stock/{clothId}")
+    public ResponseEntity<? super GetClothStockListResponseDto> getClothStockList (
+        @AuthenticationPrincipal String userId,
+        @PathVariable("clothId") String clothId
+    ) {
+
+        ResponseEntity<? super GetClothStockListResponseDto> response = adminService.getClothStockList(userId, clothId);
+
         return response;
     }
 
