@@ -46,6 +46,7 @@ public class GetClothResponseDto extends ResponseDto {
     }
 
     public static ResponseEntity<GetClothResponseDto> success(ClothEntity clothEntities) throws Exception {
+        
         GetClothResponseDto responseBody = new GetClothResponseDto(clothEntities);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
