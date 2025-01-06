@@ -12,10 +12,12 @@ import com.project.back.dto.request.auth.EmailAuthRequestDto;
 import com.project.back.dto.request.user.DeleteUserRequestDto;
 import com.project.back.dto.request.user.PatchUserGradeRequestDto;
 import com.project.back.dto.request.user.PatchUserInfoRequestDto;
+import com.project.back.dto.request.user.PatchUserPointsRequestDto;
 import com.project.back.dto.request.user.PostUserPointRequestDto;
 import com.project.back.dto.request.user.PutEmailModifyRequestDto;
 import com.project.back.dto.request.user.PutPasswordModifyRequestDto;
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.user.GetAdminUserListResponseDto;
 import com.project.back.dto.response.user.GetMyInfoResponseDto;
 import com.project.back.dto.response.user.GetMyQnaListResponseDto;
 import com.project.back.dto.response.user.GetSignInUserResponseDto;
@@ -292,6 +294,171 @@ public class UserServiceImplementation implements UserService {
 
             userEntity.emailModify(dto);
             userRepository.save(userEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    // 관리자페이지 - 회원관리
+    
+    @Override
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserDescList(String userId) {
+        
+        try {
+
+            List<UserEntity> userEntities = userRepository.findByOrderByJoinDateDesc();
+
+            return GetAdminUserListResponseDto.success(userEntities);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+    
+    @Override
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserAscList(String userId) {
+        
+        try {
+
+            List<UserEntity> userEntities = userRepository.findByOrderByJoinDateAsc();
+
+            return GetAdminUserListResponseDto.success(userEntities);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserIdSearchList(String userId, String searchWord) {
+        
+        try {
+
+            List<UserEntity> userEntities = userRepository.findByUserIdContainsOrderByJoinDateDesc(searchWord);
+
+            return GetAdminUserListResponseDto.success(userEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserNameSearchList(String userId, String searchWord) {
+
+        try {
+            
+            List<UserEntity> userEntities = userRepository.findByUserNameContainsOrderByJoinDateDesc(searchWord);
+
+            return GetAdminUserListResponseDto.success(userEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super GetAdminUserListResponseDto> getUserGradeSearchList(String userId, String searchWord) {
+
+        try {
+    
+            List<UserEntity> userEntities = userRepository.findByGradeContainsOrderByJoinDateDesc(searchWord);
+
+            return GetAdminUserListResponseDto.success(userEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super GetMyInfoResponseDto> getUserDetail(String nickname) {
+        
+        try {
+
+            UserEntity userEntity = userRepository.findByNickname(nickname);
+
+            if (userEntity == null) return ResponseDto.noExistUser();
+
+            return GetMyInfoResponseDto.success(userEntity);
+
+        } catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> patchUserGrade(PatchUserGradeRequestDto dto, String nickname) {
+        
+        try {
+            UserEntity userEntity = userRepository.findByNickname(nickname);
+
+            if (userEntity == null) {
+                return ResponseDto.noExistUser();
+            }
+            
+            String newGrade = dto.getNewGrade();
+            if (newGrade == null || newGrade.isEmpty()) {
+                return ResponseDto.invalidRequest();
+            }
+
+            userEntity.setGrade(newGrade);
+            userRepository.save(userEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> patchUserPoints(PatchUserPointsRequestDto dto, String nickname) {
+        
+        try {
+            UserEntity userEntity = userRepository.findByNickname(nickname);
+
+            if (userEntity == null) {
+                return ResponseDto.noExistUser();
+            }
+            
+            int pointsAdd = dto.getPoints();
+            if (pointsAdd < 0) {
+                return ResponseDto.invalidRequest();
+            }
+
+            userEntity.addPoints(pointsAdd);
+            userRepository.save(userEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteUser(String nickname) {
+        
+        try {
+
+            UserEntity userEntity = userRepository.findByNickname(nickname);
+
+            if (userEntity == null) return ResponseDto.noExistUser();
+
+            userRepository.delete(userEntity);
 
         } catch (Exception exception) {
             exception.printStackTrace();

@@ -2,6 +2,7 @@ package com.project.back.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
 import com.project.back.dto.response.cloth.GetClothListResponseDto;
 import com.project.back.dto.response.cloth.GetClothResponseDto;
 
@@ -39,5 +40,14 @@ public interface ClothService {
 
     // 옷 상세 테이블의 상세페이지 보기
     // ResponseEntity <? super GetClothResponseDto> getCloth(String clothDetailNumber);
+
+    // 관리자페이지 - 상품관리
+    
+    // 상품관리 전체 보기
+    ResponseEntity<? super GetAdminClothListResponseDto> getAdminClothList(String userId);
+
+    // 상품관리 상세 보기 (cloth 부분분)
+    ResponseEntity<? super GetClothResponseDto> getAdminClothDetail(String userId, String clothId);
+
 
 }
