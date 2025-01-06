@@ -6,9 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.back.dto.response.ResponseDto;
+import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
 import com.project.back.dto.response.cloth.GetClothListResponseDto;
+import com.project.back.dto.response.cloth.GetClothResponseDto;
 import com.project.back.entity.ClothEntity;
+import com.project.back.entity.UserEntity;
 import com.project.back.repository.ClothRepository;
+import com.project.back.repository.UserRepository;
+import com.project.back.repository.resultSet.AdminClothResultSet;
 import com.project.back.service.ClothService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClothServiceImplementation implements ClothService {
 
+    private final UserRepository userRepository;
     private final ClothRepository clothRepository;
     
     // 옷 테이블 전체 리스트 보기
@@ -182,6 +188,50 @@ public class ClothServiceImplementation implements ClothService {
 
             return GetClothListResponseDto.success(clothEntities);
 
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    // 관리자페이지 - 상품관리
+    
+    @Override
+    public ResponseEntity<? super GetAdminClothListResponseDto> getAdminClothList(String userId) {
+        
+        try {
+
+            // UserEntity userRole = userRepository.findUserRoleByUserId(userId);
+            // if (userRole == null || !userRole.equals("ROLE_ADMIN")) {
+            //     return ResponseDto.authenticationFailed();
+            // }
+
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
+
+            List<AdminClothResultSet> clothEntity = clothRepository.getAdminClothList();
+
+            return GetAdminClothListResponseDto.success(clothEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
+
+    @Override
+    public ResponseEntity<? super GetClothResponseDto> getAdminClothDetail(String userId, String clothId) {
+        
+        try {
+
+            UserEntity userEntity = userRepository.findUserRoleByUserId(userId);
+            boolean isAdmin = "ROLE_ADMIN".equals(userEntity.getUserRole());
+            if (!isAdmin) return ResponseDto.authenticationFailed();
+
+            ClothEntity clothEntities = clothRepository.findByClothId(clothId);
+
+            return GetClothResponseDto.success(clothEntities);
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();

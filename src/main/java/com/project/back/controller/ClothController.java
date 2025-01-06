@@ -1,13 +1,16 @@
 package com.project.back.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.back.dto.response.cloth.GetAdminClothListResponseDto;
 import com.project.back.dto.response.cloth.GetClothListResponseDto;
+import com.project.back.dto.response.cloth.GetClothResponseDto;
 import com.project.back.service.ClothService;
 
 import lombok.RequiredArgsConstructor;
@@ -124,6 +127,29 @@ public class ClothController {
     ) {
 
         ResponseEntity<? super GetClothListResponseDto> response = clothService.getCategory2PriceDescList(category2);
+
+        return response;
+    }
+
+    // 관리자페이지 - 상품관리
+    // 상품관리 전체 보기
+    @GetMapping("/admin/list")
+    public ResponseEntity<? super GetAdminClothListResponseDto> getAdminClothList (
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetAdminClothListResponseDto> response = clothService.getAdminClothList(userId);
+        
+        return response;
+    }
+
+    // 상품관리 상세 보기
+    @GetMapping("/admin/{clothId}")
+    public ResponseEntity<? super GetClothResponseDto> getAdminClothDetail (
+        @AuthenticationPrincipal String userId,
+        @PathVariable("clothId") String clothId
+    ) {
+        
+        ResponseEntity<? super GetClothResponseDto> response = clothService.getAdminClothDetail(userId, clothId);
 
         return response;
     }
