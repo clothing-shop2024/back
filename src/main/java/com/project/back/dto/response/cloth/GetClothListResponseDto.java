@@ -9,7 +9,7 @@ import com.project.back.common.object.ClothListItem;
 import com.project.back.dto.response.ResponseCode;
 import com.project.back.dto.response.ResponseDto;
 import com.project.back.dto.response.ResponseMessage;
-import com.project.back.entity.ClothEntity;
+import com.project.back.repository.resultSet.ClothResultSet;
 
 import lombok.Getter;
 
@@ -18,16 +18,16 @@ public class GetClothListResponseDto extends ResponseDto {
     
     private List<ClothListItem> clothList;
 
-    private GetClothListResponseDto(List<ClothEntity> clothEntities) throws Exception {
+    private GetClothListResponseDto(List<ClothResultSet> resultSets) throws Exception {
 
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
-        this.clothList = ClothListItem.getList(clothEntities);
+        this.clothList = ClothListItem.getList(resultSets);
     }
 
-    public static ResponseEntity<GetClothListResponseDto> success(List<ClothEntity> clothEntities) throws Exception {
+    public static ResponseEntity<GetClothListResponseDto> success(List<ClothResultSet> clothResultSets) throws Exception {
 
-        GetClothListResponseDto responseBody = new GetClothListResponseDto(clothEntities);
+        GetClothListResponseDto responseBody = new GetClothListResponseDto(clothResultSets);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }

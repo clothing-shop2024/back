@@ -14,6 +14,7 @@ import com.project.back.entity.UserEntity;
 import com.project.back.repository.ClothRepository;
 import com.project.back.repository.UserRepository;
 import com.project.back.repository.resultSet.AdminClothResultSet;
+import com.project.back.repository.resultSet.ClothResultSet;
 import com.project.back.service.ClothService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByOrderByClothNumberDesc();
+            List<ClothResultSet> clothResultSets = clothRepository.findByOrderByClothNumberDesc();
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -47,9 +48,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByClothNameContainsOrderByClothNumberDesc(searchWord);
+            List<ClothResultSet> clothResultSets = clothRepository.findByClothNameContainsOrderByClothNumberDesc(searchWord);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -63,9 +64,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByClothNumberDesc(category1);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory1ContainsOrderByClothNumberDesc(category1);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -79,9 +80,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory2ContainsOrderByClothNumberDesc(category2);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory2ContainsOrderByClothNumberDesc(category2);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -95,9 +96,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByOrderByViewCountDesc();
+            List<ClothResultSet> clothResultSets = clothRepository.findByOrderByViewCountDesc();
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -112,9 +113,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByViewCountDesc(category1);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory1ContainsOrderByViewCountDesc(category1);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -130,9 +131,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByPriceAsc(category1);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory1ContainsOrderByPriceAsc(category1);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -148,9 +149,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory1ContainsOrderByPriceDesc(category1);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory1ContainsOrderByPriceDesc(category1);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -166,9 +167,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory2ContainsOrderByPriceAsc(category2);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory2ContainsOrderByPriceAsc(category2);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -184,9 +185,9 @@ public class ClothServiceImplementation implements ClothService {
         
         try {
 
-            List<ClothEntity> clothEntities = clothRepository.findByCategory2ContainsOrderByPriceDesc(category2);
+            List<ClothResultSet> clothResultSets = clothRepository.findByCategory2ContainsOrderByPriceDesc(category2);
 
-            return GetClothListResponseDto.success(clothEntities);
+            return GetClothListResponseDto.success(clothResultSets);
 
         } catch (Exception exception) {
             exception.printStackTrace();
