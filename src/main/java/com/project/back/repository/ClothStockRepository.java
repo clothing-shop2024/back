@@ -65,7 +65,7 @@ public interface ClothStockRepository extends JpaRepository<ClothStockEntity, In
     , nativeQuery = true)
     List<AdminClothDetailResultSet> getAdminClothDetail(String clothId);
 
-    @Query( value =
+    @Query(value =
         "SELECT " +
         "C.cloth_id AS clothId, " +
         "C.cloth_name AS clothName, " +

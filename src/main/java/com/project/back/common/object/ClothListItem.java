@@ -3,7 +3,7 @@ package com.project.back.common.object;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.back.entity.ClothEntity;
+import com.project.back.repository.resultSet.ClothResultSet;
 
 import lombok.Getter;
 
@@ -11,48 +11,46 @@ import lombok.Getter;
 public class ClothListItem {
     
     private String clothId;
-    private Integer clothNumber;
     private String clothName;
     private String category1;
     private String category2;
-    private String clothFeatures;
     private Integer price;
     private Integer discountPrice;
     private Integer clothImageNumber;
+    private String clothMainImage;
     private String clothDate;
     private Integer viewCount;
     private Double ratingAvg;
     private Integer reviewCount;
     private Integer favoriteCount;
 
-    private ClothListItem(ClothEntity clothEntity) throws Exception {
+    private ClothListItem(ClothResultSet resultSet) throws Exception {
 
-        this.clothId = clothEntity.getClothId();
-        this.clothNumber = clothEntity.getClothNumber();
-        this.clothName = clothEntity.getClothName();
-        this.category1 = clothEntity.getCategory1();
-        this.category2 = clothEntity.getCategory2();
-        this.clothFeatures = clothEntity.getClothFeatures();
-        this.price = clothEntity.getPrice();
-        this.discountPrice = clothEntity.getDiscountPrice();
-        this.clothImageNumber = clothEntity.getClothImageNumber();
-        this.clothDate = clothEntity.getClothDate();
-        // this.viewCount = clothEntity.getViewCount();
-        // this.ratingAvg = clothEntity.getRatingAvg();
-        // this.reviewCount = clothEntity.getReviewCount();
-        // this.favoriteCount = clothEntity.getFavoriteCount();
+        this.clothId = resultSet.getClothId();
+        this.clothName = resultSet.getClothName();
+        this.category1 = resultSet.getCategory1();
+        this.category2 = resultSet.getCategory2();
+        this.price = resultSet.getPrice();
+        this.discountPrice = resultSet.getDiscountPrice();
+        this.clothImageNumber = resultSet.getClothImageNumber();
+        this.clothMainImage = resultSet.getClothMainImage();
+        this.clothDate = resultSet.getClothDate();
+        this.viewCount = resultSet.getViewCount();
+        this.ratingAvg = resultSet.getRatingAvg();
+        this.reviewCount = resultSet.getReviewCount();
+        this.favoriteCount = resultSet.getFavoriteCount();
         
 
     }
 
-    public static List<ClothListItem> getList (List<ClothEntity> clothEntities) throws Exception {
+    public static List<ClothListItem> getList (List<ClothResultSet> resultSets) throws Exception {
 
         List<ClothListItem> clothList = new ArrayList<>();
 
-        for (ClothEntity clothEntity : clothEntities) {
+        for (ClothResultSet resultSet : resultSets) {
 
-            ClothListItem clothListItem = new ClothListItem(clothEntity);
-            clothList.add(clothListItem);
+            ClothListItem item = new ClothListItem(resultSet);
+            clothList.add(item);
 
         }
 
