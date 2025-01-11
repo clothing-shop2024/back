@@ -30,7 +30,7 @@ public interface ClothRepository extends JpaRepository<ClothEntity, String> {
         "CI.cloth_main_image AS clothMainImage " +
         "FROM cloth C " +
         "INNER JOIN cloth_image CI ON C.cloth_image_number = CI.cloth_image_number " +
-        "ORDER BY C.clothNumber DESC"
+        "ORDER BY C.cloth_number DESC"
     , nativeQuery = true)
     List<ClothResultSet> findByOrderByClothNumberDesc();
 
@@ -68,7 +68,7 @@ public interface ClothRepository extends JpaRepository<ClothEntity, String> {
         "FROM cloth C " +
         "INNER JOIN cloth_image CI ON C.cloth_image_number = CI.cloth_image_number " +
         "WHERE C.category1 = :category1 " +
-        "ORDER BY C.clothNumber DESC"
+        "ORDER BY C.cloth_number DESC"
     , nativeQuery = true)
     List<ClothResultSet> findByCategory1ContainsOrderByClothNumberDesc(String category1);
 
@@ -87,7 +87,7 @@ public interface ClothRepository extends JpaRepository<ClothEntity, String> {
         "FROM cloth C " +
         "INNER JOIN cloth_image CI ON C.cloth_image_number = CI.cloth_image_number " +
         "WHERE C.category2 = :category2 " +
-        "ORDER BY C.clothNumber DESC"
+        "ORDER BY C.cloth_number DESC"
     , nativeQuery = true)
     List<ClothResultSet> findByCategory2ContainsOrderByClothNumberDesc(String category2);
 
